@@ -1,0 +1,74 @@
+html, body{
+  height: 100%;
+  margin: 0;
+}
+.v-wrap{
+    height: 100%;
+    white-space: nowrap;
+    text-align: center;
+}
+.v-wrap:before{
+    content: "";
+    display: inline-block;
+    vertical-align: middle;
+    width: 0;
+    /* adjust for white space between pseudo element and next sibling */
+    margin-right: -.25em;
+    /* stretch line height */
+    height: 100%;
+}
+.v-box{
+    display: inline-block;
+    vertical-align: middle;
+    white-space: normal;
+}
+
+.krassivo {
+    position: relative;
+    background: #fff url("http://localhost:8080/webCoffeeApp/img/menu3.png") center center;  
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    overflow: hidden;
+}
+
+.simpleContainer {
+    position: relative;
+    background: #fff center center;  
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    overflow: hidden;
+}
+
+.wrap {
+  position:fixed; /*Отсоединяем контейнер от страницы и фиксируем в окне браузера*/
+  width: 100%;   /*Ширина на все окно браузера*/
+  height: 100%;  /*Высота на все окно браузера*/
+  display: flex; /*Превращаем контейнер в flexBox*/
+  flex-direction: column; /*Расставляем дочерние элементы по вертикали*/
+}
+
+  .content {
+    overflow-y:auto;
+    padding: 0px; 
+    text-align: justify;  
+    flex-grow: 1; 
+}
+
+.footer {
+  height: 32px;
+  background-color: cadetblue;  
+  text-align: center;
+  flex-grow: 0; 
+  flex-shrink: 0;
+  flex-basis: auto;
+}
+
+
+
+.brd {
+	border: 1px white;
+	background: #ffffff;
+	padding: 15px;
+}

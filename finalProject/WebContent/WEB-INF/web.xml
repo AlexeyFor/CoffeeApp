@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+	id="WebApp_ID" version="4.0">
+	<display-name>finalProject</display-name>
+	<!-- <welcome-file-list> -->
+	<!-- <welcome-file>/WEB-INF/jsp/startPage.html</welcome-file> -->
+	<!-- </welcome-file-list> -->
+
+	<servlet>
+		<servlet-name>controllerServ</servlet-name>
+		<servlet-class>by.training.coffeeproject.controller.ControllerServlet</servlet-class>
+
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>controllerServ</servlet-name>
+		<url-pattern>*.html</url-pattern>
+	</servlet-mapping>
+
+	<filter>
+		<filter-name>EncodingFilter</filter-name>
+		<filter-class>by.training.coffeeproject.controller.filter.EncodingFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>EncodingFilter</filter-name>
+		<url-pattern>*.html</url-pattern>
+	</filter-mapping>
+
+	<filter>
+		<filter-name>CommandFilter</filter-name>
+		<filter-class>by.training.coffeeproject.controller.filter.CommandFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>CommandFilter</filter-name>
+		<url-pattern>*.html</url-pattern>
+	</filter-mapping>
+	<error-page>
+		<location>/WEB-INF/jsp/error.jsp</location>
+	</error-page>
+
+	<!-- <servlet> -->
+	<!-- <servlet-name>accesspage</servlet-name> -->
+	<!-- <servlet-class>by.training.coffeeproject.servlet.AccessPageServ</servlet-class> -->
+	<!-- </servlet> -->
+
+
+</web-app>
+
+
+<!-- <servlet> -->
+<!-- <servlet-name>HelloServlet</servlet-name> -->
+<!-- <servlet-class>by.training.coffeeproject.service.TMPWebLogic</servlet-class> -->
+<!-- </servlet> -->
+<!-- <servlet> -->
+<!-- <servlet-name>TimeServlet</servlet-name> -->
+<!-- <servlet-class>by.training.coffeeproject.service.TimeServlet</servlet-class> -->
+<!-- </servlet> -->
+<!-- <servlet-mapping> -->
+<!-- <servlet-name>HelloServlet</servlet-name> -->
+<!-- <url-pattern>/CoffeeTmp</url-pattern> -->
+<!-- </servlet-mapping> -->
+<!-- <servlet-mapping> -->
+<!-- <servlet-name>TimeServlet</servlet-name> -->
+<!-- <url-pattern>/timeaction</url-pattern> -->
+<!-- </servlet-mapping> -->
