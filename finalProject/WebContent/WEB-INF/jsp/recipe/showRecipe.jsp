@@ -84,6 +84,9 @@
 				</div>
 			</div>
 
+<c:if
+							test="${not empty recipe.recipeName}">
+							
 			<div class="row">
 				<div class="col-md-12">
 					<button type="button" class="btn btn-secondary"
@@ -206,7 +209,7 @@
 					</div>
 				</div>
 			</div>
-
+</c:if>
 			<c:if test="${not empty role and role eq 'user'}">
 				<c:if test="${recipe.common}">
 
