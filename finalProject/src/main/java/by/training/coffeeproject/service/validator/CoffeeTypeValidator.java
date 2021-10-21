@@ -1,8 +1,6 @@
 package by.training.coffeeproject.service.validator;
 
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -10,12 +8,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import by.training.coffeeproject.controller.command.recipe.CreateRecipeTypeCommand;
-import by.training.coffeeproject.entity.Country;
-import by.training.coffeeproject.entity.ProcessingMethod;
-import by.training.coffeeproject.entity.RoastDegree;
-import by.training.coffeeproject.service.CountryService;
+
 import by.training.coffeeproject.service.ServiceException;
-import by.training.coffeeproject.service.ServiceFactory;
 
 public class CoffeeTypeValidator {
 
@@ -41,11 +35,11 @@ public class CoffeeTypeValidator {
 	 * @see CreateRecipeTypeCommand
 	 */
 	public boolean validateForCreateRecipeType(HttpServletRequest request) throws ServiceException {
-		LOG.debug("start validateForCreateRecipeType ");
+		LOG.debug("start validateForCreateRecipeType aga");
 
 		ValidatorCommonMethods validator = ValidatorCommonMethods.getInstance();
 
-		String infusions = request.getParameter("infusions");
+		String infusionsNumber = request.getParameter("infusions");		
 		String roaster = request.getParameter("roaster");
 		String countryID = request.getParameter("countries");
 		String coffeeName = request.getParameter("CoffeeName");
@@ -55,8 +49,8 @@ public class CoffeeTypeValidator {
 		String robustaPercent = request.getParameter("RobustaPercent");
 		String information = request.getParameter("information");
 		String recipeType = request.getParameter("recipeType");
-
-		boolean condition1 = validator.checkInfusions(infusions);
+		
+		boolean condition1 = validator.checkInfusionsNumber(infusionsNumber);
 		boolean condition2 = validator.checkRoaster(roaster);
 		boolean condition3 = validator.checkCountryByID(countryID);
 		boolean condition4 = validator.checkName(coffeeName);
@@ -93,7 +87,7 @@ public class CoffeeTypeValidator {
 
 		ValidatorCommonMethods validator = ValidatorCommonMethods.getInstance();
 		String infusions = request.getParameter("infusions");
-		boolean condition1 = validator.checkInfusions(infusions);
+		boolean condition1 = validator.checkInfusionsNumber(infusions);
 
 		return condition1;
 	}

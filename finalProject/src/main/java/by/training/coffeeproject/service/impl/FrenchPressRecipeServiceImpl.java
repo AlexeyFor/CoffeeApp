@@ -49,17 +49,28 @@ public class FrenchPressRecipeServiceImpl implements FrenchPressRecipeService {
 
 		try {
 			frenchPressRecipe = frenchPressRecipeDao.findEntityById(ID);
+			if (frenchPressRecipe == null) {
+				LOG.debug("non-existentRecipe");
+				throw new ServiceException ("Error.non-existentRecipe");
+			}
 			frenchPressRecipe.setInfusions(infusionDao.findByRecipeId(ID));
 
 //			LOG.debug(frenchPressRecipe.toString());
 			transaction.commit();
-			transaction.endTransaction();
 		} catch (DaoException e) {
 			try {
 				transaction.rollback();
 			} catch (DaoException e1) {
 				LOG.debug("rollback, transaction wasn't commited");
 				throw new ServiceException("rollback, transaction wasn't commited " + e.getMessage());
+			}
+		} finally {
+			try {
+				transaction.endTransaction();
+			} catch (DaoException e) {
+				LOG.debug("can't endTransaction " + e.getMessage());
+				throw new ServiceException(e.getMessage());
+
 			}
 		}
 		return frenchPressRecipe;

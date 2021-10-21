@@ -38,7 +38,7 @@
 				<div class="col-md-2">
 
 					<a class="navbar-brand"> <img
-						src="http://localhost:8080/webCoffeeApp/img/logo1.png" alt="Logod"
+						src="http://192.168.0.102:8080/webCoffeeApp/img/logo1.png" alt="Logod"
 						style="width: 50px;" class="rounded-pill">
 					</a>
 				</div>

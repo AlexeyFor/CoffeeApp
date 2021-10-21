@@ -45,20 +45,12 @@ public class CoffeeRecipeCreator {
 	 */
 	public Recipe createFromRequest(HttpServletRequest request, CoffeeType coffeeType) throws ServiceException {
 		LOG.debug("start createFromRequest ");
-		LOG.debug("here is bug 1");
-
 		HttpSession session = request.getSession();
-		LOG.debug("here is bug 2");
-
 		RecipeType recipeType = RecipeType.valueOf(request.getParameter("recipeType"));
-		LOG.debug("here is bug 3");
-
 		Integer authorUserId = (Integer) session.getAttribute("ID");
-		LOG.debug("here is bug 4");
 
 		boolean common = false;
 		Recipe result;
-		LOG.debug("here is bug 5");
 
 		switch (recipeType) {
 		case POUROVER:

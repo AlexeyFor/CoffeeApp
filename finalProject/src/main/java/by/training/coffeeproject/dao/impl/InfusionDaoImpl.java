@@ -19,6 +19,11 @@ import by.training.coffeeproject.entity.Infusion;
 import by.training.coffeeproject.entity.ProcessingMethod;
 import by.training.coffeeproject.entity.RoastDegree;
 
+/**
+ * 
+ *@author AlexeySupruniuk
+ *
+ */
 public class InfusionDaoImpl extends AbstractDao<Infusion> implements InfusionDao {
 
 	private InfusionDaoImpl() {
@@ -30,7 +35,7 @@ public class InfusionDaoImpl extends AbstractDao<Infusion> implements InfusionDa
 		return instance;
 	}
 
-	private static final Logger LOG = LogManager.getLogger(UserDaoImpl.class);
+	private static final Logger LOG = LogManager.getLogger(InfusionDaoImpl.class);
 
 	private static final String SQL_SELECT_INFUSION_BY_ID = "SELECT id_infusion, recipe_id, time_start,"
 			+ " water_volume, time_end, water_temperature FROM infusions WHERE id_infusion=?";

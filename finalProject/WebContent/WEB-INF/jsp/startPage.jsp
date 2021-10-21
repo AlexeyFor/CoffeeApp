@@ -12,10 +12,29 @@
 				<article class="v-box">
 
 					<div class="brd">
+						<c:if test="${not empty message}">
+							<div class="alert alert-danger alert-dismissible">
+								<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+								<fmt:message key="${message}" />
+
+							</div>
+						</c:if>
+
+						<c:if test="${not empty securutyFilterMessage}">
+							<div class="alert alert-danger alert-dismissible">
+								<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+								<fmt:message key="${securutyFilterMessage}" />
+								<%
+								session.removeAttribute("securutyFilterMessage");
+								%>
+							</div>
+
+						</c:if>
 
 						<h1 class="display-5">
 							<fmt:message key="StartPage.Head" />
 						</h1>
+
 					</div>
 					<c:url value="/jsp/authorization.html" var="authorizationUrl" />
 					<form name="AccessAction" action="${authorizationUrl}"

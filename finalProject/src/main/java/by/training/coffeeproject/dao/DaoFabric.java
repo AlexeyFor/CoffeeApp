@@ -45,5 +45,8 @@ public class DaoFabric {
 		return CoffeeTypeDaoImpl.getInstance();
 	}
 	
+	public UserRecipeDao getUserRecipeDao() {
+		return UserRecipeDaoImpl.getInstance();
+	}
 	
 }

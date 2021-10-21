@@ -45,4 +45,8 @@ public class ServiceFactory {
 		return CoffeeTypeServiceImpl.getInstance();
 	}
 	
+	public UserRecipeService getUserRecipeService() {
+		return UserRecipeServiceImpl.getInstance();
+	}
+	
 }

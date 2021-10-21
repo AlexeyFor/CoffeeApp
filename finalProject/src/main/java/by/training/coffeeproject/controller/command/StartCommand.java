@@ -15,6 +15,7 @@ public class StartCommand implements Command {
 		LOG.debug("start execute ");
 		ForwardRedirect answer = new ForwardRedirect();
 
+		
 		String page = ("/jsp/startPage.html");
 		answer.setPage(page);
 		answer.setRedirect(false);

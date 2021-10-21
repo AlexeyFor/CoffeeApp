@@ -15,6 +15,16 @@ public class Infusion extends Entity {
 	public Infusion(Integer iD, int recipeId, int timeStart, int waterVolume, int timeEnd, int waterTemperature) {
 		super(iD);
 		this.recipeId = recipeId;
+		this.timeStart = timeStart;
+		this.waterVolume = waterVolume;
+		this.timeEnd = timeEnd;
+		this.waterTemperature = waterTemperature;
+	}
+	
+	public Infusion(int recipeId, int timeStart, int waterVolume, int timeEnd, int waterTemperature) {
+		super();
+		this.recipeId = recipeId;
+		this.timeStart = timeStart;
 		this.waterVolume = waterVolume;
 		this.timeEnd = timeEnd;
 		this.waterTemperature = waterTemperature;

@@ -14,8 +14,8 @@
 		</c:if>
 
 
-		<c:url value="/jsp/CreateRecipeFinal.html" var="createRecipeFinalUrl" />
-		<form action="${createRecipeFinalUrl}">
+		<c:url value="/jsp/recipe/createPouroverRecipe.html" var="createPouroveRecipeUrl" />
+		<form action="${createPouroveRecipeUrl}" method="POST">
 			<input type="hidden" name="recipeId" id="recipeId"
 				value="${recipeId}">
 
@@ -23,8 +23,8 @@
 
 				<tr>
 					<th><fmt:message key="Recipe.Pourorver.RecipeName" />:</th>
-					<td><input type="text" id="RecipeName" name="RecipeName"
-						required pattern="^[A-Za-z0-9а-яА-Я\s\\.\\-]{1,100}$" size="30"></td>
+					<td><input type="text" id="recipeName" name="recipeName"
+						required pattern="^[A-Za-z0-9а-яА-ЯёЁ\s\\.\\-]{1,100}$" size="30"></td>
 				</tr>
 
 				<tr>
@@ -39,23 +39,23 @@
 				<tr>
 					<th><fmt:message key="Recipe.Pourorver.MassOfCoffee" />:</th>
 					<td><input type="text" id=massOfCoffee name="massOfCoffee"
-						required pattern="^[0-9\\.]{1,4}$"></td>
+						required pattern="^[0-9]{1,3}[\\.]{0,1}[0-9]{0,2}$"></td>
 				</tr>
 
 				<tr>
 					<th><fmt:message key="Recipe.Pourorver.GrindSettings" />:</th>
 					<td><input type="text" id=grindSettings name="grindSettings"
-						required pattern="^[0-9\\.]{1,4}$"></td>
+						required pattern="^[0-9]{1,3}[\\.]{0,1}[0-9]{0,2}$"></td>
 				</tr>
 
 				<tr>
 					<th><fmt:message key="Recipe.Pourorver.CoffeeGrinder" />:</th>
 					<td><input type="text" id="coffeeGrinder" name="coffeeGrinder"
-						required pattern="^[A-Za-z0-9а-яА-Я\s\\.\\-]{1,100}$" size="30"></td>
+						required pattern="^[A-Za-z0-9а-яА-ЯёЁ\s\\.\\-]{1,100}$" size="30"></td>
 				</tr>
 
 				<tr>
-					<th><fmt:message key="Recipe.Pourorver.TotalTime"/>:</th>
+					<th><fmt:message key="Recipe.Pourorver.TotalTime" />:</th>
 					<td><input type="text" id=totalTime name="totalTime" required
 						pattern="^[0-9]{1,4}$"></td>
 				</tr>
@@ -70,24 +70,31 @@
 
 			<h3>
 				<fmt:message key="Recipe.Infusion.Head">:</fmt:message>
-				
+
 			</h3>
+		<input type="hidden" name="infusionsNumber" id="infusionsNumber"
+				value="${infusionsNumber}">
 			<table class="table table-striped">
 				<tr>
-					<%-- 					<th><fmt:message key="Recipe.Infusion.Number" />:</th> --%>
+					<th><fmt:message key="Recipe.Infusion.Number" />:</th>
 					<th><fmt:message key="Recipe.Infusion.TimeStart" />:</th>
 					<th><fmt:message key="Recipe.Infusion.WaterVolume" />:</th>
 					<th><fmt:message key="Recipe.Infusion.TimeEnd" />:</th>
 					<th><fmt:message key="Recipe.Infusion.WaterTemperature" />:</th>
 				</tr>
+				
 				<c:forEach items="${infusions}" var="infusion">
-					<tr>
-						<c:forEach items="${infusion}" var="infusionValue">
-							<td><input type="text" id="${infusionValue}"
-								name="${infusionValue}" required pattern="^[0-9]{1,4}$">
-							</td>
 
-						</c:forEach>
+					<tr>
+						<td>${infusion[0]}</td>
+						<td><input type="text" id="${infusion[1]}"
+							name="${infusion[1]}" required pattern="^[0-9]{1,4}$"></td>
+						<td><input type="text" id="${infusion[2]}"
+							name="${infusion[2]}" required pattern="^[0-9]{1,4}$"></td>
+						<td><input type="text" id="${infusion[3]}"
+							name="${infusion[3]}" required pattern="^[0-9]{1,4}$"></td>
+						<td><input type="text" id="${infusion[4]}"
+							name="${infusion[4]}" required pattern="^[0-9]{1,4}$"></td>
 					</tr>
 				</c:forEach>
 			</table>

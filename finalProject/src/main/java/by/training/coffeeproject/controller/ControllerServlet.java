@@ -1,17 +1,13 @@
 package by.training.coffeeproject.controller;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
-import javax.servlet.RequestDispatcher;
+
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,6 +19,8 @@ import by.training.coffeeproject.dao.pool.ConnectionPool;
 
 public class ControllerServlet extends HttpServlet {
 
+
+	private static final long serialVersionUID = 6811873944606376780L;
 	private static final Logger LOG = LogManager.getLogger(ControllerServlet.class);
 
 	@Override
@@ -74,7 +72,7 @@ public class ControllerServlet extends HttpServlet {
 				response.sendRedirect(redirectedUri);
 			} else {
 				// установка страницы c cообщением об ошибке
-				LOG.error("redirect to error page");
+				LOG.error("forward to error page");
 				request.getServletContext().getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(request, response);
 //				response.sendRedirect(page);
 			}
@@ -107,11 +105,11 @@ public class ControllerServlet extends HttpServlet {
 
 	}
 
-	private void setPreviousPageInSession(HttpServletRequest request, String pageName) {
-		HttpSession session = request.getSession();
-		pageName = pageName.concat(".html");
-		session.setAttribute("previousPage", pageName);
-	}
+//	private void setPreviousPageInSession(HttpServletRequest request, String pageName) {
+//		HttpSession session = request.getSession();
+//		pageName = pageName.concat(".html");
+//		session.setAttribute("previousPage", pageName);
+//	}
 
 	private String fromJspToHtml(String page) {
 		int end = page.lastIndexOf('.');

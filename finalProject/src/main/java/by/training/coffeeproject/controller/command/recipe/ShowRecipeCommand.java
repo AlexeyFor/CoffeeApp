@@ -19,23 +19,28 @@ public class ShowRecipeCommand implements Command {
 	public ForwardRedirect execute(HttpServletRequest request) {
 		LOG.debug("start execute");
 		ForwardRedirect answer = new ForwardRedirect();
-		LOG.debug("after execute");
+		String page;
 
 		Integer ID = Integer.valueOf(request.getParameter("recipeID"));
-		LOG.debug("after getingID");
-
 		ServiceFactory fct = ServiceFactory.getInstance();
 		RecipeService logic = fct.getRecipeService();
+		Recipe recipe;
 		try {
-			Recipe recipe = logic.findRecipeByID(ID);
+			 recipe = logic.findRecipeByID(ID);
 			LOG.debug("get recipe + " + recipe.toString());
+			// this attribute is adding for displaying button "delete", for saved common
+			// methods. Because in this case, it will be another command for delete recipe
+			request.setAttribute("allSaved",request.getParameter("allSaved"));
 			request.setAttribute("recipe", recipe);
+			LOG.debug(recipe.toString());
 		} catch (ServiceException e) {
-			LOG.debug("error in  ShowRecipeCommand ");
-			request.setAttribute("error", "message.loginerror");
+			LOG.error("error in  ShowRecipeCommand ");
+			request.setAttribute("recipeID", ID);
+			request.setAttribute("message", e.getMessage());
 		}
-		String page = ("/jsp/recipe/showRecipe.html");
-		LOG.debug("////////////page is " + page);
+		page = ("/jsp/recipe/showRecipe.html");
+
+		LOG.debug("page is " + page);
 		answer.setPage(page);
 		answer.setRedirect(false);
 

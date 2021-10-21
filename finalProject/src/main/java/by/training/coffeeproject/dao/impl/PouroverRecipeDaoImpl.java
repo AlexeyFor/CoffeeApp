@@ -70,6 +70,14 @@ public class PouroverRecipeDaoImpl extends AbstractDao<PouroverRecipe> implement
 		}
 	}
 	
+	/**
+	 * return Integer = 1 if success, or 0 if not, because UserRecipe doesn't have
+	 * generated key
+	 * 
+	 * @param t
+	 * @return
+	 * @throws DaoException
+	 */
 	@Override
 	public Integer create(PouroverRecipe t) throws DaoException {
 		LOG.debug("start create");
@@ -78,7 +86,7 @@ public class PouroverRecipeDaoImpl extends AbstractDao<PouroverRecipe> implement
 		Connection connection = pooledConnection.getConnection();
 
 		try {
-			statement = connection.prepareStatement(SQL_CREATE_POUROVER_RECIPE, Statement.RETURN_GENERATED_KEYS);
+			statement = connection.prepareStatement(SQL_CREATE_POUROVER_RECIPE);
 			statement.setInt(1, t.getID());
 			statement.setString(2, t.getFunnelType().getName());
 			statement.setString(3, t.getRecipeName());
@@ -87,14 +95,9 @@ public class PouroverRecipeDaoImpl extends AbstractDao<PouroverRecipe> implement
 			statement.setString(6, t.getCoffeeGrinder());
 			statement.setInt(7, t.getTotalTime());
 			statement.setString(8, t.getDisription());
-
 			statement.executeUpdate();
-			ResultSet resultSet = statement.getGeneratedKeys();
-			if (resultSet.next()) {
-				return resultSet.getInt(1);
-			} else {
-				return 0;
-			}
+			return 1;
+		
 		} catch (SQLException e) {
 			LOG.error("can't create pouroverRecipe " + e.getMessage());
 			return 0;

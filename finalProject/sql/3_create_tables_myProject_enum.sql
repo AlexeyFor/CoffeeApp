@@ -128,10 +128,11 @@ ON UPDATE CASCADE
 ON DELETE CASCADE
 );
 
+/*Name was unique, now not*/
 CREATE TABLE pourover_recipes (
 id_recipe INTEGER NOT NULL,
 funnel_type ENUM ('Hario V60', 'Original Chemex') NOT NULL,
-receipt_name VARCHAR (100) UNIQUE NOT NULL,
+receipt_name VARCHAR (100)NOT NULL,
 mass_of_coffee FLOAT4 NOT NULL,
 grind_settings FLOAT4 NOT NULL,
 coffee_grinder VARCHAR (255) NOT NULL,
@@ -145,9 +146,10 @@ REFERENCES recipes (id_recipe)
 ON DELETE CASCADE
 );
 
+/*Name was unique, now not*/
 CREATE TABLE french_press_recipes (
 id_recipe INTEGER NOT NULL,
-recipe_name VARCHAR (100) UNIQUE NOT NULL,
+recipe_name VARCHAR (100) NOT NULL,
 french_press_volume SMALLINT UNSIGNED,
 mass_of_coffee FLOAT4 NOT NULL,
 grind_settings TINYINT UNSIGNED NOT NULL,

@@ -29,7 +29,7 @@ public class PouroverRecipe extends Recipe {
 	public PouroverRecipe(CoffeeType coffeeType, int authorUserId, boolean common, RecipeType recipeType) {
 		super(coffeeType, authorUserId, common, recipeType);
 	}
-	
+
 	public PouroverRecipe(Integer iD, CoffeeType coffeeType, int authorUserId, boolean common, Date dateOfCreating,
 			List<Comment> comments, RecipeType recipeType, String recipeName, FunnelType funnelType, float massOfCoffee,
 			float grindSettings, String coffeeGrinder, int totalTime, String disription, List<Infusion> infusions) {
@@ -42,6 +42,18 @@ public class PouroverRecipe extends Recipe {
 		this.totalTime = totalTime;
 		this.disription = disription;
 		this.infusions = infusions;
+	}
+
+	public PouroverRecipe(Integer iD,String recipeName, FunnelType funnelType, float massOfCoffee, float grindSettings,
+			String coffeeGrinder, int totalTime, String disription) {
+		super(iD);
+		this.recipeName = recipeName;
+		this.funnelType = funnelType;
+		this.massOfCoffee = massOfCoffee;
+		this.grindSettings = grindSettings;
+		this.coffeeGrinder = coffeeGrinder;
+		this.totalTime = totalTime;
+		this.disription = disription;
 	}
 
 	public List<Infusion> getInfusions() {
@@ -146,9 +158,8 @@ public class PouroverRecipe extends Recipe {
 	public String toString() {
 		return "PouroverRecipe [recipeName=" + recipeName + ", funnelType=" + funnelType + ", massOfCoffee="
 				+ massOfCoffee + ", grindSettings=" + grindSettings + ", coffeeGrinder=" + coffeeGrinder
-				+ ", totalTime=" + totalTime + ", disription=" + disription + ", infusions=" + infusions + "] " + super.toString();
+				+ ", totalTime=" + totalTime + ", disription=" + disription + ", infusions=" + infusions + "] "
+				+ super.toString();
 	}
-
-	
 
 }

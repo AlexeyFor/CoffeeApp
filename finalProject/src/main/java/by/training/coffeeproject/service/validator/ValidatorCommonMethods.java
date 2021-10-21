@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import by.training.coffeeproject.controller.ControllerServlet;
+import by.training.coffeeproject.entity.FunnelType;
 import by.training.coffeeproject.entity.ProcessingMethod;
 import by.training.coffeeproject.entity.RecipeType;
 import by.training.coffeeproject.entity.RoastDegree;
@@ -23,7 +23,7 @@ import by.training.coffeeproject.service.ServiceFactory;
  *
  */
 public class ValidatorCommonMethods {
-	
+
 	private static final Logger LOG = LogManager.getLogger(ValidatorCommonMethods.class);
 
 	private static final ValidatorCommonMethods instance = new ValidatorCommonMethods();
@@ -35,7 +35,7 @@ public class ValidatorCommonMethods {
 		return instance;
 	}
 
-	public boolean checkInfusions(String infusions) throws ServiceException {
+	public boolean checkInfusionsNumber(String infusions) throws ServiceException {
 		if (infusions != null) {
 			Pattern pat = Pattern.compile("^[0-9]{1,2}$");
 			Matcher match = pat.matcher(infusions);
@@ -51,7 +51,7 @@ public class ValidatorCommonMethods {
 
 	public boolean checkName(String name) throws ServiceException {
 		if (name != null) {
-			Pattern pat = Pattern.compile("^[A-Za-z0-9а-яА-Я\s\\.\\-]{1,100}$");
+			Pattern pat = Pattern.compile("^[A-Za-z0-9а-яА-ЯёЁ\s\\.\\-]{1,100}$");
 			Matcher match = pat.matcher(name);
 			if (match.find()) {
 				return true;
@@ -65,7 +65,7 @@ public class ValidatorCommonMethods {
 
 	public boolean checkRoaster(String roaster) throws ServiceException {
 		if (roaster != null) {
-			Pattern pat = Pattern.compile("^[A-Za-z0-9а-яА-Я\s\\.\\-]{1,100}$");
+			Pattern pat = Pattern.compile("^[A-Za-z0-9а-яА-ЯёЁ\s\\.\\-]{1,100}$");
 			Matcher match = pat.matcher(roaster);
 			if (match.find()) {
 				return true;
@@ -142,6 +142,26 @@ public class ValidatorCommonMethods {
 	}
 
 	/**
+	 * Check, if such constant exists in RoastDegree enum
+	 * 
+	 * @param roastDegree
+	 * @return
+	 * @throws ServiceException
+	 */
+	public boolean checkFunnelType(String funnelType) throws ServiceException {
+		if (funnelType != null) {
+			try {
+				FunnelType.valueOf(funnelType);
+			} catch (IllegalArgumentException e) {
+				throw new ServiceException("FunnelType_worng");
+			}
+			return true;
+		} else {
+			throw new ServiceException("FunnelType_null");
+		}
+	}
+
+	/**
 	 * check if percents are numbers and their summ
 	 * 
 	 * @param arabicPercentStr
@@ -178,7 +198,7 @@ public class ValidatorCommonMethods {
 
 	public boolean checkInformation(String information) throws ServiceException {
 		if (information != null && information != "") {
-			Pattern pat = Pattern.compile("^[A-Za-z0-9а-яА-Я\s,\\.\\:\\!\\-\\?\\;]{1,1000}$");
+			Pattern pat = Pattern.compile("^[A-Za-z0-9а-яА-ЯёЁ\s,\\.\\:\\!\\-\\?\\;]{1,1000}$");
 			Matcher match = pat.matcher(information);
 			if (match.find()) {
 				return true;
@@ -210,4 +230,86 @@ public class ValidatorCommonMethods {
 			throw new ServiceException("recipeType_null");
 		}
 	}
+
+	public boolean checkMassOfCoffee(String massOfCoffee) throws ServiceException {
+		if (massOfCoffee != null) {
+			Pattern pat = Pattern.compile("^[0-9]{1,3}[\\.]{0,1}[0-9]{0,2}$");
+			Matcher match = pat.matcher(massOfCoffee);
+			if (match.find()) {
+				return true;
+			} else {
+				throw new ServiceException("worng_symbols_massOfCoffee");
+			}
+		} else {
+			throw new ServiceException("massOfCoffee_null");
+		}
+	}
+
+	public boolean checkGrindSettings(String grindSettings) throws ServiceException {
+		if (grindSettings != null) {
+			Pattern pat = Pattern.compile("^[0-9]{1,3}[\\.]{0,1}[0-9]{0,2}$");
+			Matcher match = pat.matcher(grindSettings);
+			if (match.find()) {
+				return true;
+			} else {
+				throw new ServiceException("worng_symbols_grindSettings");
+			}
+		} else {
+			throw new ServiceException("grindSettings_null");
+		}
+	}
+
+	public boolean checkCoffeeGrinder(String coffeeGrinder) throws ServiceException {
+		if (coffeeGrinder != null) {
+			Pattern pat = Pattern.compile("^[A-Za-z0-9а-яА-ЯёЁ\s\\.\\-]{1,100}$");
+			Matcher match = pat.matcher(coffeeGrinder);
+			if (match.find()) {
+				return true;
+			} else {
+				throw new ServiceException("worng_symbols_coffeeGrinder");
+			}
+		} else {
+			throw new ServiceException("coffeeGrinder_null");
+		}
+	}
+
+	public boolean checkTotalTime(String totalTime) throws ServiceException {
+		if (totalTime != null) {
+			Pattern pat = Pattern.compile("^[0-9]{1,4}$");
+			Matcher match = pat.matcher(totalTime);
+			if (match.find()) {
+				return true;
+			} else {
+				throw new ServiceException("worng_symbols_totalTime");
+			}
+		} else {
+			throw new ServiceException("totalTime_null");
+		}
+	}
+
+	/**
+	 * infusionParameter - checked parameter
+	 * excSymbol - message for ServiceException, when wrong symbols was found
+	 * excNull - message for ServiceException, when infusionParameter is null
+	 * @param infusionParameter
+	 * @param excSymbol
+	 * @param excNull
+	 * @return
+	 * @throws ServiceException
+	 */
+	public boolean checkInfusion(String infusionParameter, String excSymbol, String excNull)
+			throws ServiceException {
+		if (infusionParameter != null) {
+			Pattern pat = Pattern.compile("^[0-9]{1,4}$");
+			Matcher match = pat.matcher(infusionParameter);
+			if (match.find()) {
+				return true;
+			} else {
+				throw new ServiceException(excSymbol);
+			}
+		} else {
+			throw new ServiceException(excNull);
+		}
+	}
+
 }

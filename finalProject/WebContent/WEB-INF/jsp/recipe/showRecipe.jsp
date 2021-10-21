@@ -4,89 +4,93 @@
 
 <%@include file="/WEB-INF/jsp/head.jsp"%>
 
-	<div class="content">
-		<div class="container">
-			<h3>
-				<fmt:message key="Recipe.Head" />
-			</h3>
-					<c:if test="${not empty role and role eq 'user'}">
-								<c:if test="${recipe.common}">
-								<h6><fmt:message key="Recipe.Note" /></h6>
-						</c:if>
+<div class="content">
+	<div class="container">
+		<h3>
+			<fmt:message key="Recipe.Head" />
+		</h3>
+		<c:if test="${not empty role and role eq 'user'}">
+			<c:if test="${recipe.common}">
+				<h6>
+					<fmt:message key="Recipe.Note" />
+				</h6>
 			</c:if>
-			
-			<p>
-				<strong><fmt:message key="Recipe.Author" />:</strong>
-				<ctg:userNameTag>${recipe.authorUserId}</ctg:userNameTag>
-			</p>
-			<c:url value="/jsp/user/showPublicUserInfo.html"
-				var="showPublicUserInfoUrl" />
-			<form name="showPublicUserInfoUrl" action="${showPublicUserInfoUrl}"
-				method="POST">
-				<INPUT type="hidden" name="userID" value="${recipe.authorUserId}">
-				<input type="submit" value="more about user">
-			</form>
-			<p>
-				<strong><fmt:message key="Recipe.DateOfCreating" />:</strong>
-				<fmt:formatDate value="${recipe.dateOfCreating}"
-					pattern="dd.MM.yyyy" />
-			</p>
-			<p>
-				<strong><fmt:message key="Recipe.RecipeType" />:</strong>
-				${recipe.recipeType.name}
-			</p>
+		</c:if>
+		<c:if test="${not empty message}">
+			<h3>
+				<fmt:message key="${message}"></fmt:message>
+			</h3>
+		</c:if>
+		<p>
+			<strong><fmt:message key="Recipe.Author" />:</strong>
+			<ctg:userNameTag>${recipe.authorUserId}</ctg:userNameTag>
+		</p>
+		<c:url value="/jsp/user/showPublicUserInfo.html"
+			var="showPublicUserInfoUrl" />
+		<form name="showPublicUserInfoUrl" action="${showPublicUserInfoUrl}"
+			method="POST">
+			<INPUT type="hidden" name="userID" value="${recipe.authorUserId}">
+			<input type="submit" value="more about user">
+		</form>
+		<p>
+			<strong><fmt:message key="Recipe.DateOfCreating" />:</strong>
+			<fmt:formatDate value="${recipe.dateOfCreating}" pattern="dd.MM.yyyy" />
+		</p>
+		<p>
+			<strong><fmt:message key="Recipe.RecipeType" />:</strong>
+			${recipe.recipeType.name}
+		</p>
 
 
-			<div class="row">
-				<div class="col-md-12">
-					<button type="button" class="btn btn-secondary"
-						data-bs-toggle="collapse" data-bs-target="#MainCoffee">
-						<fmt:message key="Recipe.CoffeeInformation" />
-					</button>
-					<div id="MainCoffee" class="collapse">
-						<table class="table table-striped">
-							<tr>
-								<th><fmt:message key="Recipe.Coffee.CoffeeName" />:</th>
-								<td>${recipe.coffeeType.name}</td>
-							</tr>
-							<tr>
-								<th><fmt:message key="Recipe.Coffee.CoffeeCountry" />:</th>
-								<td>${recipe.coffeeType.country.countryName}</td>
-							</tr>
-							<tr>
-								<th><fmt:message key="Recipe.Coffee.ArabicPercent" />:</th>
-								<td>${recipe.coffeeType.arabicPercent}%</td>
-							</tr>
-							<tr>
-								<th><fmt:message key="Recipe.Coffee.RobustaPercent" />:</th>
-								<td>${recipe.coffeeType.robustaPercent }%</td>
-							</tr>
-							<tr>
-								<th><fmt:message key="Recipe.Coffee.Roaster" />:</th>
-								<td>${recipe.coffeeType.roaster}</td>
-							</tr>
-							<tr>
-								<th><fmt:message key="Recipe.Coffee.RoastDegree" />:</th>
-								<td>${recipe.coffeeType.roastDegree}</td>
-							</tr>
-							<tr>
-								<th><fmt:message key="Recipe.Coffee.ProcessingMethod" />:</th>
-								<td>${recipe.coffeeType.processingMethod}</td>
-							</tr>
+		<div class="row">
+			<div class="col-md-12">
+				<button type="button" class="btn btn-secondary"
+					data-bs-toggle="collapse" data-bs-target="#MainCoffee">
+					<fmt:message key="Recipe.CoffeeInformation" />
+				</button>
+				<div id="MainCoffee" class="collapse">
+					<table class="table table-striped">
+						<tr>
+							<th><fmt:message key="Recipe.Coffee.CoffeeName" />:</th>
+							<td>${recipe.coffeeType.name}</td>
+						</tr>
+						<tr>
+							<th><fmt:message key="Recipe.Coffee.CoffeeCountry" />:</th>
+							<td>${recipe.coffeeType.country.countryName}</td>
+						</tr>
+						<tr>
+							<th><fmt:message key="Recipe.Coffee.ArabicPercent" />:</th>
+							<td>${recipe.coffeeType.arabicPercent}%</td>
+						</tr>
+						<tr>
+							<th><fmt:message key="Recipe.Coffee.RobustaPercent" />:</th>
+							<td>${recipe.coffeeType.robustaPercent }%</td>
+						</tr>
+						<tr>
+							<th><fmt:message key="Recipe.Coffee.Roaster" />:</th>
+							<td>${recipe.coffeeType.roaster}</td>
+						</tr>
+						<tr>
+							<th><fmt:message key="Recipe.Coffee.RoastDegree" />:</th>
+							<td>${recipe.coffeeType.roastDegree}</td>
+						</tr>
+						<tr>
+							<th><fmt:message key="Recipe.Coffee.ProcessingMethod" />:</th>
+							<td>${recipe.coffeeType.processingMethod}</td>
+						</tr>
 
-						</table>
-						<p>
-							<strong><fmt:message key="Recipe.Coffee.Information" />:</strong>
-							${recipe.coffeeType.information}
-						</p>
+					</table>
+					<p>
+						<strong><fmt:message key="Recipe.Coffee.Information" />:</strong>
+						${recipe.coffeeType.information}
+					</p>
 
-					</div>
 				</div>
 			</div>
+		</div>
 
-<c:if
-							test="${not empty recipe.recipeName}">
-							
+		<c:if test="${not empty recipe.recipeName}">
+
 			<div class="row">
 				<div class="col-md-12">
 					<button type="button" class="btn btn-secondary"
@@ -209,62 +213,88 @@
 					</div>
 				</div>
 			</div>
-</c:if>
-			<c:if test="${not empty role and role eq 'user'}">
-				<c:if test="${recipe.common}">
+		</c:if>
+		<c:if test="${not empty role and role eq 'user'}">
+			<c:if test="${recipe.common}">
 
-					<c:url value="/jsp/user/saveRecipeToYourself.html"
-						var="saveRecipeToYourselfUrl" />
-					<form name="saveRecipeToYourselfUrl"
-						action="${saveRecipeToYourselfUrl}" method="POST">
-						<button type="submit" class="btn btn-secondary ">save to
-							yourself</button>
-					</form>
+				<c:url value="/jsp/user/saveRecipeToYourself.html"
+					var="saveRecipeToYourselfUrl" />
+				<form name="saveRecipeToYourselfUrl"
+					action="${saveRecipeToYourselfUrl}" method="POST">
+					<input type="hidden" name="recipeId" id="recipeId"
+						value="${recipe.ID}">
+					<button type="submit" class="btn btn-secondary ">save to
+						yourself</button>
+				</form>
 
-					<c:url value="/jsp/user/editRecipe.html" var="editRecipeUrl" />
-					<form name="editRecipeUrl" action="${editRecipeUrl}" method="POST">
-						<button type="submit" class="btn btn-secondary ">edit</button>
-					</form>
-				</c:if>
+				<c:url value="/jsp/user/editRecipe.html" var="editRecipeUrl" />
+				<form name="editRecipeUrl" action="${editRecipeUrl}" method="POST">
+					<input type="hidden" name="recipeId" id="recipeId"
+						value="${recipe.ID}">
+					<button type="submit" class="btn btn-secondary ">edit</button>
+				</form>
 
-				<c:if test="${!recipe.common}">
-
+				<c:if test="${not empty allSaved and allSaved}">
 					<c:url value="/jsp/user/deleteRecipe.html" var="deleteRecipeUrl" />
 					<form name="deleteRecipeUrl" action="${deleteRecipeUrl}"
 						method="POST">
+					<input type="hidden" name="recipeId" id="recipeId"
+						value="${recipe.ID}">
 						<button type="submit" class="btn btn-secondary ">delete
-							recipe</button>
-					</form>
-
-					<c:url value="/jsp/user/editRecipe.html" var="editRecipeUrl" />
-					<form name="editRecipeUrl" action="${editRecipeUrl}" method="POST">
-						<button type="submit" class="btn btn-secondary ">edit</button>
-					</form>
-				</c:if>
-			</c:if>
-
-			<c:if test="${not empty role and role eq 'moder'}">
-				<c:if test="${recipe.common}">
-
-					<c:url value="/jsp/user/deleteRecipe.html" var="deleteRecipeUrl" />
-					<form name="deleteRecipeUrl" action="${deleteRecipeUrl}"
-						method="POST">
-						<button type="submit" class="btn btn-secondary ">delete
-							recipe</button>
-					</form>
-
-					<c:url value="/jsp/user/editRecipe.html" var="editRecipeUrl" />
-					<form name="editRecipeUrl" action="${editRecipeUrl}" method="POST">
-						<button type="submit" class="btn btn-secondary ">edit</button>
+							recipe rrrrrya</button>
 					</form>
 				</c:if>
 			</c:if>
 
 
-		</div>
+
+			<c:if test="${!recipe.common}">
+
+				<c:url value="/jsp/recipe/deleteNotCommonRecipe.html"
+					var="deleteNotCommonRecipeUrl" />
+				<form name="deleteNotCommonRecipeUrl"
+					action="${deleteNotCommonRecipeUrl}" method="POST">
+					<input type="hidden" name="recipeId" id="recipeId"
+						value="${recipeID}">
+						<input type="hidden" name="recipeCommon" id="recipeCommon"
+						value="${recipe.common}">
+					<button type="submit" class="btn btn-secondary ">delete
+						recipe rr with</button>
+				</form>
+
+				<c:url value="/jsp/user/editRecipe.html" var="editRecipeUrl" />
+				<form name="editRecipeUrl" action="${editRecipeUrl}" method="POST">
+					<button type="submit" class="btn btn-secondary ">edit</button>
+				</form>
+			</c:if>
+		</c:if>
+
+		<c:if test="${not empty role and role eq 'moder'}">
+			<c:if test="${recipe.common}">
+
+				<c:url value="/jsp/user/deleteRecipe.html" var="deleteRecipeUrl" />
+				<form name="deleteRecipeUrl" action="${deleteRecipeUrl}"
+					method="POST">
+					<input type="hidden" name="recipeId" id="recipeId"
+						value="${recipe.id}">
+						<input type="hidden" name="recipeCommon" id="recipeCommon"
+						value="${recipe.common}">
+					<button type="submit" class="btn btn-secondary ">delete
+						recipe</button>
+				</form>
+
+				<c:url value="/jsp/user/editRecipe.html" var="editRecipeUrl" />
+				<form name="editRecipeUrl" action="${editRecipeUrl}" method="POST">
+					<button type="submit" class="btn btn-secondary ">edit</button>
+				</form>
+			</c:if>
+		</c:if>
+
+
 	</div>
-	<div class="fotter">
-		<%@include file="/WEB-INF/jsp/fotter.jsp"%>
+</div>
+<div class="fotter">
+	<%@include file="/WEB-INF/jsp/fotter.jsp"%>
 </div>
 
 <script>

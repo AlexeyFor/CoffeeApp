@@ -19,7 +19,7 @@
 		
 		<c:url value="/jsp/recipe/showAllCoffeeType.html"
 			var="showAllCoffeeTypeUrl" />
-		<form action="${showAllCoffeeTypeUrl}">
+		<form action="${showAllCoffeeTypeUrl}" method="POST">
 		<input type="hidden" name="recipeType" id="recipeType"
 				value="${recipeType}">
 		<button type="submit" class="btn btn-secondary ">
@@ -30,7 +30,7 @@
 		
 		<c:url value="/jsp/recipe/createRecipeType.html"
 			var="createRecipeTypeUrl" />
-		<form action="${createRecipeTypeUrl}">
+		<form action="${createRecipeTypeUrl}"  method="POST">
 			<input type="hidden" name="recipeType" id="recipeType"
 				value="${recipeType}">
 				<input type="hidden" name="wasCreated" id="wasCreated"
@@ -45,7 +45,7 @@
 				<tr>
 					<th><fmt:message key="Recipe.Coffee.Roaster" />:</th>
 					<td><input list="roasters" name="roaster" required
-						pattern="^[A-Za-z0-9а-яА-Я\s\\.\\-]{1,100}$"> <datalist
+						pattern="^[A-Za-z0-9а-яА-ЯёЁ\s\\.\\-]{1,100}$"> <datalist
 							id="roasters">
 							<c:forEach items="${roasters}" var="roaster">
 								<option value="${roaster}">
@@ -63,7 +63,7 @@
 				<tr>
 					<th><fmt:message key="Recipe.Coffee.CoffeeName" />:</th>
 					<td><input type="text" id="CoffeeName" name="CoffeeName"
-						required pattern="^[A-Za-z0-9а-яА-Я\s\\.\\-]{1,100}$" size="50"></td>
+						required pattern="^[A-Za-z0-9а-яА-ЯёЁ\s\\.\\-]{1,100}$" size="50"></td>
 				</tr>
 				<tr>
 					<th><fmt:message key="Recipe.Coffee.RoastDegree" />:</th>

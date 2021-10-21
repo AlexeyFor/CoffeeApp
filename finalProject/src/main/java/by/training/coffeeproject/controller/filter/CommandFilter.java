@@ -46,6 +46,10 @@ public class CommandFilter implements Filter {
 		commandMap.put("/jsp/recipe/createRecipeType", new CreateRecipeTypeCommand());
 		commandMap.put("/jsp/recipe/createRecipeCoffee", new CreateRecipeCoffeeCommand());
 		commandMap.put("/jsp/recipe/showAllCoffeeType", new ShowAllCoffeeTypeCommand());
+		commandMap.put("/jsp/recipe/createPouroverRecipe", new CreatePouroverRecipeCommand());
+		commandMap.put("/jsp/recipe/deleteNotCommonRecipe", new DeleteNotCommonRecipeCommand());
+
+		
 
 		commandMap.put("/jsp/user/showPublicUserInfo", new ShowPublicUserInfoCommand());
 		commandMap.put("/jsp/locale", new SetLocaleCommand());

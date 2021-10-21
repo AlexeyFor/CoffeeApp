@@ -12,6 +12,9 @@
 		<File name="TxtFile" fileName="logs/textNew.log" bufferedIO="true">
 			<PatternLayout pattern="${patternfull}" />
 		</File>
+		<File name="NotConsole" fileName="logs/textNewNotConsole.log" bufferedIO="true">
+			<PatternLayout pattern="${patternfull}" />
+		</File>
 		<File name="TxtRootFile" fileName="logs/TxtRootFile.log" bufferedIO="true">
 			<PatternLayout pattern="${patternfull}" />
 		</File>

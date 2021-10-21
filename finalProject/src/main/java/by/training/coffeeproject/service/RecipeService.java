@@ -15,5 +15,8 @@ public interface RecipeService {
 	public List<Recipe> findAllUserSavedRecipes(Integer userID) throws ServiceException;
 
 	public Integer createRecipeInDataBase(Recipe recipe) throws ServiceException;
+	
+	public boolean deleteRecipeFromDataBase(Integer ID) throws ServiceException;
+
 
 }

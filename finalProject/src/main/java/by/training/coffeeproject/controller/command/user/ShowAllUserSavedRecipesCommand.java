@@ -31,6 +31,10 @@ public class ShowAllUserSavedRecipesCommand implements Command {
 		try {
 			List<Recipe> recipes = logic.findAllUserSavedRecipes(userID);
 			request.setAttribute("recipes", recipes);
+			// this attribute is adding for displaying button "delete", for saved common
+			// methods. Because in this case, it will be another command for delete recipe
+			request.setAttribute("allSaved", true);
+
 		} catch (ServiceException e) {
 			LOG.debug("error in  ShowAllRecipesCommand " + e.getMessage());
 			request.setAttribute("error", "message.loginerror");
