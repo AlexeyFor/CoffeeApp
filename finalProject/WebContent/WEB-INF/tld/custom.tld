@@ -10,11 +10,11 @@
 		<tag-class>by.training.coffeeproject.service.taglogic.UserNameTag</tag-class>
 		<body-content>scriptless</body-content>
 	</tag>
-	<tag>
-		<name>HeadTag</name>
-		<tag-class>by.training.coffeeproject.service.taglogic.HeadTag</tag-class>
-		<body-content>empty</body-content>
-	</tag>
+<!-- 	<tag> -->
+<!-- 		<name>HeadTag</name> -->
+<!-- 		<tag-class>by.training.coffeeproject.service.taglogic.HeadTag</tag-class> -->
+<!-- 		<body-content>empty</body-content> -->
+<!-- 	</tag> -->
 	
 	
 	

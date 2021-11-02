@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -14,7 +13,6 @@ import by.training.coffeeproject.dao.DaoException;
 import by.training.coffeeproject.dao.PouroverRecipeDao;
 import by.training.coffeeproject.entity.FunnelType;
 import by.training.coffeeproject.entity.PouroverRecipe;
-import by.training.coffeeproject.entity.RecipeType;
 
 /**
  * 
@@ -99,7 +97,7 @@ public class PouroverRecipeDaoImpl extends AbstractDao<PouroverRecipe> implement
 			return 1;
 		
 		} catch (SQLException e) {
-			LOG.error("can't create pouroverRecipe " + e.getMessage());
+			LOG.warn("can't create pouroverRecipe " + e.getMessage());
 			return 0;
 		} finally {
 			close(statement);
@@ -128,7 +126,7 @@ public class PouroverRecipeDaoImpl extends AbstractDao<PouroverRecipe> implement
 
 			return true;
 		} catch (SQLException e) {
-			LOG.debug("can't update pouroverRecipe " + e.getMessage());
+			LOG.warn("can't update pouroverRecipe " + e.getMessage());
 			return false;
 		} finally {
 			close(statement);
@@ -149,7 +147,7 @@ public class PouroverRecipeDaoImpl extends AbstractDao<PouroverRecipe> implement
 			LOG.debug("delete return true");
 			return true;
 		} catch (SQLException e) {
-			LOG.debug("can't delete PouroverRecipe " + e.getMessage());
+			LOG.warn("can't delete PouroverRecipe " + e.getMessage());
 			return false;
 		} finally {
 			close(statement);

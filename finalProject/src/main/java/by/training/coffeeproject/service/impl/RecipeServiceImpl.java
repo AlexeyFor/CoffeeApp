@@ -1,30 +1,18 @@
 package by.training.coffeeproject.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import by.training.coffeeproject.dao.CoffeeTypeDao;
 import by.training.coffeeproject.dao.CountryDao;
 import by.training.coffeeproject.dao.DaoException;
 import by.training.coffeeproject.dao.DaoFabric;
-import by.training.coffeeproject.dao.FrenchPressRecipeDao;
-import by.training.coffeeproject.dao.InfusionDao;
-import by.training.coffeeproject.dao.PouroverRecipeDao;
 import by.training.coffeeproject.dao.RecipeDao;
-import by.training.coffeeproject.dao.UserDao;
-import by.training.coffeeproject.dao.UserInfoDao;
-import by.training.coffeeproject.dao.UserRecipeDao;
 import by.training.coffeeproject.dao.pool.EntityTransaction;
 import by.training.coffeeproject.entity.CoffeeType;
-import by.training.coffeeproject.entity.FrenchPressRecipe;
-import by.training.coffeeproject.entity.Infusion;
-import by.training.coffeeproject.entity.PouroverRecipe;
 import by.training.coffeeproject.entity.Recipe;
 import by.training.coffeeproject.entity.RecipeType;
-import by.training.coffeeproject.entity.User;
 import by.training.coffeeproject.service.*;
 
 public class RecipeServiceImpl implements RecipeService {
@@ -77,14 +65,14 @@ public class RecipeServiceImpl implements RecipeService {
 			try {
 				transaction.rollback();
 			} catch (DaoException e1) {
-				LOG.debug("rollback, transaction wasn't commited");
+				LOG.error("rollback, transaction wasn't commited");
 				throw new ServiceException("rollback, transaction wasn't commited " + e.getMessage());
 			}
-		}finally {
+		} finally {
 			try {
 				transaction.endTransaction();
 			} catch (DaoException e) {
-				LOG.debug("can't endTransaction " + e.getMessage());
+				LOG.error("can't endTransaction " + e.getMessage());
 				throw new ServiceException(e.getMessage());
 
 			}
@@ -120,25 +108,24 @@ public class RecipeServiceImpl implements RecipeService {
 			try {
 				transaction.rollback();
 			} catch (DaoException e1) {
-				LOG.debug("rollback, transaction wasn't commited");
+				LOG.error("rollback, transaction wasn't commited");
 				throw new ServiceException("rollback, transaction wasn't commited " + e.getMessage());
 			}
-		}finally {
+		} finally {
 			try {
 				transaction.endTransaction();
 			} catch (DaoException e) {
-				LOG.debug("can't endTransaction " + e.getMessage());
+				LOG.error("can't endTransaction " + e.getMessage());
 				throw new ServiceException(e.getMessage());
 
 			}
 		}
-		
-		recipe = setDetailedInformation (recipe);
-		LOG.debug (recipe.toString());
+
+		recipe = setDetailedInformation(recipe);
+		LOG.debug(recipe.toString());
 		return recipe;
 	}
 
-	
 	@Override
 	public List<Recipe> findAllUserSavedRecipes(Integer userID) throws ServiceException {
 		LOG.debug("start findAllUserSavedRecipes");
@@ -169,14 +156,14 @@ public class RecipeServiceImpl implements RecipeService {
 			try {
 				transaction.rollback();
 			} catch (DaoException e1) {
-				LOG.debug("rollback, transaction wasn't commited");
+				LOG.error("rollback, transaction wasn't commited");
 				throw new ServiceException("rollback, transaction wasn't commited " + e.getMessage());
 			}
-		}finally {
+		} finally {
 			try {
 				transaction.endTransaction();
 			} catch (DaoException e) {
-				LOG.debug("can't endTransaction " + e.getMessage());
+				LOG.error("can't endTransaction " + e.getMessage());
 				throw new ServiceException(e.getMessage());
 
 			}
@@ -216,14 +203,14 @@ public class RecipeServiceImpl implements RecipeService {
 			try {
 				transaction.rollback();
 			} catch (DaoException e1) {
-				LOG.debug("rollback, transaction wasn't commited");
+				LOG.error("rollback, transaction wasn't commited");
 				throw new ServiceException("rollback, transaction wasn't commited " + e.getMessage());
 			}
-		}finally {
+		} finally {
 			try {
 				transaction.endTransaction();
 			} catch (DaoException e) {
-				LOG.debug("can't endTransaction " + e.getMessage());
+				LOG.error("can't endTransaction " + e.getMessage());
 				throw new ServiceException(e.getMessage());
 
 			}
@@ -247,22 +234,22 @@ public class RecipeServiceImpl implements RecipeService {
 			try {
 				transaction.rollback();
 			} catch (DaoException e1) {
-				LOG.debug("rollback, transaction wasn't commited " + e.getMessage());
+				LOG.error("rollback, transaction wasn't commited " + e.getMessage());
 				throw new ServiceException("rollback, transaction wasn't commited " + e.getMessage());
 			}
-		}finally {
+		} finally {
 			try {
 				transaction.endTransaction();
 			} catch (DaoException e) {
-				LOG.debug("can't endTransaction " + e.getMessage());
+				LOG.error("can't endTransaction " + e.getMessage());
 				throw new ServiceException(e.getMessage());
 
 			}
 		}
 		return result;
 	}
-	
-	public boolean deleteRecipeFromDataBase(Integer ID) throws ServiceException{
+
+	public boolean deleteRecipeFromDataBase(Integer ID) throws ServiceException {
 		LOG.debug("start createUserRecipeInDB");
 
 		RecipeDao recipeDao = daoFabric.getRecipeDao();
@@ -277,24 +264,28 @@ public class RecipeServiceImpl implements RecipeService {
 			try {
 				transaction.rollback();
 			} catch (DaoException e1) {
-				LOG.debug("rollback, transaction wasn't commited " + e.getMessage());
+				LOG.error("rollback, transaction wasn't commited " + e.getMessage());
 				throw new ServiceException("rollback, transaction wasn't commited " + e.getMessage());
 			}
-		}finally {
+		} finally {
 			try {
 				transaction.endTransaction();
 			} catch (DaoException e) {
-				LOG.debug("can't endTransaction " + e.getMessage());
+				LOG.error("can't endTransaction " + e.getMessage());
 				throw new ServiceException(e.getMessage());
 
 			}
 		}
 		return result;
 	}
-	
 
-	
-	
+	/**
+	 * Unite Recipe and Pourover or FrenchPress r1cipe into one recipe
+	 * 
+	 * @param recipe
+	 * @return
+	 * @throws ServiceException
+	 */
 	private Recipe setDetailedInformation(Recipe recipe) throws ServiceException {
 		int recipeID = recipe.getID();
 		RecipeType type = recipe.getRecipeType();
@@ -313,9 +304,40 @@ public class RecipeServiceImpl implements RecipeService {
 				throw new ServiceException("wrong_type");
 			}
 		} catch (ServiceException e) {
-			LOG.debug("can't set DetailedInformation " + e.getMessage());
+			LOG.warn("can't set DetailedInformation " + e.getMessage());
 			throw new ServiceException(e.getMessage());
 		}
 		return recipe;
+	}
+
+	@Override
+	public boolean editRecipenInDB(Recipe recipe) throws ServiceException {
+		LOG.debug("start createCoffeeTypeInDataBase");
+
+		RecipeDao recipeDao = daoFabric.getRecipeDao();
+
+		EntityTransaction transaction = transactionLogic.initTransactionInterface(recipeDao);
+		boolean result = false;
+
+		try {
+			result = recipeDao.update(recipe);
+			transaction.commit();
+		} catch (DaoException e) {
+			try {
+				transaction.rollback();
+			} catch (DaoException e1) {
+				LOG.warn("rollback, transaction wasn't commited " + e.getMessage());
+				throw new ServiceException("rollback, transaction wasn't commited " + e.getMessage());
+			}
+		} finally {
+			try {
+				transaction.endTransaction();
+			} catch (DaoException e) {
+				LOG.warn("can't endTransaction " + e.getMessage());
+				throw new ServiceException(e.getMessage());
+
+			}
+		}
+		return result;
 	}
 }

@@ -1,51 +1,83 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%-- <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%> --%>
-<%-- <%@ taglib tagdir="/WEB-INF/tags" prefix="u"%> --%>
-<%-- <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%> --%>
-<%@taglib uri="/WEB-INF/tld/custom.tld" prefix="ctg"%>
 
-<%-- <u:html title="show public user info"> --%>
-
-<!-- <body> -->
 <%@include file="/WEB-INF/jsp/head.jsp"%>
 
-	Information and recipes of user ${user.userInfo.name}
-	<br>
+<div class="content">
+	<div class="content">
+		<div class="container">
+
+			<c:choose>
+				<c:when test="${not empty messageHead}">
+					<h3 class="display-5">
+						<fmt:message key="${messageHead}" />
+						${user.userInfo.name}
+					</h3>
+				</c:when>
+				<c:otherwise>
+					<h3 class="display-5">
+						<fmt:message key="ShowAllRecipes.Head" />
+					</h3>
+				</c:otherwise>
+			</c:choose>
+
+			<br>
+			<table class="table table-striped">
+				<tr>
+					<th><fmt:message key="email" />:</th>
+					<td>${user.userInfo.email}</td>
+				</tr>
+				<tr>
+					<th><fmt:message key="country" />:</th>
+					<td>${user.userInfo.country.countryName}</td>
+				</tr>
+			</table>
+			<p>
+				<strong><fmt:message key="Recipe.Coffee.Information" />:</strong>
+				${user.userInfo.information}
+			</p>
+
+			All common recipes of this user
+			<table class="table table-striped">
+				<tr>
+					<th><fmt:message key="ShowAllRecipes.DateOfCreating" /></th>
+					<th><fmt:message key="ShowAllRecipes.RecipeType" /></th>
+					<th><fmt:message key="ShowAllRecipes.CoffeeName" /></th>
+					<th><fmt:message key="ShowAllRecipes.CoffeeCountry" /></th>
+					<th><fmt:message key="ShowAllRecipes.RoastDegree" /></th>
+					<th><fmt:message key="ShowAllRecipes.ProcessingMethod" /></th>
+					<th><fmt:message key="ShowAllRecipes.ShowRecipeButton" /></th>
+
+				</tr>
+				<c:forEach items="${recipes}" var="recipe">
+					<tr>
+
+						<td><fmt:formatDate value="${recipe.dateOfCreating}"
+								pattern="dd.MM.yyyy" /></td>
+						<td>${recipe.recipeType}</td>
+						<td>${recipe.coffeeType.name}</td>
+						<td>${recipe.coffeeType.country.countryName}</td>
+						<td>${recipe.coffeeType.roastDegree}</td>
+						<td>${recipe.coffeeType.processingMethod}</td>
 
 
+						<td><c:url value="/jsp/recipe/showRecipe.html"
+								var="ShowRecipeUrl" />
+							<form name="ShowRecipe" action="${ShowRecipeUrl}" method="POST">
+								<input type="hidden" name="recipeID" value="${recipe.ID}">
+								<c:if test="${not empty allSaved and allSaved}">
+									<input type="hidden" name="allSaved" id="allSaved"
+										value="${allSaved}">
+								</c:if>
+								<input type="submit" value="show recipe">
 
-	<TABLE border='1'>
-		<TR>
-			<TH>Автор</TH>
-			<TH>Дата создания</TH>
-			<TH>Тип рецепта</TH>
-			<TH>Кофеек</TH>
-			<TH>Страна кофеечка</TH>
-			<TH>Степень обжарки</TH>
-			<TH>Метод обработки</TH>
-			<TH>Кнопа</TH>
+							</form></td>
+					</tr>
+				</c:forEach>
+			</table>
 
-		</TR>
-		<c:forEach items="${recipes}" var="recipe">
-			<TR>
-				<TD><ctg:userNameTag>${recipe.authorUserId}</ctg:userNameTag></TD>
-				<TD><fmt:formatDate value="${recipe.dateOfCreating}"
-						pattern="dd.MM.yyyy" /></TD>
-				<TD>${recipe.recipeType}</TD>
-				<TD>${recipe.coffeeType.name}</TD>
-				<TD>${recipe.coffeeType.country.countryName}</TD>
-				<TD>${recipe.coffeeType.roastDegree}</TD>
-				<TD>${recipe.coffeeType.processingMethod}</TD>
-
-
-				<TD><c:url value="/jsp/recipe/showRecipe.html"
-						var="ShowRecipeUrl" />
-					<form name="ShowRecipe" action="${ShowRecipeUrl}" method="POST">
-						- <INPUT type="hidden" name="recipeID" value="${recipe.ID}">
-						<input type="submit" value="show recipe">
-					</form></TD>
-			</TR>
-		</c:forEach>
-	</TABLE>
-
-		<c:import url="/WEB-INF/jsp/fotter.jsp"/>
+		</div>
+	</div>
+</div>
+<div class="fotter">
+	<%@include file="/WEB-INF/jsp/fotter.jsp"%>
+</div>

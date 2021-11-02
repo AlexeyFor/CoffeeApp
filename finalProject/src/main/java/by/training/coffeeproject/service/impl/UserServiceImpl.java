@@ -6,10 +6,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import by.training.coffeeproject.dao.CountryDao;
-import by.training.coffeeproject.dao.Dao;
 import by.training.coffeeproject.dao.DaoException;
 import by.training.coffeeproject.dao.DaoFabric;
-import by.training.coffeeproject.dao.RecipeDao;
 import by.training.coffeeproject.dao.UserDao;
 import by.training.coffeeproject.dao.UserInfoDao;
 import by.training.coffeeproject.dao.pool.EntityTransaction;
@@ -44,7 +42,7 @@ public class UserServiceImpl implements UserService {
 
 	private final DaoFabric daoFabric = DaoFabric.getInstance();
 	private final PasswordEncryptionService encryptionLogic = PasswordEncryptionService.getInstance();
-	private EntityTransactionLogic transactionLogic= EntityTransactionLogic.getInstance();
+	private EntityTransactionLogic transactionLogic = EntityTransactionLogic.getInstance();
 
 	/**
 	 * take three Dao classes, accesses four tables and return List <User>
@@ -74,13 +72,20 @@ public class UserServiceImpl implements UserService {
 			}
 //			LOG.debug(users.toString());
 			transaction.commit();
-			transaction.endTransaction();
 		} catch (DaoException e) {
 			try {
 				transaction.rollback();
 			} catch (DaoException e1) {
-				LOG.debug("rollback, transaction wasn't commited");
+				LOG.warn("rollback, transaction wasn't commited");
 				throw new ServiceException();
+			}
+		} finally {
+			try {
+				transaction.endTransaction();
+			} catch (DaoException e) {
+				LOG.error("can't endTransaction " + e.getMessage());
+				throw new ServiceException(e.getMessage());
+
 			}
 		}
 		return users;
@@ -119,8 +124,16 @@ public class UserServiceImpl implements UserService {
 			try {
 				transaction.rollback();
 			} catch (DaoException e1) {
-				LOG.debug("rollback, transaction wasn't commited");
+				LOG.warn("rollback, transaction wasn't commited");
 				throw new ServiceException();
+			}
+		} finally {
+			try {
+				transaction.endTransaction();
+			} catch (DaoException e) {
+				LOG.error("can't endTransaction " + e.getMessage());
+				throw new ServiceException(e.getMessage());
+
 			}
 		}
 		return users;
@@ -158,13 +171,20 @@ public class UserServiceImpl implements UserService {
 			}
 			LOG.debug(user.toString());
 			transaction.commit();
-			transaction.endTransaction();
 		} catch (DaoException e) {
 			try {
 				transaction.rollback();
 			} catch (DaoException e1) {
 				LOG.debug("rollback, transaction wasn't commited");
 				throw new ServiceException();
+			}
+		} finally {
+			try {
+				transaction.endTransaction();
+			} catch (DaoException e) {
+				LOG.error("can't endTransaction " + e.getMessage());
+				throw new ServiceException(e.getMessage());
+
 			}
 		}
 		return user;
@@ -199,7 +219,7 @@ public class UserServiceImpl implements UserService {
 			if (id != 0) {
 				LOG.debug("get id = " + id);
 				userInfo.setID(id);
-				if (userInfoDao.create(userInfo)!=0) {
+				if (userInfoDao.create(userInfo) != 0) {
 					answer = true;
 				} else {
 					answer = false;
@@ -218,6 +238,14 @@ public class UserServiceImpl implements UserService {
 			} catch (DaoException e1) {
 				LOG.debug("rollback, transaction wasn't commited");
 				return false;
+			}
+		} finally {
+			try {
+				transaction.endTransaction();
+			} catch (DaoException e) {
+				LOG.error("can't endTransaction " + e.getMessage());
+				throw new ServiceException(e.getMessage());
+
 			}
 		}
 		return answer;
@@ -270,6 +298,14 @@ public class UserServiceImpl implements UserService {
 				LOG.debug("rollback, transaction wasn't commited");
 				return false;
 			}
+		} finally {
+			try {
+				transaction.endTransaction();
+			} catch (DaoException e) {
+				LOG.error("can't endTransaction " + e.getMessage());
+				throw new ServiceException(e.getMessage());
+
+			}
 		}
 		return answer;
 	}
@@ -279,8 +315,9 @@ public class UserServiceImpl implements UserService {
 	 * 
 	 * @param ID
 	 * @return
+	 * @throws ServiceException
 	 */
-	public boolean deleteUserByID(Integer ID) {
+	public boolean deleteUserByID(Integer ID) throws ServiceException {
 		LOG.debug("start deleteUserByID with ID " + ID);
 
 		UserDao userDao = daoFabric.getUserDao();
@@ -306,10 +343,17 @@ public class UserServiceImpl implements UserService {
 				LOG.debug("rollback, transaction wasn't commited");
 				answer = false;
 			}
+		} finally {
+			try {
+				transaction.endTransaction();
+			} catch (DaoException e) {
+				LOG.error("can't endTransaction " + e.getMessage());
+				throw new ServiceException(e.getMessage());
+
+			}
 		}
 		return answer;
 	}
-	
 
 	/**
 	 * take three Dao classes, accesses four tables and return List <User>
@@ -317,7 +361,7 @@ public class UserServiceImpl implements UserService {
 	 * @return List <User>
 	 * @throws ServiceException
 	 */
-	public User takeUserByID(Integer ID) throws ServiceException{
+	public User takeUserByID(Integer ID) throws ServiceException {
 		LOG.debug("start takeAllUsers");
 
 		UserDao userDao = daoFabric.getUserDao();
@@ -329,16 +373,14 @@ public class UserServiceImpl implements UserService {
 
 		try {
 			user = userDao.findEntityById(ID);
-			if (user!=null) {
+			if (user != null) {
 				user.setUserInfo(userInfoDao.findEntityById(user.getID()));
 				if (user.getUserInfo() != null) {
-					user.getUserInfo()
-							.setCountry(countryDao.findEntityById(user.getUserInfo().getCountry().getID()));
+					user.getUserInfo().setCountry(countryDao.findEntityById(user.getUserInfo().getCountry().getID()));
 				}
 			}
 //			LOG.debug(users.toString());
 			transaction.commit();
-			transaction.endTransaction();
 		} catch (DaoException e) {
 			try {
 				transaction.rollback();
@@ -346,19 +388,17 @@ public class UserServiceImpl implements UserService {
 				LOG.debug("rollback, transaction wasn't commited");
 				throw new ServiceException();
 			}
+		} finally {
+			try {
+				transaction.endTransaction();
+			} catch (DaoException e) {
+				LOG.error("can't endTransaction " + e.getMessage());
+				throw new ServiceException(e.getMessage());
+
+			}
 		}
 		return user;
 	}
-
-//	private EntityTransaction initTransactionInterface(Dao... abstractDaos) {
-//		EntityTransaction transaction = new EntityTransaction();
-//		try {
-//			transaction.initTransactionInterface(abstractDaos);
-//		} catch (DaoException e1) {
-//			e1.printStackTrace();
-//		}
-//		return transaction;
-//	}
 
 	/**
 	 * check all parameters for being not null

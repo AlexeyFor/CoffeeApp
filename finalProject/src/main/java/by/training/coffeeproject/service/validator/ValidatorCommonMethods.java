@@ -10,6 +10,7 @@ import by.training.coffeeproject.entity.FunnelType;
 import by.training.coffeeproject.entity.ProcessingMethod;
 import by.training.coffeeproject.entity.RecipeType;
 import by.training.coffeeproject.entity.RoastDegree;
+import by.training.coffeeproject.service.CoffeeTypeService;
 import by.training.coffeeproject.service.CountryService;
 import by.training.coffeeproject.service.ServiceException;
 import by.training.coffeeproject.service.ServiceFactory;
@@ -37,15 +38,15 @@ public class ValidatorCommonMethods {
 
 	public boolean checkInfusionsNumber(String infusions) throws ServiceException {
 		if (infusions != null) {
-			Pattern pat = Pattern.compile("^[0-9]{1,2}$");
+			Pattern pat = Pattern.compile("^[1-9]{1}[0-9]{0,1}$");
 			Matcher match = pat.matcher(infusions);
 			if (match.find()) {
 				return true;
 			} else {
-				throw new ServiceException("worng_symbols_infusions");
+				throw new ServiceException("worngSymbolsInfusions");
 			}
 		} else {
-			throw new ServiceException("infusions_null");
+			throw new ServiceException("infusionsNull");
 		}
 	}
 
@@ -56,10 +57,10 @@ public class ValidatorCommonMethods {
 			if (match.find()) {
 				return true;
 			} else {
-				throw new ServiceException("worng_symbols_name");
+				throw new ServiceException("worngSymbolsName");
 			}
 		} else {
-			throw new ServiceException("name_null");
+			throw new ServiceException("nameNull");
 		}
 	}
 
@@ -70,10 +71,10 @@ public class ValidatorCommonMethods {
 			if (match.find()) {
 				return true;
 			} else {
-				throw new ServiceException("worng_symbols_roaster");
+				throw new ServiceException("worngSymbolsRoaster");
 			}
 		} else {
-			throw new ServiceException("roaster_null");
+			throw new ServiceException("roasterNull");
 		}
 	}
 
@@ -94,10 +95,10 @@ public class ValidatorCommonMethods {
 				CountryService serv = ServiceFactory.getInstance().getCountryService();
 				return serv.CountryExist(countryIdInt);
 			} else {
-				throw new ServiceException("worng_symbols_country");
+				throw new ServiceException("worngSymbolsCountry");
 			}
 		} else {
-			throw new ServiceException("country_null");
+			throw new ServiceException("countryNull");
 		}
 	}
 
@@ -113,11 +114,11 @@ public class ValidatorCommonMethods {
 			try {
 				RoastDegree.valueOf(roastDegree);
 			} catch (IllegalArgumentException e) {
-				throw new ServiceException("RoastDegree_worng");
+				throw new ServiceException("RoastDegreeWorng");
 			}
 			return true;
 		} else {
-			throw new ServiceException("RoastDegree_null");
+			throw new ServiceException("RoastDegreeNull");
 		}
 	}
 
@@ -133,11 +134,11 @@ public class ValidatorCommonMethods {
 			try {
 				ProcessingMethod.valueOf(processingMethod);
 			} catch (IllegalArgumentException e) {
-				throw new ServiceException("processingMethod_worng");
+				throw new ServiceException("processingMethodWorng");
 			}
 			return true;
 		} else {
-			throw new ServiceException("processingMethod_null");
+			throw new ServiceException("processingMethodNull");
 		}
 	}
 
@@ -153,11 +154,11 @@ public class ValidatorCommonMethods {
 			try {
 				FunnelType.valueOf(funnelType);
 			} catch (IllegalArgumentException e) {
-				throw new ServiceException("FunnelType_worng");
+				throw new ServiceException("FunnelTypeWorng");
 			}
 			return true;
 		} else {
-			throw new ServiceException("FunnelType_null");
+			throw new ServiceException("FunnelTypeNull");
 		}
 	}
 
@@ -191,7 +192,7 @@ public class ValidatorCommonMethods {
 				throw new ServiceException("wrong_percent");
 			}
 		} else {
-			throw new ServiceException("percent_null");
+			throw new ServiceException("percentNull");
 		}
 
 	}
@@ -203,10 +204,10 @@ public class ValidatorCommonMethods {
 			if (match.find()) {
 				return true;
 			} else {
-				throw new ServiceException("worng_symbols_information");
+				throw new ServiceException("worngSymbols_information");
 			}
 		} else {
-			throw new ServiceException("information_null");
+			throw new ServiceException("informationNull");
 		}
 	}
 
@@ -223,11 +224,11 @@ public class ValidatorCommonMethods {
 			try {
 				RecipeType.valueOf(recipeType);
 			} catch (IllegalArgumentException e) {
-				throw new ServiceException("recipeType_worng " + recipeType + "end");
+				throw new ServiceException("recipeTypeWorng " + recipeType + "end");
 			}
 			return true;
 		} else {
-			throw new ServiceException("recipeType_null");
+			throw new ServiceException("recipeTypeNull");
 		}
 	}
 
@@ -238,10 +239,10 @@ public class ValidatorCommonMethods {
 			if (match.find()) {
 				return true;
 			} else {
-				throw new ServiceException("worng_symbols_massOfCoffee");
+				throw new ServiceException("worngSymbolsMassOfCoffee");
 			}
 		} else {
-			throw new ServiceException("massOfCoffee_null");
+			throw new ServiceException("massOfCoffeeNull");
 		}
 	}
 
@@ -252,10 +253,10 @@ public class ValidatorCommonMethods {
 			if (match.find()) {
 				return true;
 			} else {
-				throw new ServiceException("worng_symbols_grindSettings");
+				throw new ServiceException("worngSymbolsGrindSettings");
 			}
 		} else {
-			throw new ServiceException("grindSettings_null");
+			throw new ServiceException("grindSettingsNull");
 		}
 	}
 
@@ -266,10 +267,10 @@ public class ValidatorCommonMethods {
 			if (match.find()) {
 				return true;
 			} else {
-				throw new ServiceException("worng_symbols_coffeeGrinder");
+				throw new ServiceException("worngSymbolsCoffeeGrinder");
 			}
 		} else {
-			throw new ServiceException("coffeeGrinder_null");
+			throw new ServiceException("coffeeGrinderNull");
 		}
 	}
 
@@ -280,25 +281,25 @@ public class ValidatorCommonMethods {
 			if (match.find()) {
 				return true;
 			} else {
-				throw new ServiceException("worng_symbols_totalTime");
+				throw new ServiceException("worngSymbolsTotalTime");
 			}
 		} else {
-			throw new ServiceException("totalTime_null");
+			throw new ServiceException("totalTimeNull");
 		}
 	}
 
 	/**
-	 * infusionParameter - checked parameter
-	 * excSymbol - message for ServiceException, when wrong symbols was found
-	 * excNull - message for ServiceException, when infusionParameter is null
+	 * infusionParameter - checked parameter excSymbol - message for
+	 * ServiceException, when wrong symbols was found excNull - message for
+	 * ServiceException, when infusionParameter is null
+	 * 
 	 * @param infusionParameter
 	 * @param excSymbol
 	 * @param excNull
 	 * @return
 	 * @throws ServiceException
 	 */
-	public boolean checkInfusion(String infusionParameter, String excSymbol, String excNull)
-			throws ServiceException {
+	public boolean checkInfusion(String infusionParameter, String excSymbol, String excNull) throws ServiceException {
 		if (infusionParameter != null) {
 			Pattern pat = Pattern.compile("^[0-9]{1,4}$");
 			Matcher match = pat.matcher(infusionParameter);
@@ -312,4 +313,69 @@ public class ValidatorCommonMethods {
 		}
 	}
 
+	/**
+	 * First check with pattern, then in database
+	 * 
+	 * @param countryId
+	 * @return
+	 * @throws ServiceException
+	 */
+	public boolean checkNumberPagination(String number) throws ServiceException {
+		if (number != null) {
+			Pattern pat = Pattern.compile("^[0-9]{1,6}$");
+			Matcher match = pat.matcher(number);
+			if (match.find()) {
+				return true;
+			} else {
+				throw new ServiceException("worngSymbolsPaginationNum");
+			}
+		} else {
+			throw new ServiceException("paginationNumNull");
+		}
+	}
+
+	/**
+	 * First check with pattern, then in database
+	 * 
+	 * @param countryId
+	 * @return
+	 * @throws ServiceException
+	 */
+	public boolean checkEnum(String enumMember) throws ServiceException {
+		if (enumMember != null) {
+			Pattern pat = Pattern.compile("^[0-9A-Z]{1,100}$");
+			Matcher match = pat.matcher(enumMember);
+			if (match.find()) {
+				return true;
+			} else {
+				throw new ServiceException("worngSymbolsEnumMember");
+			}
+		} else {
+			throw new ServiceException("enumMemberNull");
+		}
+	}
+
+	/**
+	 * Check, if start position is not bigger than coffeetypes amount
+	 * 
+	 * @param countryId
+	 * @return
+	 * @throws ServiceException
+	 */
+	public boolean checkStartPaginationCoffeeType(String start) throws ServiceException {
+		if (start != null) {
+			int startInt;
+			startInt = Integer.valueOf(start);
+			CoffeeTypeService serv = ServiceFactory.getInstance().getCoffeeTypeService();
+			int amountInDB = serv.countAllCoffeeTypes();
+			if (startInt < amountInDB) {
+				return true;
+			} else {
+				throw new ServiceException("startPaginationCoffeeType");
+			}
+		} else {
+			throw new ServiceException("paginationStartNull");
+		}
+
+	}
 }

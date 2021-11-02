@@ -16,6 +16,13 @@ import by.training.coffeeproject.service.RecipeService;
 import by.training.coffeeproject.service.ServiceException;
 import by.training.coffeeproject.service.ServiceFactory;
 
+/**
+ * 
+ * @author AlexeySupruniuk
+ * 
+ *         Show user information and his common recipes
+ *
+ */
 public class ShowPublicUserInfoCommand implements Command {
 	private static final Logger LOG = LogManager.getLogger(ShowPublicUserInfoCommand.class);
 
@@ -33,13 +40,15 @@ public class ShowPublicUserInfoCommand implements Command {
 			User user = log.takeUserByID(ID);
 			List<Recipe> recipes = logRecipe.findAllUserCommonRecipes(ID);
 			user.getUserInfo().setRecipes(recipes);
-			LOG.debug("get user + " + user.toString());
+//			LOG.debug("get user + " + user.toString());
 
 			request.setAttribute("user", user);
 			request.setAttribute("recipes", recipes);
+			request.setAttribute("messageHead", "User information");
+
 		} catch (ServiceException e) {
-			LOG.debug("error in  ShowPublicUserInfoCommand ");
-			request.setAttribute("error", "message.loginerror");
+			LOG.warn("error in  ShowPublicUserInfoCommand " + e.getMessage());
+			request.setAttribute("error", e.getMessage());
 		}
 		String page = ("/jsp/user/showPublicUserInfo.html");
 

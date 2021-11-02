@@ -27,6 +27,15 @@
 		<url-pattern>*.html</url-pattern>
 	</filter-mapping>
 
+<filter>
+		<filter-name>RequestFFiveFilter</filter-name>
+		<filter-class>by.training.coffeeproject.controller.filter.RequestFFiveFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>RequestFFiveFilter</filter-name>
+		<url-pattern>*.html</url-pattern>
+	</filter-mapping>
+	
 	<filter>
 		<filter-name>CommandFilter</filter-name>
 		<filter-class>by.training.coffeeproject.controller.filter.CommandFilter</filter-class>

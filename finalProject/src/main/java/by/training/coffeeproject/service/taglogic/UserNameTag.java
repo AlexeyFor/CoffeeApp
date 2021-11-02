@@ -15,10 +15,18 @@ import by.training.coffeeproject.service.ServiceException;
 import by.training.coffeeproject.service.ServiceFactory;
 import by.training.coffeeproject.service.UserInfoService;
 
+/**
+ * 
+ * Logic for UserNameTag. Take user.ID and return its name
+ *
+ */
 public class UserNameTag extends BodyTagSupport {
+
+	private static final long serialVersionUID = -5619562297023924334L;
+
 	private static final Logger LOG = LogManager.getLogger(UserNameTag.class);
 
-	private static final String MAIL_PATTERN = "([0-9]+)";
+	private static final String ID_PATTERN = "([0-9]+)";
 
 	@Override
 	public int doAfterBody() throws JspException {
@@ -26,24 +34,24 @@ public class UserNameTag extends BodyTagSupport {
 		String body = content.getString();
 		LOG.debug("body " + body);
 		String name = "";
-		if (Pattern.matches(MAIL_PATTERN, body)) {
+		if (Pattern.matches(ID_PATTERN, body)) {
 			Integer ID = Integer.valueOf(body);
 			ServiceFactory fct = ServiceFactory.getInstance();
 			UserInfoService srv = fct.getUserInfoService();
 			try {
-//				name = srv.takeUserNameByID(ID).getUserInfo().getName();
 				name = srv.takeUserNameByID(ID);
 			} catch (ServiceException e) {
-				LOG.debug ("wrong ID " + e.getMessage());
+				LOG.debug("wrong ID " + e.getMessage());
 			}
 		} else {
-			LOG.debug ("wrong ID ");
+			LOG.debug("wrong ID ");
 			name = "";
 		}
 		JspWriter out = content.getEnclosingWriter();
 		try {
 			out.write(name);
 		} catch (IOException e) {
+			LOG.error(e.getMessage());
 			throw new JspTagException(e.getMessage());
 		}
 		return SKIP_BODY;

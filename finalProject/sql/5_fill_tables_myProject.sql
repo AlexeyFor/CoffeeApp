@@ -1,14 +1,27 @@
-INSERT INTO users (
- login, password, role) 
-VALUES ('user1', '123asd123', 'user'),
+/*passwords are 'user1', '123asd123', 'user'),
 ('user2', '456asd456', 'user'),
 ('moder2', '789asd789', 'moder');
+If something will be wrong because of encoding, you can fill passwords with 
+commented main method in class
+src/main/java/by.training.coffeeproject.service.PasswordEncryptedService.java
+*/
+INSERT INTO users (
+ login, password, role) 
+VALUES ('user1', 'O]T��,
+ {9�w�{$���&W', 'user'),
+('user2', '�ϳg��)�V�ו%���&+', 'user'),
+('moder2', '+Y��m=*e���.I��', 'moder');
 
 INSERT INTO countries (
 id_country,
 country_name)
 VALUES ('1', 'Belarus'), ('2', 'Russia'),
-('3', 'Brazil'), ('4', 'China'), ('5','Nikaragua');
+('3', 'Brazil'), ('4', 'China'), ('5','Nikaragua'),
+('6', 'Burundi'), ('7', 'Cambodia'), ('8','Cameroon'),
+('9', 'Chile'), ('10', 'Colombia'), ('11','Congo'),
+('12', 'Costa Rica'), ('13', 'Cuba'), ('14','Ecuador'),
+('15', 'El Salvador'), ('16', 'Ethiopia'), ('17','Guatemala'),
+('18', 'Guinea');
 
 INSERT INTO user_info (
 id_user, name, email, information, country_id, storagePath)

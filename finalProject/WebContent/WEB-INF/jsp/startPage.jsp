@@ -21,14 +21,14 @@
 						</c:if>
 
 						<c:if test="${not empty securutyFilterMessage}">
-							<div class="alert alert-danger alert-dismissible">
-								<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-								<fmt:message key="${securutyFilterMessage}" />
-								<%
-								session.removeAttribute("securutyFilterMessage");
-								%>
-							</div>
+							<c:if test="${securutyFilterMessage !=''}">
+								<div class="alert alert-danger alert-dismissible">
+									<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+									<fmt:message key="${securutyFilterMessage}" />
+									<c:set var="securutyFilterMessage" value="" scope="session" />
 
+								</div>
+							</c:if>
 						</c:if>
 
 						<h1 class="display-5">
@@ -39,7 +39,6 @@
 					<c:url value="/jsp/authorization.html" var="authorizationUrl" />
 					<form name="AccessAction" action="${authorizationUrl}"
 						method="POST">
-						<%-- 		<label for="authorization"><fmt:message key="StartPage.Login" /></label> --%>
 						<br>
 						<button type="submit" class="btn btn-secondary"
 							data-bs-toggle="tooltip"
@@ -50,7 +49,6 @@
 
 					<c:url value="/jsp/guest.html" var="guestUrl" />
 					<form name="guestAction" action="${guestUrl}" method="POST">
-						<%-- 		<label for="guest"><fmt:message key="StartPage.GuestAccess" /></label> --%>
 						<br>
 						<button type="submit" class="btn btn-secondary "
 							data-bs-toggle="tooltip"
@@ -59,10 +57,9 @@
 						</button>
 					</form>
 
-					<c:url value="/jsp/registration.html" var="registrationUrl" />
+					<c:url value="/jsp/nothing.html" var="registrationUrl" />
 					<form name="registrationUrl" action="${registrationUrl}"
 						method="POST">
-						<%-- 		<label for="guest"><fmt:message key="StartPage.GuestAccess" /></label> --%>
 						<br>
 						<button type="submit" class="btn btn-secondary">
 							<fmt:message key="StartPage.Registration" />
@@ -79,6 +76,3 @@
 	<%@include file="/WEB-INF/jsp/fotter.jsp"%>
 </div>
 
-<!-- </body> -->
-<%-- </u:html> --%>
-<!-- </html> -->

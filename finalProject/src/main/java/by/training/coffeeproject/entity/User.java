@@ -10,7 +10,7 @@ public class User extends Entity {
 	private String password;
 	private Role role;
 	private UserInfo userInfo;
-	
+
 	public User(Integer iD, String login, String password, Role role, UserInfo userInfo) {
 		super(iD);
 		this.login = login;
@@ -88,7 +88,5 @@ public class User extends Entity {
 	public String toString() {
 		return "User [login=" + login + ", password=" + password + ", role=" + role + ", userInfo=" + userInfo + "]";
 	}
-
-	
 
 }

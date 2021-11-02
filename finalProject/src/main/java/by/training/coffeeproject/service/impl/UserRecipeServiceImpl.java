@@ -16,8 +16,7 @@ import by.training.coffeeproject.service.UserRecipeService;
 
 public class UserRecipeServiceImpl implements UserRecipeService {
 
-private static final Logger LOG = LogManager.getLogger(UserRecipeServiceImpl.class);
-	
+	private static final Logger LOG = LogManager.getLogger(UserRecipeServiceImpl.class);
 
 	private UserRecipeServiceImpl() {
 	}
@@ -32,7 +31,6 @@ private static final Logger LOG = LogManager.getLogger(UserRecipeServiceImpl.cla
 	private final DaoFabric daoFabric = DaoFabric.getInstance();
 	private EntityTransactionLogic transactionLogic = EntityTransactionLogic.getInstance();
 
-	
 	@Override
 	public Integer createUserRecipeInDB(UserRecipe userRecipe) throws ServiceException {
 		LOG.debug("start createUserRecipeInDB");
@@ -45,13 +43,20 @@ private static final Logger LOG = LogManager.getLogger(UserRecipeServiceImpl.cla
 		try {
 			result = userRecipeDao.create(userRecipe);
 			transaction.commit();
-			transaction.endTransaction();
 		} catch (DaoException e) {
 			try {
 				transaction.rollback();
 			} catch (DaoException e1) {
-				LOG.debug("rollback, transaction wasn't commited " + e.getMessage());
+				LOG.warn("rollback, transaction wasn't commited " + e.getMessage());
 				throw new ServiceException("rollback, transaction wasn't commited " + e.getMessage());
+			}
+		} finally {
+			try {
+				transaction.endTransaction();
+			} catch (DaoException e) {
+				LOG.error("can't endTransaction " + e.getMessage());
+				throw new ServiceException(e.getMessage());
+
 			}
 		}
 		return result;
@@ -69,16 +74,53 @@ private static final Logger LOG = LogManager.getLogger(UserRecipeServiceImpl.cla
 		try {
 			result = recipeDao.deleteWithTwoInt(userId, recipeId);
 			transaction.commit();
-			transaction.endTransaction();
 		} catch (DaoException e) {
 			try {
 				transaction.rollback();
 			} catch (DaoException e1) {
-				LOG.debug("rollback, transaction wasn't commited " + e.getMessage());
+				LOG.warn("rollback, transaction wasn't commited " + e.getMessage());
 				throw new ServiceException("rollback, transaction wasn't commited " + e.getMessage());
+			}
+		} finally {
+			try {
+				transaction.endTransaction();
+			} catch (DaoException e) {
+				LOG.error("can't endTransaction " + e.getMessage());
+				throw new ServiceException(e.getMessage());
+
 			}
 		}
 		return result;
 	}
-	
+
+	@Override
+	public boolean checkExists(Integer userId, Integer recipeId) throws ServiceException {
+		LOG.debug("start createUserRecipeInDB");
+
+		UserRecipeDao recipeDao = daoFabric.getUserRecipeDao();
+
+		EntityTransaction transaction = transactionLogic.initTransactionInterface(recipeDao);
+		boolean result = false;
+
+		try {
+			result = recipeDao.checkExists(userId, recipeId);
+			transaction.commit();
+		} catch (DaoException e) {
+			try {
+				transaction.rollback();
+			} catch (DaoException e1) {
+				LOG.warn("rollback, transaction wasn't commited " + e.getMessage());
+				throw new ServiceException("rollback, transaction wasn't commited " + e.getMessage());
+			}
+		} finally {
+			try {
+				transaction.endTransaction();
+			} catch (DaoException e) {
+				LOG.error("can't endTransaction " + e.getMessage());
+				throw new ServiceException(e.getMessage());
+			}
+		}
+		return result;
+	}
+
 }

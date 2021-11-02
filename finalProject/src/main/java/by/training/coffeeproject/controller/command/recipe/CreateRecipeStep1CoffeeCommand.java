@@ -13,7 +13,6 @@ import by.training.coffeeproject.controller.command.Command;
 import by.training.coffeeproject.controller.command.ForwardRedirect;
 import by.training.coffeeproject.entity.Country;
 import by.training.coffeeproject.entity.ProcessingMethod;
-import by.training.coffeeproject.entity.RecipeType;
 import by.training.coffeeproject.entity.RoastDegree;
 import by.training.coffeeproject.service.CoffeeTypeService;
 import by.training.coffeeproject.service.CountryService;
@@ -24,11 +23,11 @@ import by.training.coffeeproject.service.ServiceFactory;
  * 
  * @author AlexeySupruniuk
  * 
- * Create Recipe and CoffeType in database
+ *         Only send data on page
  *
  */
-public class CreateRecipeCoffeeCommand implements Command {
-	private static final Logger LOG = LogManager.getLogger(CreateRecipeCoffeeCommand.class);
+public class CreateRecipeStep1CoffeeCommand implements Command {
+	private static final Logger LOG = LogManager.getLogger(CreateRecipeStep1CoffeeCommand.class);
 
 	@Override
 	public ForwardRedirect execute(HttpServletRequest request) {
@@ -43,27 +42,25 @@ public class CreateRecipeCoffeeCommand implements Command {
 		try {
 			List<Country> countries = logCountry.findAllCountries();
 			List<String> roasters = logCoffeeType.findAllRoasters();
-			List <RoastDegree> roastDegrees = new ArrayList<>();
+			List<RoastDegree> roastDegrees = new ArrayList<>();
 			Stream.of(RoastDegree.values()).forEachOrdered(roastDegrees::add);
-			List <ProcessingMethod> processingMethods = new ArrayList<>();
+			List<ProcessingMethod> processingMethods = new ArrayList<>();
 			Stream.of(ProcessingMethod.values()).forEachOrdered(processingMethods::add);
 			String recipeType = request.getParameter("recipeType");
-			LOG.debug("get recipeType " + recipeType);
+//			LOG.debug("get recipeType " + recipeType);
 
 			request.setAttribute("countries", countries);
 			request.setAttribute("roasters", roasters);
 			request.setAttribute("roastDegrees", roastDegrees);
 			request.setAttribute("processingMethods", processingMethods);
 			request.setAttribute("recipeType", recipeType);
-			request.setAttribute("recipeTypeName", RecipeType.valueOf(recipeType).getName());
-
 
 		} catch (ServiceException e) {
 			LOG.debug("error in  CreateRecipeCoffeeCommand ");
 			request.setAttribute("error", "message.loginerror");
 		}
 
-		page = ("/jsp/recipe/createRecipeCoffee.html");
+		page = ("/jsp/recipe/createRecipeStep1Coffee.html");
 
 		answer.setPage(page);
 		answer.setRedirect(false);

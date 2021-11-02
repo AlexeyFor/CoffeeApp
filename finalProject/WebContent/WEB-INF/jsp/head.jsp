@@ -19,13 +19,15 @@
 	<style><%@include file="/WEB-INF/main.css"%></style>
 
  <script>
-            function locationreload() {
-                location.reload();  
-        }
+//             function locationreload() {
+//                 location.reload();  
+//         }
         </script>
 
 <body>
 <div class="wrap">
+<jsp:useBean id="random" class="java.util.Random" scope="application" />
+		<c:set var="requestIdentity" value="${random.nextInt(1000000)}" scope="session" />
 
 <c:if test="${not empty cookie.localeName}">
 		<fmt:setLocale value="${cookie.localeName.getValue()}" scope="session" />
@@ -36,9 +38,9 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-md-2">
-
+<!-- 192.168.0.102 -->
 					<a class="navbar-brand"> <img
-						src="http://192.168.0.102:8080/webCoffeeApp/img/logo1.png" alt="Logod"
+						src="http://localhost:8080/webCoffeeApp/img/logo1.png" alt="Logod"
 						style="width: 50px;" class="rounded-pill">
 					</a>
 				</div>
@@ -92,5 +94,3 @@
 
 	</nav>
 
-<!-- </body> -->
-<!-- </html> -->

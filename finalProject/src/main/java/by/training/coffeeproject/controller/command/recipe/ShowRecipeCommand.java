@@ -26,13 +26,14 @@ public class ShowRecipeCommand implements Command {
 		RecipeService logic = fct.getRecipeService();
 		Recipe recipe;
 		try {
-			 recipe = logic.findRecipeByID(ID);
+			recipe = logic.findRecipeByID(ID);
 			LOG.debug("get recipe + " + recipe.toString());
 			// this attribute is adding for displaying button "delete", for saved common
 			// methods. Because in this case, it will be another command for delete recipe
-			request.setAttribute("allSaved",request.getParameter("allSaved"));
+			request.setAttribute("allSaved", request.getParameter("allSaved"));
 			request.setAttribute("recipe", recipe);
-			LOG.debug(recipe.toString());
+			request.setAttribute("recipeID", ID);
+//			LOG.debug(recipe.toString());
 		} catch (ServiceException e) {
 			LOG.error("error in  ShowRecipeCommand ");
 			request.setAttribute("recipeID", ID);
@@ -40,7 +41,7 @@ public class ShowRecipeCommand implements Command {
 		}
 		page = ("/jsp/recipe/showRecipe.html");
 
-		LOG.debug("page is " + page);
+//		LOG.debug("page is " + page);
 		answer.setPage(page);
 		answer.setRedirect(false);
 

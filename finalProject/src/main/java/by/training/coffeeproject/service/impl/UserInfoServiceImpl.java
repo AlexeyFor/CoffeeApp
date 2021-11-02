@@ -45,13 +45,20 @@ public class UserInfoServiceImpl implements UserInfoService {
 			name = userInfoDao.takeUserNameByID(ID);
 //			LOG.debug(name);
 			transaction.commit();
-			transaction.endTransaction();
 		} catch (DaoException e) {
 			try {
 				transaction.rollback();
 			} catch (DaoException e1) {
-				LOG.debug("rollback, transaction wasn't commited");
+				LOG.warn("rollback, transaction wasn't commited");
 				throw new ServiceException();
+			}
+		} finally {
+			try {
+				transaction.endTransaction();
+			} catch (DaoException e) {
+				LOG.error("can't endTransaction " + e.getMessage());
+				throw new ServiceException(e.getMessage());
+
 			}
 		}
 		return name;

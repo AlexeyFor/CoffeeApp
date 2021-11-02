@@ -9,8 +9,15 @@
 		<h1 class="display-5">
 			<fmt:message key="MenuPage.Head" />
 		</h1>
-		<c:if test="${not empty message}">
+		<c:if test="${not empty errorMessage}">
 			<div class="alert alert-danger alert-dismissible">
+				<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+				<fmt:message key="${errorMessage}" />
+
+			</div>
+		</c:if>
+		<c:if test="${not empty message}">
+			<div class="alert alert-success alert-dismissible">
 				<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
 				<fmt:message key="${message}" />
 
@@ -63,7 +70,7 @@
 			<div id="recID" class="collapse">
 				<br>
 
-				<c:url value="/jsp/recipe/createRecipeCoffee.html"
+				<c:url value="/jsp/recipe/createRecipeStep1Coffee.html"
 					var="createRecipeCoffeeURL" />
 				<form name="createRecipeCoffeeURL" action="${createRecipeCoffeeURL}"
 					method="POST">
@@ -74,7 +81,7 @@
 					</button>
 				</form>
 
-				<c:url value="/jsp/recipe/createRecipeCoffee.html"
+				<c:url value="/jsp/recipe/createRecipeStep1Coffee.html"
 					var="createRecipeCoffeeURL" />
 				<form name="createRecipeCoffeeURL" action="${createRecipeCoffeeURL}"
 					method="POST">
@@ -90,7 +97,7 @@
 		<c:if test="${not empty role and role eq 'user'}">
 			<br>
 			<br>
-			<c:url value="/jsp/user/showUserInfo.html" var="showUserInfoUrl" />
+			<c:url value="/jsp/nothing.html" var="showUserInfoUrl" />
 			<form name="showUserInfoUrl" action="${showUserInfoUrl}">
 				<button type="submit" class="btn btn-secondary ">
 					<fmt:message key="MenuPage.ShowUserInfo" />
@@ -98,9 +105,9 @@
 			</form>
 		</c:if>
 
-		<c:url value="/jsp/moreAboutApp.html" var="moreAboutApp" />
+		<c:url value="/jsp/nothing.html" var="moreAboutAppUrl" />
 
-		<form name="moreAboutApp" action="${moreAboutAppUrl}">
+		<form name="moreAboutAppUrl" action="${moreAboutAppUrl}">
 			<button type="submit" class="btn btn-secondary ">
 				<fmt:message key="MenuPage.MoreAboutApp" />
 			</button>
@@ -111,5 +118,9 @@
 <div class="fotter">
 	<%@include file="/WEB-INF/jsp/fotter.jsp"%>
 </div>
-<!-- </div> -->
 
+<script>
+	if (window.history.replaceState) {
+		window.history.replaceState(null, null, window.location.href);
+	}
+</script>

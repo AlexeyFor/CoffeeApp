@@ -15,6 +15,13 @@ import by.training.coffeeproject.service.RecipeService;
 import by.training.coffeeproject.service.ServiceException;
 import by.training.coffeeproject.service.ServiceFactory;
 
+/**
+ * 
+ * @author AlexeySupruniuk
+ * 
+ *         Show both common and not common user saved recipes
+ *
+ */
 public class ShowAllUserSavedRecipesCommand implements Command {
 	private static final Logger LOG = LogManager.getLogger(ShowAllUserSavedRecipesCommand.class);
 
@@ -36,7 +43,7 @@ public class ShowAllUserSavedRecipesCommand implements Command {
 			request.setAttribute("allSaved", true);
 
 		} catch (ServiceException e) {
-			LOG.debug("error in  ShowAllRecipesCommand " + e.getMessage());
+			LOG.error("error in  ShowAllRecipesCommand " + e.getMessage());
 			request.setAttribute("error", "message.loginerror");
 		}
 

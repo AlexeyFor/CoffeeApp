@@ -5,10 +5,21 @@
 <div class="content">
 	<div class="content">
 		<div class="container">
-			<h3 class="display-5">
-				<fmt:message key="ShowAllRecipes.Head" />
-			</h3>
 
+			<c:if test="${not empty allSaved}">
+				<c:choose>
+					<c:when test="${allSaved}">
+						<h3 class="display-5">
+							<fmt:message key="ShowAllSavedRecipes.Head" />
+						</h3>
+					</c:when>
+					<c:when test="${not allSaved}">
+						<h3 class="display-5">
+							<fmt:message key="ShowAllRecipes.Head" />
+						</h3>
+					</c:when>
+				</c:choose>
+			</c:if>
 
 			<table class="table table-striped">
 				<tr>
@@ -50,15 +61,9 @@
 				</c:forEach>
 			</table>
 
-
-
 		</div>
 	</div>
 </div>
 <div class="fotter">
 	<%@include file="/WEB-INF/jsp/fotter.jsp"%>
 </div>
-
-
-<!-- </body> -->
-<%-- </u:html> --%>

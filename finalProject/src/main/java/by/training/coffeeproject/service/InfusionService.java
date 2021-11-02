@@ -9,5 +9,9 @@ public interface InfusionService {
 	public List <Infusion> takeInfusionsByRecipeID (Integer ID) throws ServiceException;
 	
 	public Integer createInfusionInDB(Infusion infusion) throws ServiceException;
+	
+	public boolean editInfusionInDB (Infusion infusion) throws ServiceException;
+
+	public boolean deleteInfusionInDB(Integer ID) throws ServiceException;
 
 }

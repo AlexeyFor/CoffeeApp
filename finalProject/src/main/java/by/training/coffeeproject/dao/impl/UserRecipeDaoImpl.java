@@ -2,6 +2,7 @@ package by.training.coffeeproject.dao.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -27,16 +28,8 @@ public class UserRecipeDaoImpl extends AbstractDao<UserRecipe> implements UserRe
 
 	private static final String SQL_DELETE_USERRECIPE = "DELETE FROM user_recipes WHERE user_id=? AND recipe_id=?";
 	private static final String SQL_CREATE_USERRECIPE = "INSERT INTO user_recipes (user_id, recipe_id) VALUES ( ?, ?)";
+	private static final String SQL_CHECKEXISTS_USERRECIPE = "SELECT user_id, recipe_id FROM user_recipes WHERE user_id=? AND recipe_id=?";
 
-
-	/**
-	 * return Integer = 1 if success, or 0 if not, because UserRecipe doesn't have
-	 * generated key
-	 * 
-	 * @param t
-	 * @return
-	 * @throws DaoException
-	 */
 	@Override
 	public Integer create(UserRecipe t) throws DaoException {
 		LOG.debug("start create");
@@ -52,7 +45,7 @@ public class UserRecipeDaoImpl extends AbstractDao<UserRecipe> implements UserRe
 			return 1;
 
 		} catch (SQLException e) {
-			LOG.error("can't create UserRecipe " + e.getMessage());
+			LOG.warn("can't create UserRecipe " + e.getMessage());
 			return 0;
 		} finally {
 			close(statement);
@@ -60,25 +53,50 @@ public class UserRecipeDaoImpl extends AbstractDao<UserRecipe> implements UserRe
 	}
 
 	public boolean deleteWithTwoInt(Integer userId, Integer recipeId) throws DaoException {
-
-		LOG.debug("start delete");
+		LOG.debug("start delete with userId " + userId + "  recipeId " + recipeId);
 
 		PreparedStatement statement = null;
 		Connection connection = pooledConnection.getConnection();
-
 		try {
 			statement = connection.prepareStatement(SQL_DELETE_USERRECIPE);
 			statement.setInt(1, userId);
-			statement.setInt(1, recipeId);
+			statement.setInt(2, recipeId);
 			statement.execute();
 			LOG.debug("delete return true");
 			return true;
 		} catch (SQLException e) {
-			LOG.debug("can't delete Infusion " + e.getMessage());
+			LOG.warn("can't delete userRecipe " + e.getMessage());
 			return false;
 		} finally {
 			close(statement);
 		}
+	}
+
+	public boolean checkExists(Integer userId, Integer recipeId) throws DaoException {
+		LOG.debug("start checkExists");
+
+		PreparedStatement statement = null;
+		Connection connection = pooledConnection.getConnection();
+		boolean result;
+
+		try {
+			statement = connection.prepareStatement(SQL_CHECKEXISTS_USERRECIPE);
+			statement.setInt(1, userId);
+			statement.setInt(2, recipeId);
+			ResultSet resultSet = statement.executeQuery();
+			if (resultSet.next()) {
+				result = true;
+			} else {
+				result = false;
+			}
+
+		} catch (SQLException e) {
+			LOG.debug("can't find UserRecipe " + e.getMessage());
+			throw new DaoException(e);
+		} finally {
+			close(statement);
+		}
+		return result;
 	}
 
 	@Override

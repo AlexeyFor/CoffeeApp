@@ -44,7 +44,7 @@ public class PouroverRecipe extends Recipe {
 		this.infusions = infusions;
 	}
 
-	public PouroverRecipe(Integer iD,String recipeName, FunnelType funnelType, float massOfCoffee, float grindSettings,
+	public PouroverRecipe(Integer iD, String recipeName, FunnelType funnelType, float massOfCoffee, float grindSettings,
 			String coffeeGrinder, int totalTime, String disription) {
 		super(iD);
 		this.recipeName = recipeName;

@@ -26,7 +26,7 @@ public class UserRecipe extends Entity {
 		this.userId = userId;
 		this.recipeId = recipeId;
 	}
-	
+
 	public UserRecipe() {
 		super();
 	}

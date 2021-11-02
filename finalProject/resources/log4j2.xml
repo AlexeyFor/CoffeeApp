@@ -9,7 +9,7 @@
 		</Property>
 	</Properties>
 	<Appenders>
-		<File name="TxtFile" fileName="logs/textNew.log" bufferedIO="true">
+		<File name="TxtFile" fileName="logs/textNew2.log" bufferedIO="true">
 			<PatternLayout pattern="${patternfull}" />
 		</File>
 		<File name="NotConsole" fileName="logs/textNewNotConsole.log" bufferedIO="true">

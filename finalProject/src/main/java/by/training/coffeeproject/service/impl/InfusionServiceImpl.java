@@ -5,11 +5,9 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-
 import by.training.coffeeproject.dao.DaoException;
 import by.training.coffeeproject.dao.DaoFabric;
 import by.training.coffeeproject.dao.InfusionDao;
-
 import by.training.coffeeproject.dao.pool.EntityTransaction;
 import by.training.coffeeproject.entity.Infusion;
 import by.training.coffeeproject.service.EntityTransactionLogic;
@@ -24,7 +22,6 @@ import by.training.coffeeproject.service.ServiceException;
 public class InfusionServiceImpl implements InfusionService {
 
 	private static final Logger LOG = LogManager.getLogger(InfusionServiceImpl.class);
-	
 
 	private InfusionServiceImpl() {
 	}
@@ -36,7 +33,7 @@ public class InfusionServiceImpl implements InfusionService {
 	}
 
 	private final DaoFabric daoFabric = DaoFabric.getInstance();
-	private EntityTransactionLogic transactionLogic= EntityTransactionLogic.getInstance();
+	private EntityTransactionLogic transactionLogic = EntityTransactionLogic.getInstance();
 
 	@Override
 	public List<Infusion> takeInfusionsByRecipeID(Integer ID) throws ServiceException {
@@ -52,13 +49,20 @@ public class InfusionServiceImpl implements InfusionService {
 			infusions = infusionDao.findByRecipeId(ID);
 //			LOG.debug(infusions.toString());
 			transaction.commit();
-			transaction.endTransaction();
 		} catch (DaoException e) {
 			try {
 				transaction.rollback();
 			} catch (DaoException e1) {
-				LOG.debug("rollback, transaction wasn't commited");
+				LOG.error("rollback, transaction wasn't commited");
 				throw new ServiceException("rollback, transaction wasn't commited " + e.getMessage());
+			}
+		} finally {
+			try {
+				transaction.endTransaction();
+			} catch (DaoException e) {
+				LOG.error("can't endTransaction " + e.getMessage());
+				throw new ServiceException(e.getMessage());
+
 			}
 		}
 		return infusions;
@@ -77,15 +81,87 @@ public class InfusionServiceImpl implements InfusionService {
 		try {
 			result = infusionDao.create(infusion);
 			transaction.commit();
+		} catch (DaoException e) {
+			try {
+				transaction.rollback();
+			} catch (DaoException e1) {
+				LOG.error("rollback, transaction wasn't commited " + e.getMessage());
+				throw new ServiceException("rollback, transaction wasn't commited " + e.getMessage());
+			}
+		} finally {
+			try {
+				transaction.endTransaction();
+			} catch (DaoException e) {
+				LOG.error("can't endTransaction " + e.getMessage());
+				throw new ServiceException(e.getMessage());
+
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public boolean editInfusionInDB(Infusion infusion) throws ServiceException {
+		LOG.debug("start createInfusionInDB");
+
+		InfusionDao infusionDao = daoFabric.getInfusionDao();
+
+		EntityTransaction transaction = transactionLogic.initTransactionInterface(infusionDao);
+		boolean result = false;
+
+		try {
+			result = infusionDao.update(infusion);
+			transaction.commit();
+		} catch (DaoException e) {
+			try {
+				transaction.rollback();
+			} catch (DaoException e1) {
+				LOG.error("rollback, transaction wasn't commited " + e.getMessage());
+				throw new ServiceException("rollback, transaction wasn't commited " + e.getMessage());
+			}
+		} finally {
+			try {
+				transaction.endTransaction();
+			} catch (DaoException e) {
+				LOG.error("can't endTransaction " + e.getMessage());
+				throw new ServiceException(e.getMessage());
+
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public boolean deleteInfusionInDB(Integer ID) throws ServiceException {
+		LOG.debug("start deleteInfusionInDB with ID " + ID);
+
+		InfusionDao infusionDao = daoFabric.getInfusionDao();
+
+		boolean answer = false;
+
+		EntityTransaction transaction = transactionLogic.initTransactionInterface(infusionDao);
+
+		try {
+			answer = infusionDao.delete(ID);
+			transaction.commit();
 			transaction.endTransaction();
 		} catch (DaoException e) {
 			try {
 				transaction.rollback();
 			} catch (DaoException e1) {
-				LOG.debug("rollback, transaction wasn't commited " + e.getMessage());
-				throw new ServiceException("rollback, transaction wasn't commited " + e.getMessage());
+				LOG.error("rollback, transaction wasn't commited");
+				answer = false;
+			}
+		} finally {
+			try {
+				transaction.endTransaction();
+			} catch (DaoException e) {
+				LOG.error("can't endTransaction " + e.getMessage());
+				throw new ServiceException(e.getMessage());
+
 			}
 		}
-		return result;
+		return answer;
 	}
+
 }

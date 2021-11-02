@@ -34,10 +34,10 @@ public final class ConnectionPool {
 	private Properties properties = new Properties();
 	private ReentrantLock lock = new ReentrantLock();
 
-	// блокируещая очередь first in first out
+	// blocking queue first in first out
 	private BlockingQueue<PooledConnection> freeConnections = new LinkedBlockingQueue<>();
-	// потокобезопасный список, который не хранит повторяющиеся эл-ты
-	// хранит используемые connections
+	// a thread-safe list that does not store duplicate elements
+	// stores used connections
 	private Set<PooledConnection> usedConnections = new ConcurrentSkipListSet<>();
 
 	private ConnectionPool() {
@@ -62,10 +62,10 @@ public final class ConnectionPool {
 			PooledConnection connection = null;
 			while (connection == null) {
 				try {
-					// если очередь не пустая, забираем первый её эл-т
+					// if the queue is not empty, take its first email
 					if (!freeConnections.isEmpty()) {
 						connection = freeConnections.take();
-						// если соединение не работает, пробуем закрыть
+						// if the connection doesn't work, try to close
 						if (!connection.isValid(checkConnectionTimeout)) {
 							try {
 								connection.getConnection().close();
@@ -74,10 +74,10 @@ public final class ConnectionPool {
 							}
 							connection = null;
 						}
-						// если очередь не пустая, проверяем не превышено ли число соединений с БД
+						// if the queue is not empty, check if the number of connections to the database
+						// has been exceeded
 					} else if (usedConnections.size() < maxSize) {
 						connection = createConnection();
-						// если превышено, то вот
 					} else {
 						LOG.debug("The limit of number of database connections is exceeded");
 						throw new DaoException();
@@ -89,7 +89,7 @@ public final class ConnectionPool {
 					LOG.debug("wrong SQL " + e.getMessage());
 				}
 			}
-			// если все в порядке, то добавляем connection в usedConnections
+			// if everything is ok, then add connection to usedConnections
 			usedConnections.add(connection);
 			LOG.debug(String.format(
 					"Connection was received from pool. Current pool size: %d used connections; %d free connection",
@@ -112,7 +112,6 @@ public final class ConnectionPool {
 			try {
 				if (connection.isValid(checkConnectionTimeout)) {
 					connection.clearWarnings();
-					// все запросы в SQL - автоматически в одну группу/коммит
 					connection.setAutoCommit(true);
 					usedConnections.remove(connection);
 					freeConnections.put(connection);
@@ -156,7 +155,6 @@ public final class ConnectionPool {
 				try {
 					Class.forName("com.mysql.cj.jdbc.Driver");
 				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				this.url = url;
@@ -175,7 +173,7 @@ public final class ConnectionPool {
 		}
 	}
 
-	// исключительно для init()
+	//only for init()
 	private PooledConnection createConnection() throws SQLException {
 		return new PooledConnection(DriverManager.getConnection(url, properties));
 	}

@@ -166,8 +166,6 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
 
 	}
 
-
-
 	@Override
 	public Integer create(User t) throws DaoException {
 		LOG.debug("start create");
@@ -188,7 +186,7 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
 				return 0;
 			}
 		} catch (SQLException e) {
-			LOG.error("can't create user " + e.getMessage());
+			LOG.warn("can't create user " + e.getMessage());
 			return 0;
 		} finally {
 			close(statement);
@@ -212,7 +210,7 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
 
 			return true;
 		} catch (SQLException e) {
-			LOG.debug("can't update user " + e.getMessage());
+			LOG.warn("can't update user " + e.getMessage());
 			return false;
 		} finally {
 			close(statement);
@@ -236,7 +234,7 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
 			LOG.debug("delete return true");
 			return true;
 		} catch (SQLException e) {
-			LOG.debug("can't delete user " + e.getMessage());
+			LOG.warn("can't delete user " + e.getMessage());
 			return false;
 		} finally {
 			close(statement);
@@ -255,7 +253,7 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
 			statement = connection.prepareStatement(SQL_AUTHORIZATION);
 			statement.setString(1, login);
 			statement.setString(2, password);
-			LOG.debug("set pwd from dao " + password);
+//			LOG.debug("set pwd from dao " + password);
 			ResultSet resultSet = statement.executeQuery();
 			User resultUser = null;
 
@@ -270,7 +268,6 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
 			close(statement);
 		}
 	}
-
 
 	private User createUserFromResultSet(ResultSet resultSet) throws SQLException {
 		User user = new User();

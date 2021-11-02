@@ -31,16 +31,6 @@ public interface RecipeDao extends Dao<Recipe> {
 	
 	List<Recipe> findAllCommonRecipes () throws DaoException;
 
-//	List<Recipe> findByCoffeeCountry(Integer coffeeCountryId) throws DaoException;
 
-//	List<Recipe> findByRoastDegree(String roastDegree) throws DaoException;
-//
-//	List<Recipe> findByRoaster(String roaster) throws DaoException;
-//
-//	List<Recipe> findByProcessingMethod(String processingMethod) throws DaoException;
-//
-//	List<Recipe> findByArabicPercent(int arabicPercent) throws DaoException;
-//
-//	List<Recipe> findByRobustaPercent(int robustaPercent) throws DaoException;
 
 }

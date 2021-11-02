@@ -10,18 +10,13 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import by.training.coffeeproject.dao.DaoException;
 import by.training.coffeeproject.dao.InfusionDao;
-import by.training.coffeeproject.entity.CoffeeType;
-import by.training.coffeeproject.entity.Country;
 import by.training.coffeeproject.entity.Infusion;
-import by.training.coffeeproject.entity.ProcessingMethod;
-import by.training.coffeeproject.entity.RoastDegree;
 
 /**
  * 
- *@author AlexeySupruniuk
+ * @author AlexeySupruniuk
  *
  */
 public class InfusionDaoImpl extends AbstractDao<Infusion> implements InfusionDao {
@@ -133,10 +128,9 @@ public class InfusionDaoImpl extends AbstractDao<Infusion> implements InfusionDa
 			statement = connection.prepareStatement(SQL_DELETE_INFUSION);
 			statement.setInt(1, id);
 			statement.execute();
-			LOG.debug("delete return true");
 			return true;
 		} catch (SQLException e) {
-			LOG.debug("can't delete Infusion " + e.getMessage());
+			LOG.warn("can't delete Infusion " + e.getMessage());
 			return false;
 		} finally {
 			close(statement);
@@ -165,7 +159,7 @@ public class InfusionDaoImpl extends AbstractDao<Infusion> implements InfusionDa
 				return 0;
 			}
 		} catch (SQLException e) {
-			LOG.error("can't create infusion " + e.getMessage());
+			LOG.warn("can't create infusion " + e.getMessage());
 			return 0;
 		} finally {
 			close(statement);
@@ -191,7 +185,7 @@ public class InfusionDaoImpl extends AbstractDao<Infusion> implements InfusionDa
 
 			return true;
 		} catch (SQLException e) {
-			LOG.debug("can't update Infusion " + e.getMessage());
+			LOG.warn("can't update Infusion " + e.getMessage());
 			return false;
 		} finally {
 			close(statement);

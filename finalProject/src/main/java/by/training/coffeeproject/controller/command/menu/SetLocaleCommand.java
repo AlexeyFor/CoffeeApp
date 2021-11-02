@@ -17,8 +17,11 @@ public class SetLocaleCommand implements Command {
 		LOG.debug("start execute ");
 		ForwardRedirect answer = new ForwardRedirect();
 
-		String currentPage = request.getParameter("currentPage");
-		String contextPath = request.getContextPath();
+		// to redirect on page, where language was changed
+		// One can try to ger the previous request, and then changing can work.
+		// Now, language changing didn't work on some pages
+//		String currentPage = request.getParameter("currentPage");
+//		String contextPath = request.getContextPath();
 		int counter = 0;
 
 		String localeName = request.getParameter("localeName");
@@ -28,13 +31,13 @@ public class SetLocaleCommand implements Command {
 			if (cook.getName().equals("localeName")) {
 				cook.setValue(localeName);
 				LOG.debug(cook.getName() + "  " + cook.getValue());
-
 				counter++;
 			}
 		}
 
 		LOG.debug("counter " + counter);
-		String page = getPageFromUri(currentPage, contextPath);
+		String page = ("/jsp/startPage.html");
+//		String page = getPageFromUri(currentPage, contextPath);
 
 		answer.setPage(page);
 		answer.setRedirect(true);
@@ -42,6 +45,12 @@ public class SetLocaleCommand implements Command {
 		return answer;
 	}
 
+	/**
+	 * to redirect on page, where language was changed
+	 * @param uri
+	 * @param contextPath
+	 * @return
+	 */
 	private String getPageFromUri(String uri, String contextPath) {
 //		LOG.debug("get URI " + uri);
 		int begin = contextPath.length() + "/WEB-INF".length();

@@ -8,11 +8,21 @@ public interface UserRecipeService {
 
 	/**
 	 * first param - userID, second - recipeID
+	 * 
 	 * @param userId
 	 * @param recipeId
 	 * @return
 	 * @throws ServiceException
 	 */
 	public boolean deleteUserRecipeInDB(Integer userId, Integer recipeId) throws ServiceException;
+
+	/**
+	 * first param - userID, second - recipeID
+	 * @param userId
+	 * @param recipeId
+	 * @return
+	 * @throws ServiceException
+	 */
+	public boolean checkExists(Integer userId, Integer recipeId) throws ServiceException;
 
 }

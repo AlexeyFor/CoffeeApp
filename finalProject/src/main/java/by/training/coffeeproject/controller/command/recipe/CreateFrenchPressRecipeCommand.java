@@ -14,12 +14,12 @@ import by.training.coffeeproject.service.CoffeeTypeService;
 import by.training.coffeeproject.service.RecipeService;
 import by.training.coffeeproject.service.ServiceException;
 import by.training.coffeeproject.service.ServiceFactory;
-import by.training.coffeeproject.service.creator.CoffeeRecipeCreator;
+import by.training.coffeeproject.service.creator.RecipeCreator;
 import by.training.coffeeproject.service.creator.CoffeeTypeCreator;
 import by.training.coffeeproject.service.validator.CoffeeTypeValidator;
 
 public class CreateFrenchPressRecipeCommand implements Command {
-	private static final Logger LOG = LogManager.getLogger(CreateRecipeTypeCommand.class);
+	private static final Logger LOG = LogManager.getLogger(CreateRecipeStep2Command.class);
 
 	@Override
 	public ForwardRedirect execute(HttpServletRequest request) {
@@ -33,7 +33,7 @@ public class CreateFrenchPressRecipeCommand implements Command {
 
 		try {
 			// Validation
-			boolean isValid = CoffeeTypeValidator.getInstance().validateForCreateRecipeType(request);
+			boolean isValid = CoffeeTypeValidator.getInstance().validateCoffeeTypeRequest(request);
 			if (isValid) {
 				// create CoffeeType
 				CoffeeType coffeeType = CoffeeTypeCreator.getInstance().createFromRequest(request);
@@ -41,7 +41,7 @@ public class CreateFrenchPressRecipeCommand implements Command {
 				Integer coffeeTypeId = logCoffeeType.createCoffeeTypeInDataBase(coffeeType);
 				coffeeType.setID(coffeeTypeId);
 				// create Recipe
-				Recipe recipe = CoffeeRecipeCreator.getInstance().createFromRequest(request, coffeeType);
+				Recipe recipe = RecipeCreator.getInstance().createFromRequest(request, coffeeType);
 				// create Recipe in DB
 				Integer recipeId = logRecipe.createRecipeInDataBase(recipe);
 				request.setAttribute("recipeId", recipeId);

@@ -1,6 +1,5 @@
 package by.training.coffeeproject.controller.filter;
 
-import javax.servlet.annotation.WebFilter;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
@@ -18,7 +17,15 @@ import javax.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-@WebFilter(urlPatterns = { "*.html" })
+/**
+ * 
+ * @author AlexeySupruniuk
+ * 
+ *         Prevents direct access to pages for users of certain roles. For some
+ *         pages - only GET requests
+ *
+ */
+//@WebFilter(urlPatterns = { "*.html" })
 public class SecurityFilter implements Filter {
 	private static final Logger LOG = LogManager.getLogger(SecurityFilter.class);
 
@@ -37,32 +44,44 @@ public class SecurityFilter implements Filter {
 		notAuthorizedCommands.add("/webCoffeeApp/jsp/guest.html");
 		notAuthorizedCommands.add("/webCoffeeApp/jsp/result.html");
 		notAuthorizedCommands.add("/webCoffeeApp/jsp/locale.html");
+		notAuthorizedCommands.add("/webCoffeeApp/jsp/logOut.html");
+		notAuthorizedCommands.add("/webCoffeeApp/jsp/nothing.html");
+
 
 		guestAllowedCommands.addAll(notAuthorizedCommands);
 		guestAllowedCommands.add("/webCoffeeApp/jsp/recipe/showRecipe.html");
 		guestAllowedCommands.add("/webCoffeeApp/jsp/recipe/showAllRecipes.html");
 		guestAllowedCommands.add("/webCoffeeApp/jsp/menu.html");
-		guestAllowedCommands.add("/webCoffeeApp/jsp/logOut.html");
 		guestAllowedCommands.add("/webCoffeeApp/jsp/user/showPublicUserInfo.html");
+		guestAllowedCommands.add("/webCoffeeApp/nothing.html");
 
 		userAllowedCommands.addAll(guestAllowedCommands);
-		userAllowedCommands.add("/webCoffeeApp/jsp/recipe/createRecipeType.html");
-		userAllowedCommands.add("/webCoffeeApp/jsp/recipe/createRecipeCoffee.html");
 		userAllowedCommands.add("/webCoffeeApp/jsp/recipe/showAllCoffeeType.html");
 		userAllowedCommands.add("/webCoffeeApp/jsp/user/showAllSavedRecipes.html");
-		userAllowedCommands.add("/webCoffeeApp/jsp/recipe/createPouroverRecipe.html");
+		userAllowedCommands.add("/webCoffeeApp/jsp/recipe/showAllCoffeeTypeEdit.html");
 		userAllowedCommands.add("/webCoffeeApp/jsp/recipe/deleteNotCommonRecipe.html");
-	
+		userAllowedCommands.add("/webCoffeeApp/jsp/recipe/deleteSavedCommonRecipe.html");
+		userAllowedCommands.add("/webCoffeeApp/jsp/recipe/saveCommonRecipe.html");
+		userAllowedCommands.add("/webCoffeeApp/jsp/recipe/createRecipeStep1Coffee.html");
+		userAllowedCommands.add("/webCoffeeApp/jsp/recipe/createRecipeStep2.html");
+		userAllowedCommands.add("/webCoffeeApp/jsp/recipe/createSaveRecipePourover.html");
+		userAllowedCommands.add("/webCoffeeApp/jsp/recipe/editRecipeStep1Coffee.html");
+		userAllowedCommands.add("/webCoffeeApp/jsp/recipe/editRecipeStep2.html");
+		userAllowedCommands.add("/webCoffeeApp/jsp/recipe/editSaveChangesRecipePourover.html");
+
 		onlyPostCommands.add("/webCoffeeApp/jsp/recipe/showAllCoffeeType.html");
+		onlyPostCommands.add("/webCoffeeApp/jsp/recipe/showAllCoffeeTypeEdit.html");
+		onlyPostCommands.add("/webCoffeeApp/jsp/recipe/createRecipeStep1Coffee.html");
+		onlyPostCommands.add("/webCoffeeApp/jsp/recipe/createRecipeStep2.html");
+		onlyPostCommands.add("/webCoffeeApp/jsp/recipe/createSaveRecipePourover.html");
 		onlyPostCommands.add("/webCoffeeApp/jsp/result.html");
-		onlyPostCommands.add("/webCoffeeApp/jsp/recipe/createRecipeCoffee.html");
-		onlyPostCommands.add("/webCoffeeApp/jsp/recipe/createRecipeType.html");
 		onlyPostCommands.add("/webCoffeeApp/jsp/guest.html");
-		onlyPostCommands.add("/webCoffeeApp/jsp/recipe/createPouroverRecipe.html");
+		onlyPostCommands.add("/webCoffeeApp/jsp/recipe/saveCommonRecipe.html");
 		onlyPostCommands.add("/webCoffeeApp/jsp/recipe/deleteNotCommonRecipe.html");
-
-		
-
+		onlyPostCommands.add("/webCoffeeApp/jsp/recipe/deleteSavedCommonRecipe.html");
+		onlyPostCommands.add("/webCoffeeApp/jsp/recipe/editRecipeStep1Coffee.html");
+		onlyPostCommands.add("/webCoffeeApp/jsp/recipe/editRecipeStep2.html");
+		onlyPostCommands.add("/webCoffeeApp/jsp/recipe/editSaveChangesRecipePourover.html");
 
 	}
 
@@ -74,32 +93,31 @@ public class SecurityFilter implements Filter {
 		HttpSession session = request.getSession();
 		String roleName = null;
 		String uri = request.getRequestURI();
-		LOG.debug("getRequestURI is " + uri);
+//		LOG.debug("getRequestURI is " + uri);
 
 		if (session != null) {
 			roleName = (String) session.getAttribute("role");
-			LOG.debug("roleName" + roleName + "end");
+//			LOG.debug("roleName" + roleName + "end");
 		}
 
 		if (roleName == null) {
-			LOG.debug("roleName == null");
+//			LOG.debug("roleName == null");
 			if (notAuthorizedCommands.contains(uri)) {
-				checkForPostOrRedirect (request, uri, session, response, chain);
+				checkForPostOrRedirect(request, uri, session, response, chain);
 			} else {
-				LOG.debug("redirect not Authorized Commands");
+//				LOG.debug("redirect not Authorized Commands");
 				session.setAttribute("securutyFilterMessage", "SecurutyrMessage.AuthCommand");
 				response.sendRedirect(request.getContextPath() + "/jsp/startPage.html");
 			}
 		}
 
 		if (roleName != null) {
-			LOG.debug("her1e");
 			if (roleName.equals("user")) {
 				if (userAllowedCommands.contains(uri)) {
-					checkForPostOrRedirect (request, uri, session, response, chain);
+					checkForPostOrRedirect(request, uri, session, response, chain);
 
 				} else {
-					LOG.debug("redirect user Allowed Commands");
+//					LOG.debug("redirect user Allowed Commands");
 					session.setAttribute("securutyFilterMessage", "SecurutyrMessage.UserCommand");
 					response.sendRedirect(request.getContextPath() + "/jsp/startPage.html");
 				}
@@ -107,9 +125,9 @@ public class SecurityFilter implements Filter {
 
 			if (roleName.equals("guest")) {
 				if (guestAllowedCommands.contains(uri)) {
-					checkForPostOrRedirect (request, uri, session, response, chain);
+					checkForPostOrRedirect(request, uri, session, response, chain);
 				} else {
-					LOG.debug("redirect guest Allowed Commands");
+//					LOG.debug("redirect guest Allowed Commands");
 					session.setAttribute("securutyFilterMessage", "SecurutyrMessage.GuestCommand");
 					response.sendRedirect(request.getContextPath() + "/jsp/startPage.html");
 				}
@@ -124,11 +142,11 @@ public class SecurityFilter implements Filter {
 	private boolean checkForPost(HttpServletRequest request, String uri, HttpSession session,
 			HttpServletResponse response) throws IOException {
 		if (onlyPostCommands.contains(uri) && (!request.getMethod().equals("POST"))) {
-			LOG.debug("get " + request.getMethod());
-			LOG.debug("redirect only Post Commands");
+//			LOG.debug("get " + request.getMethod());
+			LOG.warn("redirect only Post Commands");
 
 			session.setAttribute("securutyFilterMessage", "SecurutyrMessage.WrongMethod");
-			LOG.debug("session");
+//			LOG.debug("session");
 			return false;
 		} else {
 			return true;

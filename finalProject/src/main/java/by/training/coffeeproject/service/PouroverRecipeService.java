@@ -23,6 +23,9 @@ public interface PouroverRecipeService {
 	 * @return
 	 */
 	public PouroverRecipe uniteTwoRecipes(Recipe recipe1, PouroverRecipe recipe2) throws ServiceException;
-	
+
 	public Integer createPouroverRecipeInDB(PouroverRecipe recipe) throws ServiceException;
+
+	public boolean editPouroverRecipenInDB(PouroverRecipe recipe) throws ServiceException;
+
 }

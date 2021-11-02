@@ -1,13 +1,11 @@
 package by.training.coffeeproject.service.validator;
 
-
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import by.training.coffeeproject.controller.command.recipe.CreateRecipeTypeCommand;
+import by.training.coffeeproject.controller.command.recipe.CreateRecipeStep2Command;
 
 import by.training.coffeeproject.service.ServiceException;
 
@@ -25,21 +23,20 @@ public class CoffeeTypeValidator {
 	}
 
 	/**
-	 * Only for CreateRecipeTypeCommand. Take all Parameters from
-	 * HttpServletRequest, validate them, throw exception if there is any mistake.
-	 * If parapmetec can be null - valid with if.
+	 * Take all Parameters from HttpServletRequest, validate them, throw exception
+	 * if there is any mistake. If parameter can be null (as in database) - valid
+	 * with if. Valid all fields of CoffeeType
 	 * 
 	 * @param request
 	 * @return
 	 * @throws ServiceException
-	 * @see CreateRecipeTypeCommand
+	 * @see CreateRecipeStep2Command
 	 */
-	public boolean validateForCreateRecipeType(HttpServletRequest request) throws ServiceException {
-		LOG.debug("start validateForCreateRecipeType aga");
+	public boolean validateCoffeeTypeRequest(HttpServletRequest request) throws ServiceException {
+		LOG.debug("start validateForCreateRecipeType");
 
 		ValidatorCommonMethods validator = ValidatorCommonMethods.getInstance();
 
-		String infusionsNumber = request.getParameter("infusions");		
 		String roaster = request.getParameter("roaster");
 		String countryID = request.getParameter("countries");
 		String coffeeName = request.getParameter("CoffeeName");
@@ -48,14 +45,11 @@ public class CoffeeTypeValidator {
 		String arabicPercent = request.getParameter("ArabicPercent");
 		String robustaPercent = request.getParameter("RobustaPercent");
 		String information = request.getParameter("information");
-		String recipeType = request.getParameter("recipeType");
-		
-		boolean condition1 = validator.checkInfusionsNumber(infusionsNumber);
+
 		boolean condition2 = validator.checkRoaster(roaster);
 		boolean condition3 = validator.checkCountryByID(countryID);
 		boolean condition4 = validator.checkName(coffeeName);
 		boolean condition7 = validator.checkPercents(arabicPercent, robustaPercent);
-		boolean condition9 = validator.checkRecipeType(recipeType);
 
 		boolean condition5;
 		if (roastDegree != null) {
@@ -78,15 +72,21 @@ public class CoffeeTypeValidator {
 			condition8 = true;
 		}
 
-		return (condition1 && condition2 && condition3 && condition4 && condition5 && condition6 && condition7
-				&& condition8 && condition9);
+		return (condition2 && condition3 && condition4 && condition5 && condition6 && condition7
+				&& condition8 );
 	}
 
+	/**
+	 * valid infusionsNumber
+	 * @param request
+	 * @return
+	 * @throws ServiceException
+	 */
 	public boolean validateForCreateRecipeTypeSelected(HttpServletRequest request) throws ServiceException {
 		LOG.debug("start validateForCreateRecipeType ");
 
 		ValidatorCommonMethods validator = ValidatorCommonMethods.getInstance();
-		String infusions = request.getParameter("infusions");
+		String infusions = request.getParameter("infusionsNumber");
 		boolean condition1 = validator.checkInfusionsNumber(infusions);
 
 		return condition1;

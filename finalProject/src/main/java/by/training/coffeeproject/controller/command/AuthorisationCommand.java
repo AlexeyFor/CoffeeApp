@@ -21,10 +21,8 @@ public class AuthorisationCommand implements Command {
 		ForwardRedirect answer = new ForwardRedirect();
 
 		String page = null;
-		// извлечение из запроса логина и пароля
 		String login = request.getParameter("username");
 		String pass = request.getParameter("pwd");
-		// проверка логина и пароля
 		ServiceFactory fct = ServiceFactory.getInstance();
 		UserService log = fct.getUserService();
 		User user;
@@ -39,7 +37,13 @@ public class AuthorisationCommand implements Command {
 			page = ("/jsp/menu.html");
 
 		} catch (ServiceException e) {
-			request.setAttribute("error", "message.loginerror");
+			LOG.warn ("wrong login or password");
+			request.setAttribute("message", "Message.loginerror");
+			page = ("/jsp/startPage.html");
+			answer.setPage(page);
+			answer.setRedirect(false);
+
+			return answer;
 		}
 
 		answer.setPage(page);

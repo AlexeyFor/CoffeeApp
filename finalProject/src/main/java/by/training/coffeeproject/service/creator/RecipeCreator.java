@@ -20,22 +20,21 @@ import by.training.coffeeproject.service.ServiceException;
  *         only for creating CoffeeRecipe object, validating in another class.
  *
  */
-public class CoffeeRecipeCreator {
+public class RecipeCreator {
 
-	private static final Logger LOG = LogManager.getLogger(CoffeeRecipeCreator.class);
+	private static final Logger LOG = LogManager.getLogger(RecipeCreator.class);
 
-	private static final CoffeeRecipeCreator instance = new CoffeeRecipeCreator();
+	private static final RecipeCreator instance = new RecipeCreator();
 
-	private CoffeeRecipeCreator() {
+	private RecipeCreator() {
 	}
 
-	public static CoffeeRecipeCreator getInstance() {
+	public static RecipeCreator getInstance() {
 		return instance;
 	}
 
 	/**
-	 * Take all parameters from request (except CoffeeTypeID). For command
-	 * CreateRecipeCoffeeCommand.
+	 * Take all parameters from request (except CoffeeTypeID).
 	 * 
 	 * SET COMMON AS FALSE!
 	 * 
@@ -62,6 +61,41 @@ public class CoffeeRecipeCreator {
 			return result;
 
 		default:
+			LOG.warn("error in createFromRequest ");
+			throw new ServiceException("wrong_type");
+		}
+
+	}
+
+	/**
+	 * Take all parameters from request (except CoffeeTypeID).
+	 * 
+	 * SET COMMON AS FALSE!
+	 * 
+	 * @param request
+	 * @return
+	 * @throws ServiceException
+	 */
+	public Recipe createFromRequest(HttpServletRequest request, CoffeeType coffeeType, RecipeType recipeType)
+			throws ServiceException {
+		LOG.debug("start createFromRequest ");
+		HttpSession session = request.getSession();
+		Integer authorUserId = (Integer) session.getAttribute("ID");
+
+		boolean common = false;
+		Recipe result;
+
+		switch (recipeType) {
+		case POUROVER:
+			result = new PouroverRecipe(coffeeType, authorUserId, common, recipeType);
+			return result;
+
+		case FRENCHPRESS:
+			result = new FrenchPressRecipe(coffeeType, authorUserId, common, recipeType);
+			return result;
+
+		default:
+			LOG.warn("error in createFromRequest ");
 			throw new ServiceException("wrong_type");
 		}
 

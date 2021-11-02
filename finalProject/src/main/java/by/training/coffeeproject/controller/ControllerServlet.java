@@ -2,7 +2,6 @@ package by.training.coffeeproject.controller;
 
 import java.io.IOException;
 
-
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
@@ -18,7 +17,6 @@ import by.training.coffeeproject.dao.DaoException;
 import by.training.coffeeproject.dao.pool.ConnectionPool;
 
 public class ControllerServlet extends HttpServlet {
-
 
 	private static final long serialVersionUID = 6811873944606376780L;
 	private static final Logger LOG = LogManager.getLogger(ControllerServlet.class);
@@ -59,25 +57,21 @@ public class ControllerServlet extends HttpServlet {
 			ForwardRedirect forwardRedir = command.execute(request);
 			page = forwardRedir.getPage();
 			if (page != null && !forwardRedir.isRedirect()) {
-				String pageName = fromJspToHtml(page);
-				LOG.debug("after fromJspToHtml");
+				String pageName = fromHtmlToJSP(page);
 				setAllcookiesFromRequest(request, response);
-				LOG.debug("after setAllcookiesFromRequest");
+//				forDebug(request);
 				getServletContext().getRequestDispatcher(pageName).forward(request, response);
-				LOG.debug("after getServletContext");
 			} else if (page != null && forwardRedir.isRedirect()) {
 				String redirectedUri = request.getContextPath() + page;
 				setAllcookiesFromRequest(request, response);
 				LOG.debug("redirect request on " + redirectedUri);
 				response.sendRedirect(redirectedUri);
 			} else {
-				// установка страницы c cообщением об ошибке
 				LOG.error("forward to error page");
 				request.getServletContext().getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(request, response);
-//				response.sendRedirect(page);
 			}
 		} else {
-			LOG.debug("command = null");
+			LOG.error("command = null");
 			request.setAttribute("error", "mistake");
 			request.getServletContext().getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(request, response);
 		}
@@ -94,7 +88,7 @@ public class ControllerServlet extends HttpServlet {
 			}
 		}
 		if (counter == 0) {
-			Cookie tmp = new Cookie("localeName", "ru_RU");
+			Cookie tmp = new Cookie("localeName", "en_US");
 			tmp.setMaxAge(60 * 60 * 24 * 90);
 			tmp.setPath("/webCoffeeApp/jsp");
 			response.addCookie(tmp);
@@ -111,7 +105,7 @@ public class ControllerServlet extends HttpServlet {
 //		session.setAttribute("previousPage", pageName);
 //	}
 
-	private String fromJspToHtml(String page) {
+	private String fromHtmlToJSP(String page) {
 		int end = page.lastIndexOf('.');
 		String pageName;
 		pageName = page.substring(0, end);
@@ -121,4 +115,15 @@ public class ControllerServlet extends HttpServlet {
 		return pageName;
 	}
 
+//	private void forDebug (HttpServletRequest request) {
+//		Map <String, String []> fromReq = request.getParameterMap();
+//		Enumeration <String> namesEnum = request.getAttributeNames();
+//		List <String> names= Collections.list (namesEnum);
+//			 
+//		for (String name : names) {
+//			String attr = request.getAttribute(name).toString();
+////		 for (Map.Entry<String, String []> entry : fromReq.entrySet()) {
+//			 LOG.warn (" key " + name + " //value " + attr);
+//		    }
+//	}
 }

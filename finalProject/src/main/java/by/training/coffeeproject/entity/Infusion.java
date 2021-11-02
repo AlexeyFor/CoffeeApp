@@ -20,7 +20,7 @@ public class Infusion extends Entity {
 		this.timeEnd = timeEnd;
 		this.waterTemperature = waterTemperature;
 	}
-	
+
 	public Infusion(int recipeId, int timeStart, int waterVolume, int timeEnd, int waterTemperature) {
 		super();
 		this.recipeId = recipeId;

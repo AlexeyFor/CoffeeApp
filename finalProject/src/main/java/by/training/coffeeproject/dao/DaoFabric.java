@@ -40,13 +40,13 @@ public class DaoFabric {
 	public InfusionDao getInfusionDao() {
 		return InfusionDaoImpl.getInstance();
 	}
-	
+
 	public CoffeeTypeDao getCoffeeTypeDao() {
 		return CoffeeTypeDaoImpl.getInstance();
 	}
-	
+
 	public UserRecipeDao getUserRecipeDao() {
 		return UserRecipeDaoImpl.getInstance();
 	}
-	
+
 }

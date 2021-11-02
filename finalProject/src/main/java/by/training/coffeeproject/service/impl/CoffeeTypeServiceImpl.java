@@ -9,10 +9,9 @@ import by.training.coffeeproject.dao.CoffeeTypeDao;
 import by.training.coffeeproject.dao.CountryDao;
 import by.training.coffeeproject.dao.DaoException;
 import by.training.coffeeproject.dao.DaoFabric;
-import by.training.coffeeproject.dao.RecipeDao;
 import by.training.coffeeproject.dao.pool.EntityTransaction;
 import by.training.coffeeproject.entity.CoffeeType;
-import by.training.coffeeproject.entity.Recipe;
+import by.training.coffeeproject.entity.SortType;
 import by.training.coffeeproject.service.CoffeeTypeService;
 import by.training.coffeeproject.service.EntityTransactionLogic;
 import by.training.coffeeproject.service.ServiceException;
@@ -45,20 +44,27 @@ public class CoffeeTypeServiceImpl implements CoffeeTypeService {
 		try {
 			roasters = coffeeTypeDao.findAllRoasters();
 			transaction.commit();
-			transaction.endTransaction();
 		} catch (DaoException e) {
 			try {
 				transaction.rollback();
 			} catch (DaoException e1) {
-				LOG.debug("rollback, transaction wasn't commited " + e.getMessage());
+				LOG.error("rollback, transaction wasn't commited " + e.getMessage());
 				throw new ServiceException("rollback, transaction wasn't commited " + e.getMessage());
+			}
+		} finally {
+			try {
+				transaction.endTransaction();
+			} catch (DaoException e) {
+				LOG.error("can't endTransaction " + e.getMessage());
+				throw new ServiceException(e.getMessage());
+
 			}
 		}
 		return roasters;
 	}
-	
-	public List <CoffeeType> findAllCoffeeTypes() throws ServiceException{
-		
+
+	public List<CoffeeType> findAllCoffeeTypes() throws ServiceException {
+
 		LOG.debug("start findAllCommonRecipes");
 
 		CoffeeTypeDao coffeeTypeDao = daoFabric.getCoffeeTypeDao();
@@ -72,26 +78,32 @@ public class CoffeeTypeServiceImpl implements CoffeeTypeService {
 			if (coffeeTypes != null) {
 				for (int i = 0; i < coffeeTypes.size(); i++) {
 					CoffeeType tmpCoffeeType = coffeeTypes.get(i);
-					
+
 					tmpCoffeeType.setCountry(countryDao.findEntityById(tmpCoffeeType.getCountry().getID()));
-					}
 				}
-			
+			}
+
 //			LOG.debug(coffeeTypes.toString());
 
 			transaction.commit();
-			transaction.endTransaction();
 		} catch (DaoException e) {
 			try {
 				transaction.rollback();
 			} catch (DaoException e1) {
-				LOG.debug("rollback, transaction wasn't commited");
+				LOG.error("rollback, transaction wasn't commited");
 				throw new ServiceException("rollback, transaction wasn't commited " + e.getMessage());
+			}
+		} finally {
+			try {
+				transaction.endTransaction();
+			} catch (DaoException e) {
+				LOG.error("can't endTransaction " + e.getMessage());
+				throw new ServiceException(e.getMessage());
+
 			}
 		}
 		return coffeeTypes;
 	}
-
 
 	@Override
 	public Integer createCoffeeTypeInDataBase(CoffeeType coffeeType) throws ServiceException {
@@ -105,16 +117,134 @@ public class CoffeeTypeServiceImpl implements CoffeeTypeService {
 		try {
 			result = coffeeTypeDao.create(coffeeType);
 			transaction.commit();
-			transaction.endTransaction();
 		} catch (DaoException e) {
 			try {
 				transaction.rollback();
 			} catch (DaoException e1) {
-				LOG.debug("rollback, transaction wasn't commited " + e.getMessage());
+				LOG.error("rollback, transaction wasn't commited " + e.getMessage());
 				throw new ServiceException("rollback, transaction wasn't commited " + e.getMessage());
+			}
+		} finally {
+			try {
+				transaction.endTransaction();
+			} catch (DaoException e) {
+				LOG.error("can't endTransaction " + e.getMessage());
+				throw new ServiceException(e.getMessage());
+
 			}
 		}
 		return result;
 	}
 
+	public Integer isExistingInDataBase(CoffeeType coffeeType) throws ServiceException {
+		LOG.debug("start isExistingInDataBase");
+
+		CoffeeTypeDao coffeeTypeDao = daoFabric.getCoffeeTypeDao();
+
+		EntityTransaction transaction = transactionLogic.initTransactionInterface(coffeeTypeDao);
+		Integer result = 0;
+
+		try {
+			result = coffeeTypeDao.isExisting(coffeeType);
+			transaction.commit();
+		} catch (DaoException e) {
+			try {
+				transaction.rollback();
+			} catch (DaoException e1) {
+				LOG.error("rollback, transaction wasn't commited " + e.getMessage());
+				throw new ServiceException("rollback, transaction wasn't commited " + e.getMessage());
+			}
+		} finally {
+			try {
+				transaction.endTransaction();
+			} catch (DaoException e) {
+				LOG.error("can't endTransaction " + e.getMessage());
+				throw new ServiceException(e.getMessage());
+
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public List<CoffeeType> findSortedCoffeeTypePagination(int start, int number, String type) throws ServiceException {
+
+		LOG.debug("start findSortedCoffeeTypePagination");
+
+		CoffeeTypeDao coffeeTypeDao = daoFabric.getCoffeeTypeDao();
+		CountryDao countryDao = daoFabric.getCountryDao();
+
+		EntityTransaction transaction = transactionLogic.initTransactionInterface(coffeeTypeDao, countryDao);
+		List<CoffeeType> coffeeTypes = null;
+		SortType sortType = defineSortType(type);
+		try {
+			coffeeTypes = coffeeTypeDao.findSortedCoffeeTypePagination(start, number, sortType);
+			if (coffeeTypes != null) {
+				for (int i = 0; i < coffeeTypes.size(); i++) {
+					CoffeeType tmpCoffeeType = coffeeTypes.get(i);
+
+					tmpCoffeeType.setCountry(countryDao.findEntityById(tmpCoffeeType.getCountry().getID()));
+				}
+			}
+//			LOG.debug(coffeeTypes.toString());
+			transaction.commit();
+		} catch (DaoException e) {
+			try {
+				transaction.rollback();
+			} catch (DaoException e1) {
+				LOG.error("rollback, transaction wasn't commited");
+				throw new ServiceException("rollback, transaction wasn't commited " + e.getMessage());
+			}
+		} finally {
+			try {
+				transaction.endTransaction();
+			} catch (DaoException e) {
+				LOG.error("can't endTransaction " + e.getMessage());
+				throw new ServiceException(e.getMessage());
+
+			}
+		}
+		return coffeeTypes;
+
+	}
+
+	@Override
+	public Integer countAllCoffeeTypes() throws ServiceException {
+		LOG.debug("start countAllCoffeeTypes");
+
+		CoffeeTypeDao coffeeTypeDao = daoFabric.getCoffeeTypeDao();
+
+		EntityTransaction transaction = transactionLogic.initTransactionInterface(coffeeTypeDao);
+		Integer result = 0;
+
+		try {
+			result = coffeeTypeDao.count();
+			transaction.commit();
+		} catch (DaoException e) {
+			try {
+				transaction.rollback();
+			} catch (DaoException e1) {
+				LOG.error("rollback, transaction wasn't commited " + e.getMessage());
+				throw new ServiceException("rollback, transaction wasn't commited " + e.getMessage());
+			}
+		} finally {
+			try {
+				transaction.endTransaction();
+			} catch (DaoException e) {
+				LOG.error("can't endTransaction " + e.getMessage());
+				throw new ServiceException(e.getMessage());
+
+			}
+		}
+		return result;
+	}
+
+	private SortType defineSortType(String str) throws ServiceException {
+		SortType result = SortType.valueOf(str);
+		if (result == null) {
+			throw new ServiceException("can't find SortType");
+		} else {
+			return result;
+		}
+	}
 }

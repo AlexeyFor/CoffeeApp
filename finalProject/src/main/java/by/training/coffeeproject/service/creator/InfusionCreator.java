@@ -33,25 +33,23 @@ public class InfusionCreator {
 	}
 
 	/**
-	 * Take all parameters from request. For command CreatePouroverRecipeCommand.
-	 * All data must be validated with InfusionValidator
+	 * Take all parameters from request. All data must be validated with
+	 * InfusionValidator
 	 * 
-	 * @see CreatePouroverRecipeCommand
 	 * @see InfusionValidator
 	 * @param request
 	 * @return List<Infusion>
 	 * @throws ServiceException
 	 * @throws NumberFormatException
 	 */
-	public List<Infusion> createFromRequest(HttpServletRequest request) throws ServiceException {
+	public List<Infusion> createFromRequest(HttpServletRequest request, Integer recipeId) throws ServiceException {
 		LOG.debug("start createFromRequest ");
 
 		String infusionsNumber = request.getParameter("infusionsNumber");
 		String[][] parameterNames = createInfusionsNameArray(infusionsNumber);
-		Integer recipeId = Integer.valueOf(request.getParameter("recipeId"));
 		List<Infusion> result = new ArrayList<>();
 		Infusion tmp;
-		
+
 		for (int i = 0; i < parameterNames.length; i++) {
 			int timeStart = Integer.valueOf(request.getParameter(parameterNames[i][0]));
 			int waterVolume = Integer.valueOf(request.getParameter(parameterNames[i][1]));
@@ -112,6 +110,40 @@ public class InfusionCreator {
 			result[i][2] = WATERVOLUME + i;
 			result[i][3] = TIMEEND + i;
 			result[i][4] = WATERTEMPERATURE + i;
+		}
+		return result;
+	}
+
+	/**
+	 * Create array with numeration and parameters names (for
+	 * CreateRecipeTypeCommand) infusionsNumStr must be valid!
+	 * 
+	 * @param infusionsNumStr
+	 * @return
+	 */
+	public String[][] createInfusionsArrayWithValues(int infusionsNum, List<Infusion> infusions) {
+		final String NUMBER = "№ ";
+		final String TIMESTART = "timeStart";
+		final String WATERVOLUME = "waterVolume";
+		final String TIMEEND = "timeEnd";
+		final String WATERTEMPERATURE = "waterTemperature";
+		final int FIELDNUMBERS = 9;// 5 - columns names +4 -values
+
+		String[][] result = new String[infusionsNum][FIELDNUMBERS];
+
+		for (int i = 0; i < infusionsNum; i++) {
+			result[i][0] = NUMBER + (i + 1);
+			result[i][1] = TIMESTART + i;
+			result[i][2] = WATERVOLUME + i;
+			result[i][3] = TIMEEND + i;
+			result[i][4] = WATERTEMPERATURE + i;
+			if (i < infusions.size()) {
+				result[i][5] = String.valueOf(infusions.get(i).getTimeStart());
+				result[i][6] = String.valueOf(infusions.get(i).getWaterVolume());
+				result[i][7] = String.valueOf(infusions.get(i).getTimeEnd());
+				result[i][8] = String.valueOf(infusions.get(i).getWaterTemperature());
+			}
+
 		}
 		return result;
 	}

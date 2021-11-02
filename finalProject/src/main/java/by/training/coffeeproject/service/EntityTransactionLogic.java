@@ -5,20 +5,18 @@ import org.apache.logging.log4j.Logger;
 
 import by.training.coffeeproject.dao.Dao;
 import by.training.coffeeproject.dao.DaoException;
-import by.training.coffeeproject.dao.impl.InfusionDaoImpl;
-import by.training.coffeeproject.dao.impl.UserDaoImpl;
 import by.training.coffeeproject.dao.pool.EntityTransaction;
 
 /**
  * All Logic for EntityTransaction
+ * 
  * @author AlexeySupruniuk
  *
  */
 public class EntityTransactionLogic {
-	
+
 	private static final Logger LOG = LogManager.getLogger(EntityTransactionLogic.class);
 
-	
 	private EntityTransactionLogic() {
 	}
 
@@ -30,11 +28,12 @@ public class EntityTransactionLogic {
 
 	/**
 	 * initiate EntityTransaction with Dao interface implementations
+	 * 
 	 * @param abstractDaos
 	 * @return
 	 */
 	public EntityTransaction initTransactionInterface(Dao... abstractDaos) {
-		LOG.debug ("start initTransactionInterface ");
+		LOG.debug("start initTransactionInterface ");
 		EntityTransaction transaction = new EntityTransaction();
 		try {
 			transaction.initTransactionInterface(abstractDaos);
@@ -43,5 +42,5 @@ public class EntityTransactionLogic {
 		}
 		return transaction;
 	}
-	
+
 }

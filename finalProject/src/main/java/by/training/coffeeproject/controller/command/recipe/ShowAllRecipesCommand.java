@@ -14,6 +14,13 @@ import by.training.coffeeproject.service.RecipeService;
 import by.training.coffeeproject.service.ServiceException;
 import by.training.coffeeproject.service.ServiceFactory;
 
+/**
+ * 
+ * @author AlexeySupruniuk
+ * 
+ *         Show all common recipes
+ *
+ */
 public class ShowAllRecipesCommand implements Command {
 	private static final Logger LOG = LogManager.getLogger(ShowAllRecipesCommand.class);
 
@@ -28,13 +35,13 @@ public class ShowAllRecipesCommand implements Command {
 		try {
 			List<Recipe> recipes = log.findAllCommonRecipes();
 			request.setAttribute("recipes", recipes);
+			request.setAttribute("allSaved", false);
+
 		} catch (ServiceException e) {
-			LOG.debug("error in  ShowAllRecipesCommand ");
-			request.setAttribute("error", "message.loginerror");
+			LOG.debug("error in  ShowAllRecipesCommand " + e.getMessage());
+			request.setAttribute("error", e.getMessage());
 		}
-		String recipeType = request.getParameter("recipeType");
-		LOG.debug("get recipeType " + recipeType);
-		request.setAttribute("recipeType", recipeType);
+//		LOG.debug("get recipeType " + recipeType);
 
 		page = ("/jsp/recipe/showAllRecipes.html");
 

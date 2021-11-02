@@ -15,7 +15,7 @@ public interface UserService {
 	public boolean updateUserInDB(Integer ID, String login, String password, String name, String email,
 			String information, Country country, String storagePath) throws ServiceException;
 
-	public boolean deleteUserByID(Integer ID);
+	public boolean deleteUserByID(Integer ID) throws ServiceException;
 
 	public List<User> takeAllUsers() throws ServiceException;
 

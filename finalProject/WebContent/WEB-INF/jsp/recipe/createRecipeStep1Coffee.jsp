@@ -7,40 +7,45 @@
 		<h3 class="display-5">
 			<fmt:message key="CreateRecipe.Head" />
 		</h3>
-		<h3 class="display-5"><fmt:message key="CreateRecipe.CreateType" />:
-		<fmt:message key="${recipeType}" />
-		 </h3>
-		
-				<c:if test="${not empty message}">
-		<h3>
-			<fmt:message key="${message}"></fmt:message>
+		<h3 class="display-5">
+			<fmt:message key="CreateRecipe.CreateType" />
+			:
+			<fmt:message key="${recipeType}" />
 		</h3>
+
+		<c:if test="${not empty message}">
+			<h3>
+				<fmt:message key="${message}"></fmt:message>
+			</h3>
 		</c:if>
-		
+
 		<c:url value="/jsp/recipe/showAllCoffeeType.html"
 			var="showAllCoffeeTypeUrl" />
 		<form action="${showAllCoffeeTypeUrl}" method="POST">
-		<input type="hidden" name="recipeType" id="recipeType"
-				value="${recipeType}">
-		<button type="submit" class="btn btn-secondary ">
-				select from all types
+			<input type="hidden" name="startPosition" id="startPosition"
+				value="0"> <input type="hidden" name="number" id="number"
+				value="10"> <input type="hidden" name="sortType"
+				id="sortType" value="NONE"> <input type="hidden"
+				name="recipeType" id="recipeType" value="${recipeType}">
+			<button type="submit" class="btn btn-secondary ">
+				<fmt:message key="CreateRecipe.SelectCoffee" />
 			</button>
 		</form>
-		
-		
-		<c:url value="/jsp/recipe/createRecipeType.html"
-			var="createRecipeTypeUrl" />
-		<form action="${createRecipeTypeUrl}"  method="POST">
+
+
+		<c:url value="/jsp/recipe/createRecipeStep2.html"
+			var="createRecipeStep2Url" />
+		<form action="${createRecipeStep2Url}" method="POST">
 			<input type="hidden" name="recipeType" id="recipeType"
-				value="${recipeType}">
-				<input type="hidden" name="wasCreated" id="wasCreated"
-				value="true">
+				value="${recipeType}"> <input type="hidden"
+				name="wasCreated" id="wasCreated" value="true">
 			<table class="table table-striped">
 
 				<tr>
 					<th><fmt:message key="CreateRecipe.InfusionsNumber" />:</th>
-					<td><input type="text" id="infusions" name="infusions"
-						required pattern="^[0-9]{1,2}$"></td>
+					<td><input type="text" id="infusionsNumber"
+						name="infusionsNumber" required pattern="^[1-9]{1}[0-9]{0,1}$">
+						></td>
 				</tr>
 				<tr>
 					<th><fmt:message key="Recipe.Coffee.Roaster" />:</th>

@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import by.training.coffeeproject.controller.command.recipe.CreateRecipeCoffeeCommand;
+import by.training.coffeeproject.controller.command.recipe.CreateRecipeStep1CoffeeCommand;
 import by.training.coffeeproject.entity.CoffeeType;
 import by.training.coffeeproject.entity.Country;
 import by.training.coffeeproject.entity.ProcessingMethod;
@@ -36,10 +36,10 @@ public class CoffeeTypeCreator {
 	}
 
 	/**
-	 * Take all parameters from request. For command CreateRecipeCoffeeCommand. All
-	 * data must be validated with CoffeeTypeValidator
+	 * Take all parameters from request. All data must be validated with
+	 * CoffeeTypeValidator
 	 * 
-	 * @see CreateRecipeCoffeeCommand
+	 * @see CreateRecipeStep1CoffeeCommand
 	 * @see CoffeeTypeValidator
 	 * @param request
 	 * @return CoffeeType
@@ -63,7 +63,7 @@ public class CoffeeTypeCreator {
 
 			return result;
 		} catch (NumberFormatException e) {
-			LOG.debug("wrong number data");
+			LOG.error("wrong number data");
 			throw new ServiceException(e.getMessage());
 		}
 	}

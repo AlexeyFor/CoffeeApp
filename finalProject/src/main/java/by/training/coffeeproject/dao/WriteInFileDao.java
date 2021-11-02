@@ -29,7 +29,8 @@ public class WriteInFileDao {
 			writer.write(savingStr);
 			writer.close();
 		} catch (IOException ex) {
-			LOG.warn("can't write data in file");
+			// listener doesn't impact on app work, that's why only log
+			LOG.error("can't write data in file");
 		}
 	}
 }

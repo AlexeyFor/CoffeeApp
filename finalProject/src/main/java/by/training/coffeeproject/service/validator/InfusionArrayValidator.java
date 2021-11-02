@@ -32,14 +32,14 @@ public class InfusionArrayValidator {
 	private final InfusionCreator infusionCreator = InfusionCreator.getInstance();
 
 	/**
-	 * Only for CreatePouroverRecipeCommand and CreateFrencPressRecipeCommand. Take
-	 * all Parameters from HttpServletRequest, validate them, throw exception if
-	 * there is any mistake. If parameters can be null - valid with if.
+	 * Take all Parameters from HttpServletRequest, validate them, throw exception
+	 * if there is any mistake. If parameters can be null (as in database) - valid
+	 * with if. Valid all fields of Infusion
 	 * 
 	 * @param request
 	 * @return
 	 * @throws ServiceException
-	 * @see CreatePouroverRecipeCommand
+	 * @see CreateSaveRecipePouroverCommand
 	 * @see CreateFrencPressRecipeCommand
 	 */
 	public boolean validateInfusionsArray(HttpServletRequest request) throws ServiceException {
@@ -67,6 +67,5 @@ public class InfusionArrayValidator {
 			return false;
 		}
 	}
-
 
 }

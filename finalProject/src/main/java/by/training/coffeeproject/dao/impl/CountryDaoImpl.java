@@ -55,6 +55,7 @@ public class CountryDaoImpl extends AbstractDao<Country> implements CountryDao {
 			}
 			return resultCountry;
 		} catch (SQLException e) {
+			LOG.debug("from findEntityById " + e.getMessage());
 			throw new DaoException(e);
 		} finally {
 			close(statement);

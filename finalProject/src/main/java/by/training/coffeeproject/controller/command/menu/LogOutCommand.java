@@ -9,7 +9,6 @@ import org.apache.logging.log4j.Logger;
 import by.training.coffeeproject.controller.command.Command;
 import by.training.coffeeproject.controller.command.ForwardRedirect;
 
-
 public class LogOutCommand implements Command {
 	private static final Logger LOG = LogManager.getLogger(LogOutCommand.class);
 

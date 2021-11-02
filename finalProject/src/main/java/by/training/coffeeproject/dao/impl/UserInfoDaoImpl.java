@@ -94,10 +94,10 @@ public class UserInfoDaoImpl extends AbstractDao<UserInfo> implements UserInfoDa
 			statement = connection.prepareStatement(SQL_DELETE_USERINFO);
 			statement.setInt(1, id);
 			statement.execute();
-			LOG.debug("delete return true");
+//			LOG.debug("delete return true");
 			return true;
 		} catch (SQLException e) {
-			LOG.error("can't delete user_info");
+			LOG.warn("can't delete user_info");
 			return false;
 		} finally {
 			close(statement);
@@ -151,7 +151,7 @@ public class UserInfoDaoImpl extends AbstractDao<UserInfo> implements UserInfoDa
 
 			return true;
 		} catch (SQLException e) {
-			LOG.error("can't update user_info");
+			LOG.warn("can't update user_info");
 			return false;
 		} finally {
 			close(statement);

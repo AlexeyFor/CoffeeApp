@@ -11,8 +11,6 @@ import javax.crypto.spec.PBEKeySpec;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import by.training.coffeeproject.controller.ControllerServlet;
-
 public class PasswordEncryptionService {
 	private static final Logger LOG = LogManager.getLogger(PasswordEncryptionService.class);
 
@@ -72,9 +70,9 @@ public class PasswordEncryptionService {
 //
 //		return salt;
 //	}
-	// to encrypt passwords for db
+//	// to encrypt passwords for db
 //	public static void main(String args[]) throws ServiceException {
-//		String enctyptedPass = PasswordEncryptionService.getInstance().getEncryptePassword("pass");
+//		String enctyptedPass = PasswordEncryptionService.getInstance().getEncryptedPassword("789asd789");
 //		System.out.println(enctyptedPass);
 //	}
 //	// method for logging

@@ -21,16 +21,16 @@ public class PouroverRecipeValidator {
 	}
 
 	/**
-	 * Only for CreatePouroverRecipeCommand. Take all Parameters from
-	 * HttpServletRequest, validate them, throw exception if there is any mistake.
-	 * If parapmeters can be null - valid with if.
+	 * Take all Parameters from HttpServletRequest, validate them, throw exception
+	 * if there is any mistake. If parameter can be null (as in database)- valid
+	 * with if.
 	 * 
 	 * @param request
 	 * @return
 	 * @throws ServiceException
-	 * @see CreatePouroverRecipeCommand
+	 * @see CreateSaveRecipePouroverCommand
 	 */
-	public boolean validateForCreatePouroverRecipe(HttpServletRequest request) throws ServiceException {
+	public boolean validatePouroverRecipeRequest(HttpServletRequest request) throws ServiceException {
 		LOG.debug("start validateForCreatePouroverRecipe");
 
 		ValidatorCommonMethods validator = ValidatorCommonMethods.getInstance();

@@ -1,17 +1,13 @@
 package by.training.coffeeproject.service.impl;
 
-import java.util.List;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import by.training.coffeeproject.dao.CoffeeTypeDao;
 import by.training.coffeeproject.dao.DaoException;
 import by.training.coffeeproject.dao.DaoFabric;
 import by.training.coffeeproject.dao.InfusionDao;
 import by.training.coffeeproject.dao.PouroverRecipeDao;
 import by.training.coffeeproject.dao.pool.EntityTransaction;
-import by.training.coffeeproject.entity.FrenchPressRecipe;
 import by.training.coffeeproject.entity.PouroverRecipe;
 import by.training.coffeeproject.entity.Recipe;
 import by.training.coffeeproject.service.EntityTransactionLogic;
@@ -58,13 +54,20 @@ public class PouroverRecipeServiceImpl implements PouroverRecipeService {
 
 //			LOG.debug(pouroverRecipe.toString());
 			transaction.commit();
-			transaction.endTransaction();
 		} catch (DaoException e) {
 			try {
 				transaction.rollback();
 			} catch (DaoException e1) {
-				LOG.debug("rollback, transaction wasn't commited");
+				LOG.error("rollback, transaction wasn't commited");
 				throw new ServiceException("rollback, transaction wasn't commited " + e.getMessage());
+			}
+		} finally {
+			try {
+				transaction.endTransaction();
+			} catch (DaoException e) {
+				LOG.error("can't endTransaction " + e.getMessage());
+				throw new ServiceException(e.getMessage());
+
 			}
 		}
 		return pouroverRecipe;
@@ -82,7 +85,7 @@ public class PouroverRecipeServiceImpl implements PouroverRecipeService {
 			recipe2.setRecipeType(recipe1.getRecipeType());
 			recipe2.setCoffeeType(recipe1.getCoffeeType());
 		} else {
-			LOG.debug("can't unite two recipes");
+			LOG.error("can't unite two recipes");
 			throw new ServiceException("can't unite two recipes");
 		}
 		return recipe2;
@@ -104,13 +107,54 @@ public class PouroverRecipeServiceImpl implements PouroverRecipeService {
 		try {
 			result = pouroverRecipeDao.create(recipe);
 			transaction.commit();
-			transaction.endTransaction();
+		} catch (DaoException e) {
+			try {
+				transaction.rollback();
+				LOG.warn("recipe wasn't created " + e.getMessage());
+				throw new ServiceException("recipe wasn't created " + e.getMessage());
+
+			} catch (DaoException e1) {
+				LOG.warn("rollback, transaction wasn't commited " + e.getMessage());
+				throw new ServiceException("rollback, transaction wasn't commited " + e.getMessage());
+			}
+		} finally {
+			try {
+				transaction.endTransaction();
+			} catch (DaoException e) {
+				LOG.error("can't endTransaction " + e.getMessage());
+				throw new ServiceException(e.getMessage());
+
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public boolean editPouroverRecipenInDB(PouroverRecipe recipe) throws ServiceException {
+		LOG.debug("start createPouroverRecipeInDB");
+
+		PouroverRecipeDao pouroverRecipeDao = daoFabric.getPouroverRecipeDao();
+
+		EntityTransaction transaction = transactionLogic.initTransactionInterface(pouroverRecipeDao);
+		boolean result = false;
+
+		try {
+			result = pouroverRecipeDao.update(recipe);
+			transaction.commit();
 		} catch (DaoException e) {
 			try {
 				transaction.rollback();
 			} catch (DaoException e1) {
-				LOG.debug("rollback, transaction wasn't commited " + e.getMessage());
+				LOG.error("rollback, transaction wasn't commited " + e.getMessage());
 				throw new ServiceException("rollback, transaction wasn't commited " + e.getMessage());
+			}
+		} finally {
+			try {
+				transaction.endTransaction();
+			} catch (DaoException e) {
+				LOG.error("can't endTransaction " + e.getMessage());
+				throw new ServiceException(e.getMessage());
+
 			}
 		}
 		return result;

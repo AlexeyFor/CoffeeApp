@@ -2,6 +2,7 @@ package by.training.coffeeproject.entity;
 
 import java.util.Objects;
 
+
 public class CoffeeType extends Entity {
 
 	private static final long serialVersionUID = -6528602165634184306L;

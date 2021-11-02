@@ -6,11 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
-//import java.util.Date;
-import java.sql.Date;
 
 import java.util.List;
 
@@ -22,11 +19,8 @@ import by.training.coffeeproject.dao.RecipeDao;
 import by.training.coffeeproject.entity.PouroverRecipe;
 import by.training.coffeeproject.entity.Recipe;
 import by.training.coffeeproject.entity.RecipeType;
-import by.training.coffeeproject.entity.Role;
-import by.training.coffeeproject.entity.User;
 import by.training.coffeeproject.entity.CoffeeType;
 import by.training.coffeeproject.entity.FrenchPressRecipe;
-import by.training.coffeeproject.entity.Infusion;
 
 /**
  * 
@@ -110,7 +104,7 @@ public class RecipeDaoImpl extends AbstractDao<Recipe> implements RecipeDao {
 			}
 			return resultList;
 		} catch (SQLException e) {
-			LOG.debug("can't find Recipes " + e.getMessage());
+			LOG.warn("can't find Recipes " + e.getMessage());
 			throw new DaoException(e);
 		} finally {
 			close(statement);
@@ -155,7 +149,7 @@ public class RecipeDaoImpl extends AbstractDao<Recipe> implements RecipeDao {
 			LOG.debug("delete return true");
 			return true;
 		} catch (SQLException e) {
-			LOG.debug("can't delete CoffeeType " + e.getMessage());
+			LOG.warn("can't delete CoffeeType " + e.getMessage());
 			return false;
 		} finally {
 			close(statement);
@@ -176,8 +170,6 @@ public class RecipeDaoImpl extends AbstractDao<Recipe> implements RecipeDao {
 			statement = connection.prepareStatement(SQL_CREATE_RECIPE, Statement.RETURN_GENERATED_KEYS);
 			statement.setInt(1, t.getAuthorUserId());
 			statement.setBoolean(2, t.isCommon());
-			// create sql.Date
-//			statement.setDate(3, new Date(t.getDateOfCreating().getTime()));
 			statement.setString(3, t.getRecipeType().getName());
 			statement.setInt(4, t.getCoffeeType().getID());
 
@@ -189,7 +181,7 @@ public class RecipeDaoImpl extends AbstractDao<Recipe> implements RecipeDao {
 				return 0;
 			}
 		} catch (SQLException e) {
-			LOG.error("can't create coffeeType " + e.getMessage());
+			LOG.warn("can't create coffeeType " + e.getMessage());
 			return 0;
 		} finally {
 			close(statement);
@@ -210,8 +202,6 @@ public class RecipeDaoImpl extends AbstractDao<Recipe> implements RecipeDao {
 			statement = connection.prepareStatement(SQL_UPDATE_RECIPE);
 			statement.setInt(1, t.getAuthorUserId());
 			statement.setBoolean(2, t.isCommon());
-			// create sql.Date
-//			statement.setDate(3, new Date(t.getDateOfCreating().getTime()));
 			statement.setString(3, t.getRecipeType().getName());
 			statement.setInt(4, t.getCoffeeType().getID());
 			statement.setInt(5, t.getID());
@@ -227,7 +217,7 @@ public class RecipeDaoImpl extends AbstractDao<Recipe> implements RecipeDao {
 		}
 	}
 
-	//	common = 0 (private), common = 1 (common)
+	// common = 0 (private), common = 1 (common)
 	@Override
 	public List<Recipe> findByUserId(Integer userId, Integer common) throws DaoException {
 		LOG.debug("start findByUserId");

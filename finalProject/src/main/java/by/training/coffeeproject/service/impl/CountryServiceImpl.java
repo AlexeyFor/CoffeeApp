@@ -5,16 +5,11 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import by.training.coffeeproject.dao.CoffeeTypeDao;
 import by.training.coffeeproject.dao.CountryDao;
 import by.training.coffeeproject.dao.DaoException;
 import by.training.coffeeproject.dao.DaoFabric;
-import by.training.coffeeproject.dao.RecipeDao;
 import by.training.coffeeproject.dao.pool.EntityTransaction;
-import by.training.coffeeproject.entity.CoffeeType;
 import by.training.coffeeproject.entity.Country;
-import by.training.coffeeproject.entity.Infusion;
-import by.training.coffeeproject.entity.Recipe;
 import by.training.coffeeproject.service.EntityTransactionLogic;
 import by.training.coffeeproject.service.CountryService;
 import by.training.coffeeproject.service.ServiceException;
@@ -47,13 +42,20 @@ public class CountryServiceImpl implements CountryService {
 		try {
 			countries = countryDao.findAll();
 			transaction.commit();
-			transaction.endTransaction();
 		} catch (DaoException e) {
 			try {
 				transaction.rollback();
 			} catch (DaoException e1) {
-				LOG.debug("rollback, transaction wasn't commited");
+				LOG.error("rollback, transaction wasn't commited");
 				throw new ServiceException("rollback, transaction wasn't commited " + e.getMessage());
+			}
+		} finally {
+			try {
+				transaction.endTransaction();
+			} catch (DaoException e) {
+				LOG.error("can't endTransaction " + e.getMessage());
+				throw new ServiceException(e.getMessage());
+
 			}
 		}
 		return countries;
@@ -71,13 +73,20 @@ public class CountryServiceImpl implements CountryService {
 		try {
 			country = countryDao.findEntityById(id);
 			transaction.commit();
-			transaction.endTransaction();
 		} catch (DaoException e) {
 			try {
 				transaction.rollback();
 			} catch (DaoException e1) {
-				LOG.debug("rollback, transaction wasn't commited");
+				LOG.error("rollback, transaction wasn't commited");
 				throw new ServiceException("rollback, transaction wasn't commited " + e.getMessage());
+			}
+		} finally {
+			try {
+				transaction.endTransaction();
+			} catch (DaoException e) {
+				LOG.error("can't endTransaction " + e.getMessage());
+				throw new ServiceException(e.getMessage());
+
 			}
 		}
 		if (country != null) {
@@ -100,13 +109,20 @@ public class CountryServiceImpl implements CountryService {
 		try {
 			country = countryDao.findEntityById(id);
 			transaction.commit();
-			transaction.endTransaction();
 		} catch (DaoException e) {
 			try {
 				transaction.rollback();
 			} catch (DaoException e1) {
-				LOG.debug("rollback, transaction wasn't commited");
+				LOG.error("rollback, transaction wasn't commited");
 				throw new ServiceException("rollback, transaction wasn't commited " + e.getMessage());
+			}
+		} finally {
+			try {
+				transaction.endTransaction();
+			} catch (DaoException e) {
+				LOG.error("can't endTransaction " + e.getMessage());
+				throw new ServiceException(e.getMessage());
+
 			}
 		}
 

@@ -9,6 +9,8 @@
 		<h3>
 			<fmt:message key="Recipe.Head" />
 		</h3>
+
+
 		<c:if test="${not empty role and role eq 'user'}">
 			<c:if test="${recipe.common}">
 				<h6>
@@ -30,7 +32,8 @@
 		<form name="showPublicUserInfoUrl" action="${showPublicUserInfoUrl}"
 			method="POST">
 			<INPUT type="hidden" name="userID" value="${recipe.authorUserId}">
-			<input type="submit" value="more about user">
+			<input type="submit"
+				value="<fmt:message key="ShowRecipe.button.UserMore" />">
 		</form>
 		<p>
 			<strong><fmt:message key="Recipe.DateOfCreating" />:</strong>
@@ -38,7 +41,8 @@
 		</p>
 		<p>
 			<strong><fmt:message key="Recipe.RecipeType" />:</strong>
-			${recipe.recipeType.name}
+			<fmt:message key="${recipe.recipeType}" />
+
 		</p>
 
 
@@ -72,11 +76,13 @@
 						</tr>
 						<tr>
 							<th><fmt:message key="Recipe.Coffee.RoastDegree" />:</th>
-							<td>${recipe.coffeeType.roastDegree}</td>
+							<td><fmt:message key="${recipe.coffeeType.roastDegree}" />
+							</td>
 						</tr>
 						<tr>
 							<th><fmt:message key="Recipe.Coffee.ProcessingMethod" />:</th>
-							<td>${recipe.coffeeType.processingMethod}</td>
+							<td><fmt:message key="${recipe.coffeeType.processingMethod}" />
+							</td>
 						</tr>
 
 					</table>
@@ -154,7 +160,8 @@
 								</tr>
 								<tr>
 									<th><fmt:message key="Recipe.Pourorver.FunnelType" />:</th>
-									<td>${recipe.funnelType.name}</td>
+
+									<td><fmt:message key="${recipe.funnelType}" /></td>
 								</tr>
 								<tr>
 									<th><fmt:message key="Recipe.Pourorver.MassOfCoffee" />:</th>
@@ -179,7 +186,8 @@
 								</tr>
 							</table>
 							<p>
-								<strong><fmt:message key="Recipe.Pourorver.Description" />:</strong>${recipe.disription}
+								<strong><fmt:message key="Recipe.Pourorver.Description" />:
+								</strong>${recipe.disription}
 							</p>
 						</c:if>
 					</div>
@@ -214,57 +222,97 @@
 				</div>
 			</div>
 		</c:if>
+
 		<c:if test="${not empty role and role eq 'user'}">
 			<c:if test="${recipe.common}">
 
-				<c:url value="/jsp/user/saveRecipeToYourself.html"
+				<c:url value="/jsp/recipe/saveCommonRecipe.html"
 					var="saveRecipeToYourselfUrl" />
 				<form name="saveRecipeToYourselfUrl"
 					action="${saveRecipeToYourselfUrl}" method="POST">
 					<input type="hidden" name="recipeId" id="recipeId"
-						value="${recipe.ID}">
-					<button type="submit" class="btn btn-secondary ">save to
-						yourself</button>
-				</form>
-
-				<c:url value="/jsp/user/editRecipe.html" var="editRecipeUrl" />
-				<form name="editRecipeUrl" action="${editRecipeUrl}" method="POST">
-					<input type="hidden" name="recipeId" id="recipeId"
-						value="${recipe.ID}">
-					<button type="submit" class="btn btn-secondary ">edit</button>
+						value="${recipe.ID}"> <input type="hidden"
+						name="recipeCommon" id="recipeCommon" value="${recipe.common}">
+					<button type="submit" class="btn btn-secondary ">
+						<fmt:message key="ShowRecipe.button.SaveYourself" />
+					</button>
 				</form>
 
 				<c:if test="${not empty allSaved and allSaved}">
-					<c:url value="/jsp/user/deleteRecipe.html" var="deleteRecipeUrl" />
-					<form name="deleteRecipeUrl" action="${deleteRecipeUrl}"
-						method="POST">
-					<input type="hidden" name="recipeId" id="recipeId"
-						value="${recipe.ID}">
-						<button type="submit" class="btn btn-secondary ">delete
-							recipe rrrrrya</button>
+					<c:url value="/jsp/recipe/editRecipeStep1Coffee.html"
+						var="editRecipeStep1CoffeeUrl" />
+					<form name="editRecipeStep1CoffeeUrl"
+						action="${editRecipeStep1CoffeeUrl}" method="POST">
+						<input type="hidden" name="recipeId" id="recipeId"
+							value="${recipe.ID}"><input type="hidden"
+							name="infusionsNumber" id="infusionsNumber"
+							value="${recipe.infusions.size()}">
+						<button type="submit" class="btn btn-secondary ">
+							<fmt:message key="ShowRecipe.button.Edit" />
+						</button>
 					</form>
+				</c:if>
+
+
+				<c:if test="${not empty allSaved and allSaved}">
+
+					<a href="#deleteCommonID" class="btn btn-secondary"
+						data-bs-toggle="collapse"> <fmt:message
+							key="ShowRecipe.button.Delete" />
+					</a>
+					<div id="deleteCommonID" class="collapse">
+						<br> Are you sure?
+
+						<c:url value="/jsp/recipe/deleteSavedCommonRecipe.html"
+							var="deleteSavedCommonRecipeUrl" />
+						<form name="deleteSavedCommonRecipeUrl"
+							action="${deleteSavedCommonRecipeUrl}" method="POST">
+							<input type="hidden" name="recipeId" id="recipeId"
+								value="${recipe.ID}"> <input type="hidden"
+								name="recipeCommon" id="recipeCommon" value="${recipe.common}">
+							<button type="submit" class="btn btn-secondary ">
+								<fmt:message key="ShowRecipe.button.Delete" />
+							</button>
+						</form>
+					</div>
+
 				</c:if>
 			</c:if>
 
 
 
 			<c:if test="${!recipe.common}">
+				<a href="#deleteNotCommonID" class="btn btn-secondary"
+					data-bs-toggle="collapse"> <fmt:message
+						key="ShowRecipe.button.Delete" />
+				</a>
+				<div id="deleteNotCommonID" class="collapse">
+					Are you sure?
+					<c:url value="/jsp/recipe/deleteNotCommonRecipe.html"
+						var="deleteNotCommonRecipeUrl" />
+					<form name="deleteNotCommonRecipeUrl"
+						action="${deleteNotCommonRecipeUrl}" method="POST">
+						<input type="hidden" name="recipeId" id="recipeId"
+							value="${recipeID}"> <input type="hidden"
+							name="recipeCommon" id="recipeCommon" value="${recipe.common}">
+						<button type="submit" class="btn btn-secondary ">
 
-				<c:url value="/jsp/recipe/deleteNotCommonRecipe.html"
-					var="deleteNotCommonRecipeUrl" />
-				<form name="deleteNotCommonRecipeUrl"
-					action="${deleteNotCommonRecipeUrl}" method="POST">
+							<fmt:message key="yes" />
+						</button>
+					</form>
+				</div>
+				<br>
+				<c:url value="/jsp/recipe/editRecipeStep1Coffee.html"
+					var="editRecipeStep1CoffeeUrl" />
+				<form name="editRecipeStep1CoffeeUrl"
+					action="${editRecipeStep1CoffeeUrl}" method="POST">
 					<input type="hidden" name="recipeId" id="recipeId"
-						value="${recipeID}">
-						<input type="hidden" name="recipeCommon" id="recipeCommon"
-						value="${recipe.common}">
-					<button type="submit" class="btn btn-secondary ">delete
-						recipe rr with</button>
-				</form>
-
-				<c:url value="/jsp/user/editRecipe.html" var="editRecipeUrl" />
-				<form name="editRecipeUrl" action="${editRecipeUrl}" method="POST">
-					<button type="submit" class="btn btn-secondary ">edit</button>
+						value="${recipe.ID}"> <input type="hidden"
+						name="infusionsNumber" id="infusionsNumber"
+						value="${recipe.infusions.size()}">
+					<button type="submit" class="btn btn-secondary ">
+						<fmt:message key="ShowRecipe.button.Edit" />
+					</button>
 				</form>
 			</c:if>
 		</c:if>
@@ -276,16 +324,19 @@
 				<form name="deleteRecipeUrl" action="${deleteRecipeUrl}"
 					method="POST">
 					<input type="hidden" name="recipeId" id="recipeId"
-						value="${recipe.id}">
-						<input type="hidden" name="recipeCommon" id="recipeCommon"
-						value="${recipe.common}">
-					<button type="submit" class="btn btn-secondary ">delete
-						recipe</button>
+						value="${recipe.id}"> <input type="hidden"
+						name="recipeCommon" id="recipeCommon" value="${recipe.common}">
+					<button type="submit" class="btn btn-secondary ">
+						<fmt:message key="ShowRecipe.button.Delete" />
+
+					</button>
 				</form>
 
 				<c:url value="/jsp/user/editRecipe.html" var="editRecipeUrl" />
 				<form name="editRecipeUrl" action="${editRecipeUrl}" method="POST">
-					<button type="submit" class="btn btn-secondary ">edit</button>
+					<button type="submit" class="btn btn-secondary ">
+						<fmt:message key="ShowRecipe.button.Edit" />
+					</button>
 				</form>
 			</c:if>
 		</c:if>
@@ -304,5 +355,6 @@
 		return new bootstrap.Popover(popoverTriggerEl)
 	})
 </script>
+
 
 

@@ -7,10 +7,8 @@ import by.training.coffeeproject.dao.DaoException;
 import by.training.coffeeproject.dao.DaoFabric;
 import by.training.coffeeproject.dao.FrenchPressRecipeDao;
 import by.training.coffeeproject.dao.InfusionDao;
-import by.training.coffeeproject.dao.PouroverRecipeDao;
 import by.training.coffeeproject.dao.pool.EntityTransaction;
 import by.training.coffeeproject.entity.FrenchPressRecipe;
-import by.training.coffeeproject.entity.PouroverRecipe;
 import by.training.coffeeproject.entity.Recipe;
 import by.training.coffeeproject.service.EntityTransactionLogic;
 import by.training.coffeeproject.service.FrenchPressRecipeService;
@@ -68,7 +66,7 @@ public class FrenchPressRecipeServiceImpl implements FrenchPressRecipeService {
 			try {
 				transaction.endTransaction();
 			} catch (DaoException e) {
-				LOG.debug("can't endTransaction " + e.getMessage());
+				LOG.error("can't endTransaction " + e.getMessage());
 				throw new ServiceException(e.getMessage());
 
 			}
