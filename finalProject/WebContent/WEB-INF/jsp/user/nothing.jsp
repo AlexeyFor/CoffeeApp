@@ -1,4 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib uri="/WEB-INF/tld/custom.tld" prefix="ctg"%>
 
 
 <%@include file="/WEB-INF/jsp/head.jsp"%>

@@ -73,7 +73,7 @@
 							<!-- 								</button> -->
 						</td>
 						<td class="align-middle"><input type="radio"
-							id="coffeeTypeId" name="coffeeTypeId" value="${coffeeType.ID}"></td>
+							id="coffeeTypeId" name="coffeeTypeId" value="${coffeeType.ID}" required></td>
 					</tr>
 
 				</c:forEach>

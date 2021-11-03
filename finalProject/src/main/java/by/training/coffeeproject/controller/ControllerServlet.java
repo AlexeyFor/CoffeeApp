@@ -88,7 +88,7 @@ public class ControllerServlet extends HttpServlet {
 			}
 		}
 		if (counter == 0) {
-			Cookie tmp = new Cookie("localeName", "en_US");
+			Cookie tmp = new Cookie("localeName", "ru_RU");
 			tmp.setMaxAge(60 * 60 * 24 * 90);
 			tmp.setPath("/webCoffeeApp/jsp");
 			response.addCookie(tmp);

@@ -36,6 +36,11 @@ public class UserInfoServiceImpl implements UserInfoService {
 	public String takeUserNameByID(Integer ID) throws ServiceException {
 		LOG.debug("start takeUserNameByID");
 
+		if (ID == null) {
+			LOG.error("can't take UserName, null");
+			throw new ServiceException("can't take UserName, null");
+		}
+
 		UserInfoDao userInfoDao = daoFabric.getUserInfoDao();
 
 		EntityTransaction transaction = transactionLogic.initTransactionInterface(userInfoDao);

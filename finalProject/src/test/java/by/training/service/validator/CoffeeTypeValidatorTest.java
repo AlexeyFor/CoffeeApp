@@ -9,11 +9,11 @@ import org.testng.annotations.Test;
 
 import by.training.coffeeproject.entity.ProcessingMethod;
 import by.training.coffeeproject.service.ServiceException;
-import by.training.coffeeproject.service.validator.CoffeeTypeValidator;
+import by.training.coffeeproject.service.validator.ValidatorCommonMethods;
 
 public class CoffeeTypeValidatorTest {
 
-	CoffeeTypeValidator provider = CoffeeTypeValidator.getInstance();
+	ValidatorCommonMethods provider = ValidatorCommonMethods.getInstance();
 
 	////////////////CheckName
 	@DataProvider(name = "positiveForCheckName")
@@ -23,19 +23,19 @@ public class CoffeeTypeValidatorTest {
 
 	@DataProvider(name = "negativeForCheckName")
 	public String[] negativeForCheckName() {
-		return new String[] { "", "asd,", ".", "123456789101234567891012345678910123456789101234567891012345678910 123456789101234567891012345678910123456789101234567891012345678910123456789101234567891012345678910" };
+		return new String[] { "", "asd,", "123456789101234567891012345678910123456789101234567891012345678910 123456789101234567891012345678910123456789101234567891012345678910123456789101234567891012345678910" };
 	}
 	
 	@Test(description = "positive for CheckName", dataProvider = "positiveForCheckName")
 	public void CheckNameTestPositive(String name) throws ServiceException {
-		boolean actual = provider.checkNameAndRoaster(name);
+		boolean actual = provider.checkRoaster(name);
 	
 		assertTrue(actual);
 	}
 
-	@Test(description = "negative for CheckName", dataProvider = "negativeForCheckName")
+	@Test(description = "negative for CheckName", dataProvider = "negativeForCheckName" ,enabled = true, expectedExceptions = ServiceException.class)
 	public void CheckNameTestNegative(String name) throws ServiceException {
-		boolean actual = provider.checkNameAndRoaster(name);
+		boolean actual = provider.checkRoaster(name);
 		assertFalse(actual);
 	}
 	////////////////

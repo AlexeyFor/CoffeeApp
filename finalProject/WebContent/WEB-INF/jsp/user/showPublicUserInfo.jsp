@@ -6,28 +6,28 @@
 	<div class="content">
 		<div class="container">
 
-			<c:choose>
-				<c:when test="${not empty messageHead}">
+<%-- 			<c:choose> --%>
+<%-- 				<c:when test="${not empty messageHead}"> --%>
 					<h3 class="display-5">
-						<fmt:message key="${messageHead}" />
+						<fmt:message key="ShowUserInfo.Name" />
 						${user.userInfo.name}
 					</h3>
-				</c:when>
-				<c:otherwise>
-					<h3 class="display-5">
-						<fmt:message key="ShowAllRecipes.Head" />
-					</h3>
-				</c:otherwise>
-			</c:choose>
+<%-- 				</c:when> --%>
+<%-- 				<c:otherwise> --%>
+<!-- 					<h3 class="display-5"> -->
+<%-- 						<fmt:message key="ShowAllRecipes.Head" /> --%>
+<!-- 					</h3> -->
+<%-- 				</c:otherwise> --%>
+<%-- 			</c:choose> --%>
 
 			<br>
 			<table class="table table-striped">
 				<tr>
-					<th><fmt:message key="email" />:</th>
+					<th><fmt:message key="ShowUserInfo.Email" />:</th>
 					<td>${user.userInfo.email}</td>
 				</tr>
 				<tr>
-					<th><fmt:message key="country" />:</th>
+					<th><fmt:message key="ShowUserInfo.Country" />:</th>
 					<td>${user.userInfo.country.countryName}</td>
 				</tr>
 			</table>
@@ -36,7 +36,7 @@
 				${user.userInfo.information}
 			</p>
 
-			All common recipes of this user
+<strong><fmt:message key="ShowUserInfo.Recipes" />:</strong>
 			<table class="table table-striped">
 				<tr>
 					<th><fmt:message key="ShowAllRecipes.DateOfCreating" /></th>

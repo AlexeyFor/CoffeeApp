@@ -84,6 +84,11 @@ public class RecipeServiceImpl implements RecipeService {
 	public Recipe findRecipeByID(Integer ID) throws ServiceException {
 		LOG.debug("start findAllCommonRecipes");
 
+		if (ID==null ) {
+			LOG.error("can't find recipe, null");
+			throw new ServiceException("can't find recipe, null");
+		}
+		
 		RecipeDao recipeDao = daoFabric.getRecipeDao();
 		CoffeeTypeDao coffeeTypeDao = daoFabric.getCoffeeTypeDao();
 		CountryDao countryDao = daoFabric.getCountryDao();
@@ -130,6 +135,11 @@ public class RecipeServiceImpl implements RecipeService {
 	public List<Recipe> findAllUserSavedRecipes(Integer userID) throws ServiceException {
 		LOG.debug("start findAllUserSavedRecipes");
 
+		if (userID==null ) {
+			LOG.error("can't find recipe, null");
+			throw new ServiceException("can't find recipe, null");
+		}
+		
 		RecipeDao recipeDao = daoFabric.getRecipeDao();
 		CoffeeTypeDao coffeeTypeDao = daoFabric.getCoffeeTypeDao();
 		CountryDao countryDao = daoFabric.getCountryDao();
@@ -175,6 +185,11 @@ public class RecipeServiceImpl implements RecipeService {
 	public List<Recipe> findAllUserCommonRecipes(Integer userID) throws ServiceException {
 		LOG.debug("start findAllUserCommonRecipes");
 
+		if (userID==null ) {
+			LOG.error("can't find recipes, null");
+			throw new ServiceException("can't find recipes, null");
+		}
+		
 		RecipeDao recipeDao = daoFabric.getRecipeDao();
 		CoffeeTypeDao coffeeTypeDao = daoFabric.getCoffeeTypeDao();
 		CountryDao countryDao = daoFabric.getCountryDao();
@@ -222,6 +237,11 @@ public class RecipeServiceImpl implements RecipeService {
 	public Integer createRecipeInDataBase(Recipe recipe) throws ServiceException {
 		LOG.debug("start createCoffeeTypeInDataBase");
 
+		if (recipe==null ) {
+			LOG.error("can't create recipe, null");
+			throw new ServiceException("can't create recipe, null");
+		}
+		
 		RecipeDao recipeDao = daoFabric.getRecipeDao();
 
 		EntityTransaction transaction = transactionLogic.initTransactionInterface(recipeDao);
@@ -252,6 +272,11 @@ public class RecipeServiceImpl implements RecipeService {
 	public boolean deleteRecipeFromDataBase(Integer ID) throws ServiceException {
 		LOG.debug("start createUserRecipeInDB");
 
+		if (ID==null ) {
+			LOG.error("can't delete recipe, null");
+			throw new ServiceException("can't delete recipe, null");
+		}
+		
 		RecipeDao recipeDao = daoFabric.getRecipeDao();
 
 		EntityTransaction transaction = transactionLogic.initTransactionInterface(recipeDao);
@@ -312,8 +337,12 @@ public class RecipeServiceImpl implements RecipeService {
 
 	@Override
 	public boolean editRecipenInDB(Recipe recipe) throws ServiceException {
-		LOG.debug("start createCoffeeTypeInDataBase");
+		LOG.debug("start edit CoffeeTypeInDataBase");
 
+		if (recipe==null ) {
+			LOG.error("can't edit recipe, null");
+			throw new ServiceException("can't edit recipe, null");
+		}
 		RecipeDao recipeDao = daoFabric.getRecipeDao();
 
 		EntityTransaction transaction = transactionLogic.initTransactionInterface(recipeDao);

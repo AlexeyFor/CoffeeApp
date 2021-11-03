@@ -35,6 +35,11 @@ public class UserRecipeServiceImpl implements UserRecipeService {
 	public Integer createUserRecipeInDB(UserRecipe userRecipe) throws ServiceException {
 		LOG.debug("start createUserRecipeInDB");
 
+		if (userRecipe == null) {
+			LOG.error("can't create userRecipe, null");
+			throw new ServiceException("can't create userRecipe, null");
+		}
+
 		UserRecipeDao userRecipeDao = daoFabric.getUserRecipeDao();
 
 		EntityTransaction transaction = transactionLogic.initTransactionInterface(userRecipeDao);
@@ -66,6 +71,11 @@ public class UserRecipeServiceImpl implements UserRecipeService {
 	public boolean deleteUserRecipeInDB(Integer userId, Integer recipeId) throws ServiceException {
 		LOG.debug("start createUserRecipeInDB");
 
+		if (userId == null || recipeId == null) {
+			LOG.error("can't delete userRecipe, null");
+			throw new ServiceException("can't delete userRecipe, null");
+		}
+
 		UserRecipeDao recipeDao = daoFabric.getUserRecipeDao();
 
 		EntityTransaction transaction = transactionLogic.initTransactionInterface(recipeDao);
@@ -96,6 +106,11 @@ public class UserRecipeServiceImpl implements UserRecipeService {
 	@Override
 	public boolean checkExists(Integer userId, Integer recipeId) throws ServiceException {
 		LOG.debug("start createUserRecipeInDB");
+
+		if (userId == null || recipeId == null) {
+			LOG.error("can't check userRecipe, null");
+			throw new ServiceException("can't check userRecipe, null");
+		}
 
 		UserRecipeDao recipeDao = daoFabric.getUserRecipeDao();
 

@@ -282,6 +282,20 @@
 
 
 			<c:if test="${!recipe.common}">
+			
+				<c:url value="/jsp/recipe/editRecipeStep1Coffee.html"
+					var="editRecipeStep1CoffeeUrl" />
+				<form name="editRecipeStep1CoffeeUrl"
+					action="${editRecipeStep1CoffeeUrl}" method="POST">
+					<input type="hidden" name="recipeId" id="recipeId"
+						value="${recipe.ID}"> <input type="hidden"
+						name="infusionsNumber" id="infusionsNumber"
+						value="${recipe.infusions.size()}">
+					<button type="submit" class="btn btn-secondary ">
+						<fmt:message key="ShowRecipe.button.Edit" />
+					</button>
+				</form>
+				<br>
 				<a href="#deleteNotCommonID" class="btn btn-secondary"
 					data-bs-toggle="collapse"> <fmt:message
 						key="ShowRecipe.button.Delete" />
@@ -301,19 +315,8 @@
 						</button>
 					</form>
 				</div>
-				<br>
-				<c:url value="/jsp/recipe/editRecipeStep1Coffee.html"
-					var="editRecipeStep1CoffeeUrl" />
-				<form name="editRecipeStep1CoffeeUrl"
-					action="${editRecipeStep1CoffeeUrl}" method="POST">
-					<input type="hidden" name="recipeId" id="recipeId"
-						value="${recipe.ID}"> <input type="hidden"
-						name="infusionsNumber" id="infusionsNumber"
-						value="${recipe.infusions.size()}">
-					<button type="submit" class="btn btn-secondary ">
-						<fmt:message key="ShowRecipe.button.Edit" />
-					</button>
-				</form>
+				
+			
 			</c:if>
 		</c:if>
 

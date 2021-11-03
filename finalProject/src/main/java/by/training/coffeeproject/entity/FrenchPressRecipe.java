@@ -60,6 +60,22 @@ public class FrenchPressRecipe extends Recipe {
 		this.disription = disription;
 		this.infusions = infusions;
 	}
+	
+	public FrenchPressRecipe(Integer iD, String recipeName, int frechPressVolume, float massOfCoffee,
+			float grindSettings, String coffeeGrinder, int capBreakingTime, int plungerLoweringTime, int totalTime,
+			String disription, List<Infusion> infusions) {
+		super();
+		this.recipeName = recipeName;
+		this.frechPressVolume = frechPressVolume;
+		this.massOfCoffee = massOfCoffee;
+		this.grindSettings = grindSettings;
+		this.coffeeGrinder = coffeeGrinder;
+		this.capBreakingTime = capBreakingTime;
+		this.plungerLoweringTime = plungerLoweringTime;
+		this.totalTime = totalTime;
+		this.disription = disription;
+		this.infusions = infusions;
+	}
 
 	public String getRecipeName() {
 		return recipeName;

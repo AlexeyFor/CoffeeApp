@@ -9,8 +9,13 @@
 		</h3>
 
 		<c:if test="${not empty message}">
-			<fmt:message key="${message}"></fmt:message>
-			<br>
+			<c:if test="${message !=''}">
+				<div class="alert alert-success alert-dismissible">
+					<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+					<fmt:message key="${message}" />
+					<c:set var="message" value="" scope="session" />
+				</div>
+			</c:if>
 		</c:if>
 
 

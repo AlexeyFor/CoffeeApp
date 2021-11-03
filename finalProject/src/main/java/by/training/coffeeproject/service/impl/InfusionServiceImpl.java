@@ -37,7 +37,10 @@ public class InfusionServiceImpl implements InfusionService {
 
 	@Override
 	public List<Infusion> takeInfusionsByRecipeID(Integer ID) throws ServiceException {
-
+		if (ID == null) {
+			LOG.error("can't take infusion, null");
+			throw new ServiceException("can't take infusion, null");
+		}
 		LOG.debug("start takeInfusionsByRecipeID");
 
 		InfusionDao infusionDao = daoFabric.getInfusionDao();
@@ -70,6 +73,11 @@ public class InfusionServiceImpl implements InfusionService {
 
 	@Override
 	public Integer createInfusionInDB(Infusion infusion) throws ServiceException {
+
+		if (infusion == null) {
+			LOG.error("can't create infusion, null");
+			throw new ServiceException("can't create infusion, null");
+		}
 
 		LOG.debug("start createInfusionInDB");
 
@@ -104,6 +112,11 @@ public class InfusionServiceImpl implements InfusionService {
 	public boolean editInfusionInDB(Infusion infusion) throws ServiceException {
 		LOG.debug("start createInfusionInDB");
 
+		if (infusion == null) {
+			LOG.error("can't edit infusion, null");
+			throw new ServiceException("can't edit infusion, null");
+		}
+
 		InfusionDao infusionDao = daoFabric.getInfusionDao();
 
 		EntityTransaction transaction = transactionLogic.initTransactionInterface(infusionDao);
@@ -135,6 +148,10 @@ public class InfusionServiceImpl implements InfusionService {
 	public boolean deleteInfusionInDB(Integer ID) throws ServiceException {
 		LOG.debug("start deleteInfusionInDB with ID " + ID);
 
+		if (ID == null) {
+			LOG.error("can't delete infusion, null");
+			throw new ServiceException("can't delete infusion, null");
+		}
 		InfusionDao infusionDao = daoFabric.getInfusionDao();
 
 		boolean answer = false;

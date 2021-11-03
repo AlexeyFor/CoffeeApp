@@ -64,7 +64,12 @@ public class CountryServiceImpl implements CountryService {
 	@Override
 	public boolean CountryExist(Integer id) throws ServiceException {
 		LOG.debug("start CountryExist");
-
+		
+		if (id==null ) {
+			LOG.error("can't check Country, null");
+			throw new ServiceException("can't check Country, null");
+		}
+		
 		CountryDao countryDao = daoFabric.getCountryDao();
 
 		EntityTransaction transaction = transactionLogic.initTransactionInterface(countryDao);
@@ -100,6 +105,11 @@ public class CountryServiceImpl implements CountryService {
 	@Override
 	public Country findCountryByID(Integer id) throws ServiceException {
 		LOG.debug("start findCountryByID");
+		
+		if (id==null ) {
+			LOG.error("can't find Country, null");
+			throw new ServiceException("can't find Country, null");
+		}
 
 		CountryDao countryDao = daoFabric.getCountryDao();
 

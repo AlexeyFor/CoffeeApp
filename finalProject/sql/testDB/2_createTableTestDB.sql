@@ -1,14 +1,15 @@
-USE coffeeRecipes;
-
+USE coffeeRecipesTEST;
 
 CREATE TABLE users (
 id_user INTEGER NOT NULL AUTO_INCREMENT,
 login VARCHAR (30) NOT NULL UNIQUE,
-password VARCHAR (255) NOT NULL,
+password VARCHAR (256) NOT NULL,
 role ENUM  ('moder', 'user') NOT NULL,
 CONSTRAINT pk_users PRIMARY KEY (id_user)
 );
 
+ALTER TABLE users 
+ADD COLUMN password VARCHAR(255) NOT NULL;
 
 CREATE TABLE countries(
 id_country  TINYINT UNSIGNED NOT NULL,
@@ -164,8 +165,4 @@ FOREIGN KEY (id_recipe)
 REFERENCES recipes (id_recipe)
 ON DELETE CASCADE
 );
-
-
-
-
 

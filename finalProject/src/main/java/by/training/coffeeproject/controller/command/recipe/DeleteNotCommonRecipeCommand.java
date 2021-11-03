@@ -16,7 +16,8 @@ import by.training.coffeeproject.service.ServiceFactory;
  * 
  * @author AlexeySupruniuk
  * 
- *         Delete Recipe from database
+ *         Delete Recipe from database. Pourover recipe, infusions, user recipe
+ *         also will be deleted on cascade (in database)
  *
  */
 public class DeleteNotCommonRecipeCommand implements Command {

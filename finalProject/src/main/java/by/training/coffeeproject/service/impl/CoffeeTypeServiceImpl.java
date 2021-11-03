@@ -109,6 +109,11 @@ public class CoffeeTypeServiceImpl implements CoffeeTypeService {
 	public Integer createCoffeeTypeInDataBase(CoffeeType coffeeType) throws ServiceException {
 		LOG.debug("start createCoffeeTypeInDataBase");
 
+		if (coffeeType == null) {
+			LOG.error("can't create coffeeType, null");
+			throw new ServiceException("can't create coffeeType, null");
+		}
+
 		CoffeeTypeDao coffeeTypeDao = daoFabric.getCoffeeTypeDao();
 
 		EntityTransaction transaction = transactionLogic.initTransactionInterface(coffeeTypeDao);
@@ -138,6 +143,11 @@ public class CoffeeTypeServiceImpl implements CoffeeTypeService {
 
 	public Integer isExistingInDataBase(CoffeeType coffeeType) throws ServiceException {
 		LOG.debug("start isExistingInDataBase");
+
+		if (coffeeType == null) {
+			LOG.error("can't check coffeeType, null");
+			throw new ServiceException("can't check coffeeType, null");
+		}
 
 		CoffeeTypeDao coffeeTypeDao = daoFabric.getCoffeeTypeDao();
 

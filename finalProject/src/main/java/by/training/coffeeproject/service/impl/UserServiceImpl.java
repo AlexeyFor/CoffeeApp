@@ -101,6 +101,11 @@ public class UserServiceImpl implements UserService {
 	public List<User> takeAllUsersByCountry(String name) throws ServiceException {
 		LOG.debug("start takeAllUsers");
 
+		if (name==null ) {
+			LOG.error("can't take users, null");
+			throw new ServiceException("can't take users, null");
+		}
+		
 		UserDao userDao = daoFabric.getUserDao();
 		UserInfoDao userInfoDao = daoFabric.getUserInfoDao();
 		CountryDao countryDao = daoFabric.getCountryDao();
@@ -149,6 +154,11 @@ public class UserServiceImpl implements UserService {
 	public User authorization(String login, String password) throws ServiceException {
 		LOG.debug("start takeUserByLogin");
 
+		if (login==null || password==null) {
+			LOG.error("can't authorization, null");
+			throw new ServiceException("can't authorization, null");
+		}
+		
 		UserDao userDao = daoFabric.getUserDao();
 		UserInfoDao userInfoDao = daoFabric.getUserInfoDao();
 		CountryDao countryDao = daoFabric.getCountryDao();
@@ -355,12 +365,6 @@ public class UserServiceImpl implements UserService {
 		return answer;
 	}
 
-	/**
-	 * take three Dao classes, accesses four tables and return List <User>
-	 * 
-	 * @return List <User>
-	 * @throws ServiceException
-	 */
 	public User takeUserByID(Integer ID) throws ServiceException {
 		LOG.debug("start takeAllUsers");
 

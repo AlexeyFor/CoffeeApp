@@ -24,6 +24,14 @@ public interface PouroverRecipeService {
 	 */
 	public PouroverRecipe uniteTwoRecipes(Recipe recipe1, PouroverRecipe recipe2) throws ServiceException;
 
+	/**
+	 *
+	 * return 1 if success, otherwise 0
+	 *
+	 * @param recipe
+	 * @return
+	 * @throws ServiceException
+	 */
 	public Integer createPouroverRecipeInDB(PouroverRecipe recipe) throws ServiceException;
 
 	public boolean editPouroverRecipenInDB(PouroverRecipe recipe) throws ServiceException;
